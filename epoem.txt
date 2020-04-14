@@ -2,5 +2,8 @@ Roses are red
 The Night is black
 Come to my house
 I’ll sell you some crack
+<<<<<<< HEAD
 
 Great childrens poem Emil!
+=======
+>>>>>>> 80b76f7ec78868f0009d92eb9800fe5e80685830
