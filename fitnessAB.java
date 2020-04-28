@@ -39,14 +39,14 @@ public class fitnessAB {
    }
       public static void Adminlogin () { //metod Adminlogin
       
-         String Uname = JOptionPane.showInputDialog(null, "Username?"); //Extremt simplifierad usaername checker för admin
+         String Uname = JOptionPane.showInputDialog(null, "Username?"); //Extremt simplifierad username checker för admin
          String Pass = JOptionPane.showInputDialog(null, "Password?");
          String unpass = Uname + Pass;
          
          
          switch(unpass) { //Kollar om admin har rätt login 
             case "admin123":
-               JOptionPane.showConfirmDialog(null, "Welcone admin, what would you like to do?", "Admin Page", 
+               JOptionPane.showConfirmDialog(null, "Welcome admin, what would you like to do?", "Admin Page", 
                                                   JOptionPane.YES_NO_OPTION);
                   break;
           
