@@ -59,3 +59,4 @@ public class fitnessAB {
 }
 
 // hej DANIEL
+// WHADDAP DANIBOI
