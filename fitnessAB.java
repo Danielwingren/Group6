@@ -4,13 +4,16 @@ import java.util.*;
 
 public class fitnessAB {
    public static void main (String [] arg) {
-
+   login();
    menu(); //första programmet gör är att initiera huvudmenyn
    }
-
+   private static void login () {
+     String user = JOptionPane.showInputDialog(null, "Username?");
+     System.out.println(user);
+   }
    private static void menu () { //MENY
 
-    Object[] options1 = {"Cancel", "Admin", "Staff", "Member"};
+    Object[] options1 = {"Cancel", "Staff", "Member"};
 
      int i = JOptionPane.showOptionDialog(null,
                  "Welcome to FitnessAB, how would you like to log in?",
@@ -24,12 +27,9 @@ public class fitnessAB {
                System.exit(0);
             break;
          case 1:
-            Adminlogin();
-               break;
-         case 2:
             JOptionPane.showMessageDialog(null, "Welcome Staff Member");
                break;
-         case 3:
+         case 2:
             JOptionPane.showMessageDialog(null, "Welcome Member");
                break;
          default:
