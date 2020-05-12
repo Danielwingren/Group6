@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class fitnessAB {
 
-   public static final String DB_URL = "jdbc:sqlite:db_fitnessAB"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
+   public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
    public static final String DRIVER = "org.sqlite.JDBC";
    static Connection conn = null;
 
@@ -25,21 +25,29 @@ public class fitnessAB {
    menu(); //första programmet gör är att initiera huvudmenyn
    }
    private static void login() {
-      JTextField userField = new JTextField(14);
-      JPasswordField pwField = new JPasswordField(14);
+      while(true) {
+         JTextField userField = new JTextField(14);
+         JPasswordField pwField = new JPasswordField(14);
 
-      JPanel myPanel = new JPanel();
-      myPanel.add(new JLabel("Email"));
-      myPanel.add(userField);
-      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-      myPanel.add(new JLabel("Password"));
-      myPanel.add(pwField);
+         JPanel myPanel = new JPanel();
+         myPanel.add(new JLabel("Email"));
+         myPanel.add(userField);
+         myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+         myPanel.add(new JLabel("Password"));
+         myPanel.add(pwField);
 
-      int result = JOptionPane.showConfirmDialog(null, myPanel,
-              "Fitness AB login", JOptionPane.OK_CANCEL_OPTION);
-      String username = userField.getText();
-      String password = pwField.getText();
-      System.out.println(username+"\n"+password);
+         int result = JOptionPane.showConfirmDialog(null, myPanel,
+                 "Fitness AB login", JOptionPane.OK_CANCEL_OPTION);
+         String username = userField.getText();
+         String password = pwField.getText();
+         System.out.println(username + "\n" + password);
+         String kingen = "Danne";
+         if (username.isEmpty() || password.isEmpty()) {
+         JOptionPane.showMessageDialog(null,"You have to enter your correct credentials");
+         }
+         else
+            break;
+      }
 
    }
      /*String user = JOptionPane.showInputDialog(null, "Username?"); JAG ÄNDRADE SÅ ATT DENNA FRÅGA STÄLLS SÅ ATT MAN FÅR BÅDE ANVÄNDARE OCH MÖJLIGHETEN ATT KOLLA LÖSENORD I EN RUTA //Dannyboii
@@ -67,6 +75,7 @@ public class fitnessAB {
                break;
          default:
             menu();
+
 
       }
    }
