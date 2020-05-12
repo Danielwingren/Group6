@@ -1,17 +1,50 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import org.sqlite.SQLiteConfig;
+import java.sql.*;
 
 public class fitnessAB {
+
+   public static final String DB_URL = "jdbc:sqlite:db_fitnessAB"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
+   public static final String DRIVER = "org.sqlite.JDBC";
+   static Connection conn = null;
+
    public static void main (String [] arg) {
+      try {
+         Class.forName(DRIVER);
+         SQLiteConfig config = new SQLiteConfig();
+         config.enforceForeignKeys(true);
+         conn = DriverManager.getConnection(DB_URL,config.toProperties());
+      } catch (Exception e) {
+         // Om java-progammet inte lyckas koppla upp sig mot databasen så skrivs ett felmeddelande ut)
+         System.out.println( e.toString() );
+         System.exit(0);
+      }
    login();
    menu(); //första programmet gör är att initiera huvudmenyn
    }
-   private static void login () {
-     String user = JOptionPane.showInputDialog(null, "Username?");
-     System.out.println(user);
+   private static void login() {
+      JTextField userField = new JTextField(14);
+      JPasswordField pwField = new JPasswordField(14);
+
+      JPanel myPanel = new JPanel();
+      myPanel.add(new JLabel("Email"));
+      myPanel.add(userField);
+      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+      myPanel.add(new JLabel("Password"));
+      myPanel.add(pwField);
+
+      int result = JOptionPane.showConfirmDialog(null, myPanel,
+              "Fitness AB login", JOptionPane.OK_CANCEL_OPTION);
+      String username = userField.getText();
+      String password = pwField.getText();
+      System.out.println(username+"\n"+password);
+
    }
-   private static void menu () { //MENY
+     /*String user = JOptionPane.showInputDialog(null, "Username?"); JAG ÄNDRADE SÅ ATT DENNA FRÅGA STÄLLS SÅ ATT MAN FÅR BÅDE ANVÄNDARE OCH MÖJLIGHETEN ATT KOLLA LÖSENORD I EN RUTA //Dannyboii
+     System.out.println(user);*/
+   private static void menu() { //MENY
 
     Object[] options1 = {"Cancel", "Staff", "Member"};
 
