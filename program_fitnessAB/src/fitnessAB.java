@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
-import java.util.*;
+
 import org.sqlite.SQLiteConfig;
 import java.sql.*;
 
@@ -17,41 +16,42 @@ public class fitnessAB {
          config.enforceForeignKeys(true);
          conn = DriverManager.getConnection(DB_URL,config.toProperties());
       } catch (Exception e) {
-         // Om java-progammet inte lyckas koppla upp sig mot databasen så skrivs ett felmeddelande ut)
+         // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
          System.out.println( e.toString() );
          System.exit(0);
       }
-   login();
-   menu(); //första programmet gör är att initiera huvudmenyn
+   login(); //Denna har jag alltså ändrat om lite så att den nu frågar efter både mail och lösenord i första fönsret
+
    }
    private static void login() {
-      while(true) {
-         JTextField userField = new JTextField(14);
-         JPasswordField pwField = new JPasswordField(14);
 
-         JPanel myPanel = new JPanel();
-         myPanel.add(new JLabel("Email"));
-         myPanel.add(userField);
-         myPanel.add(Box.createHorizontalStrut(15)); // a spacer
-         myPanel.add(new JLabel("Password"));
-         myPanel.add(pwField);
+      JTextField userField = new JTextField(14);
+      JPasswordField pwField = new JPasswordField(14);
 
+      JPanel myPanel = new JPanel();
+      myPanel.add(new JLabel("Email"));
+      myPanel.add(userField);
+      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+      myPanel.add(new JLabel("Password"));
+      myPanel.add(pwField);
+      while (true) {
          int result = JOptionPane.showConfirmDialog(null, myPanel,
                  "Fitness AB login", JOptionPane.OK_CANCEL_OPTION);
-         if (result == 0)
-            System.exit(1);
-
+         if (result == JOptionPane.CANCEL_OPTION){
+            System.exit(2);
+         }
+         System.out.println(result);
          String username = userField.getText();
          String password = pwField.getText();
          System.out.println(username + "\n" + password);
-         String kingen = "Danne";
          if (username.isEmpty() || password.isEmpty()) {
-         JOptionPane.showMessageDialog(null,"You have to enter your correct credentials");
+            JOptionPane.showConfirmDialog(null, "You have to enter your correct credentials, do you wish to try again?", "Error", JOptionPane.YES_NO_OPTION);
+         } else if (sqlLogin(username, password)) {
+            menu(); //detta programmet initierar huvudmenyn
+         } else {
+            System.exit(3);
          }
-         else
-            break;
       }
-
    }
      /*String user = JOptionPane.showInputDialog(null, "Username?"); JAG ÄNDRADE SÅ ATT DENNA FRÅGA STÄLLS SÅ ATT MAN FÅR BÅDE ANVÄNDARE OCH MÖJLIGHETEN ATT KOLLA LÖSENORD I EN RUTA //Dannyboii
      System.out.println(user);*/
@@ -100,6 +100,17 @@ public class fitnessAB {
             Adminlogin();
       }
 
+   }
+   public static boolean sqlLogin (String uname, String pw) {
+
+      String a = JOptionPane.showInputDialog("gå till meny --> m\navsluta --> q");
+      switch (a) {
+         case "m":
+            return true;
+         case "q":
+            return false;
+      }
+      return false;
    }
 }
 
