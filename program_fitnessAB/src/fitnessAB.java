@@ -3,6 +3,8 @@ import javax.swing.*;
 import org.sqlite.SQLiteConfig;
 import java.sql.*;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class fitnessAB {
 
    public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
@@ -37,7 +39,7 @@ public class fitnessAB {
       while (true) {
          int result = JOptionPane.showConfirmDialog(null, myPanel,
                  "Fitness AB login", JOptionPane.OK_CANCEL_OPTION);
-         if (result == JOptionPane.CANCEL_OPTION){
+         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION){
             System.exit(2);
          }
          System.out.println(result);
@@ -103,13 +105,45 @@ public class fitnessAB {
    }
    public static boolean sqlLogin (String uname, String pw) {
 
-      String a = JOptionPane.showInputDialog("gå till meny --> m\navsluta --> q");
-      switch (a) {
-         case "m":
+
+      try {
+         Class.forName(DRIVER);
+         SQLiteConfig config = new SQLiteConfig();
+         config.enforceForeignKeys(true); // Denna kodrad ser till att s�tta databasen i ett l�ge d�r den ger felmeddelande ifall man bryter mot n�gon fr�mmande-nyckel-regel
+         conn = DriverManager.getConnection(DB_URL,config.toProperties());
+         Statement st = conn.createStatement();
+         String sql = ("select email from member where email = '"+uname+"';");
+         ResultSet rs = st.executeQuery(sql);
+         String user = rs.getString("email");
+
+         int compare = uname.compareTo( user );
+         if (compare == 0) {
+            JOptionPane.showMessageDialog(null,"JARRRÅÅÅÅ");
             return true;
-         case "q":
-            return false;
+         }
+         else {
+            JOptionPane.showMessageDialog(null,"Ajajaj");
+         }
+         String namn = rs.getString("fnamn"+" "+"lnamn");
+         JOptionPane.showMessageDialog(null,namn);
+
+         /*StringBuilder str = new StringBuilder(); //Bygger ihop en st�rre String
+         for (int i = 1; rs.next(); i++) {
+            str.append(i + ".    ");
+            str.append(""+rs.getString("Name"));
+            str.append(" , " + rs.getString("Difficulty"));
+            str.append(" , " + rs.getInt("Points"));
+            str.append("\n");
+         }
+         showMessageDialog(null,str.toString());*/
       }
+      catch (Exception e) {
+         // Om java-progammet inte lyckas koppla upp sig mot databasen (t ex om fel s�kv�g eller om driver inte hittas) s� kommer ett felmeddelande skrivas ut
+         System.out.println( e.toString() );
+         showMessageDialog(null, "Den mail du angav finns inte regisrerad", "Error", JOptionPane.ERROR_MESSAGE);
+         System.exit(2);
+      }
+
       return false;
    }
 }
