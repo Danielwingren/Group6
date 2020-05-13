@@ -3,6 +3,7 @@ import javax.swing.*;
 import org.sqlite.SQLiteConfig;
 import java.sql.*;
 
+import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class fitnessAB {
@@ -22,8 +23,8 @@ public class fitnessAB {
          System.out.println( e.toString() );
          System.exit(0);
       }
-      membersystem.testmember();
-      staffsystem.teststaff();
+      //membersystem.testmember();
+      //staffsystem.teststaff();
    login(); //Denna har jag alltså ändrat om lite så att den nu frågar efter både mail och lösenord i första fönsret
 
    }
@@ -42,18 +43,18 @@ public class fitnessAB {
          int result = JOptionPane.showConfirmDialog(null, myPanel,
                  "Fitness AB login", JOptionPane.OK_CANCEL_OPTION);
          if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION){
-            System.exit(2);
+            System.exit(22);
          }
-         System.out.println(result);
+         //System.out.println(result);
          String username = userField.getText();
          String password = pwField.getText();
-         System.out.println(username + "\n" + password);
+         //System.out.println(username + "\n" + password);
          if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showConfirmDialog(null, "You have to enter your correct credentials, do you wish to try again?", "Error", JOptionPane.YES_NO_OPTION);
          } else if (sqlLogin(username, password)) {
             menu(); //detta programmet initierar huvudmenyn
          } else {
-            System.exit(3);
+            System.exit(333);
          }
       }
    }
@@ -67,7 +68,7 @@ public class fitnessAB {
                  "Welcome to FitnessAB, how would you like to log in?",
                  "FitnessAB", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, null);
 
-     System.out.println(i);
+     //System.out.println(i);
 
       switch(i) { //switch satsen talar om hur programmet skall gå vidare beroende på vad användaren väljer
          case 0:
@@ -114,36 +115,37 @@ public class fitnessAB {
          config.enforceForeignKeys(true); // Denna kodrad ser till att s�tta databasen i ett l�ge d�r den ger felmeddelande ifall man bryter mot n�gon fr�mmande-nyckel-regel
          conn = DriverManager.getConnection(DB_URL,config.toProperties());
          Statement st = conn.createStatement();
-         String sql = ("select email from member where email = '"+uname+"';");
+         String sql = ("select email from member where email = '"+uname.toLowerCase()+"';");
          ResultSet rs = st.executeQuery(sql);
          String user = rs.getString("email");
-
-         int compare = uname.compareTo( user );
+         int compare = uname.compareTo(user);
+         System.out.println("användarcompare = "+compare);
          if (compare == 0) {
-            JOptionPane.showMessageDialog(null,"JARRRÅÅÅÅ");
-            return true;
+            String sqlpw = ("select loginpw from member where email = '" + pw.toLowerCase() + "';");
+            rs = conn.createStatement().executeQuery(sqlpw);
+            String password = rs.getString("loginpw");
+            System.out.println(password +" --> "+pw);
+            int comparePw = pw.compareTo(password);
+            System.out.println(comparePw);
+            if (comparePw == 0) {
+               return true;
+            }
          }
          else {
             JOptionPane.showMessageDialog(null,"Ajajaj");
          }
-         String namn = rs.getString("fnamn"+" "+"lnamn");
-         JOptionPane.showMessageDialog(null,namn);
-
-         /*StringBuilder str = new StringBuilder(); //Bygger ihop en st�rre String
-         for (int i = 1; rs.next(); i++) {
-            str.append(i + ".    ");
-            str.append(""+rs.getString("Name"));
-            str.append(" , " + rs.getString("Difficulty"));
-            str.append(" , " + rs.getInt("Points"));
-            str.append("\n");
-         }
-         showMessageDialog(null,str.toString());*/
+         //String namn = rs.getString("fnamn"+" "+"lnamn");
+         //System.out.println(namn);
       }
       catch (Exception e) {
-         // Om java-progammet inte lyckas koppla upp sig mot databasen (t ex om fel s�kv�g eller om driver inte hittas) s� kommer ett felmeddelande skrivas ut
          System.out.println( e.toString() );
-         showMessageDialog(null, "Den mail du angav finns inte regisrerad", "Error", JOptionPane.ERROR_MESSAGE);
-         System.exit(2);
+         int response = showConfirmDialog(null, "Den mail du angav finns inte regisrerad.\nVill du försöka igen?", "Error", JOptionPane.YES_NO_OPTION);
+         if (response == JOptionPane.NO_OPTION || response == JOptionPane.CLOSED_OPTION) {
+            System.exit(2);
+         }
+         else {
+            login();
+         }
       }
 
       return false;
