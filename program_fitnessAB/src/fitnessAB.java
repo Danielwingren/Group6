@@ -22,6 +22,8 @@ public class fitnessAB {
          System.out.println( e.toString() );
          System.exit(0);
       }
+      membersystem.testmember();
+      staffsystem.teststaff();
    login(); //Denna har jag alltså ändrat om lite så att den nu frågar efter både mail och lösenord i första fönsret
 
    }
