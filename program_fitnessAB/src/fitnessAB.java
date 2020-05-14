@@ -1,6 +1,8 @@
 import javax.swing.*;
 
 import org.sqlite.SQLiteConfig;
+
+import java.awt.desktop.SystemSleepEvent;
 import java.sql.*;
 
 import static javax.swing.JOptionPane.showConfirmDialog;
@@ -12,7 +14,7 @@ public class fitnessAB {
    public static final String DRIVER = "org.sqlite.JDBC";
    static Connection conn = null;
 
-   public static void main (String [] arg) {
+   public static void main (String [] arg) throws SQLException {
       try {
          Class.forName(DRIVER);
          SQLiteConfig config = new SQLiteConfig();
@@ -25,10 +27,9 @@ public class fitnessAB {
       }
       //membersystem.testmember();
       //staffsystem.teststaff();
-   login(); //Denna har jag alltså ändrat om lite så att den nu frågar efter både mail och lösenord i första fönsret
-
+   login();
    }
-   private static void login() {
+   private static void login() throws SQLException {
 
       JTextField userField = new JTextField(14);
       JPasswordField pwField = new JPasswordField(14);
@@ -55,88 +56,58 @@ public class fitnessAB {
                System.exit(1337);
             }
          } else if (sqlLogin(username, password)) {
-            menu(); //detta programmet initierar huvudmenyn
+            menu(username); //detta programmet initierar huvudmenyn
          } else {
             System.exit(333);
          }
       }
    }
-     /*String user = JOptionPane.showInputDialog(null, "Username?"); JAG ÄNDRADE SÅ ATT DENNA FRÅGA STÄLLS SÅ ATT MAN FÅR BÅDE ANVÄNDARE OCH MÖJLIGHETEN ATT KOLLA LÖSENORD I EN RUTA //Dannyboii
-     System.out.println(user);*/
-   private static void menu() { //MENY
 
-    Object[] options1 = {"Cancel", "Staff", "Member"};
+   private static void menu(String username) throws SQLException { //MENY
 
-     int i = JOptionPane.showOptionDialog(null,
-                 "Welcome to FitnessAB, how would you like to log in?",
-                 "FitnessAB", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, null);
 
-     //System.out.println(i);
+      String sqlname= ("select fName, lName from member where email = '" + username + "';");
+      ResultSet rs = conn.createStatement().executeQuery(sqlname);
+      String fnamn = rs.getString("fName");
+      showMessageDialog(null,fnamn);
 
-      switch(i) { //switch satsen talar om hur programmet skall gå vidare beroende på vad användaren väljer
-         case 0:
-            JOptionPane.showMessageDialog(null, "Thank you see you next time");
-               System.exit(0);
-            break;
-         case 1:
-            JOptionPane.showMessageDialog(null, "Welcome Staff Member");
-               break;
-         case 2:
-            JOptionPane.showMessageDialog(null, "Welcome Member");
-               break;
-         default:
-            menu();
-      }
    }
-      public static void Adminlogin () { //metod Adminlogin
-
-         String Uname = JOptionPane.showInputDialog(null, "Username?"); //Extremt simplifierad username checker för admin
-         String Pass = JOptionPane.showInputDialog(null, "Password?");
-         String unpass = Uname + Pass;
-
-         switch(unpass) { //Kollar om admin har rätt login
-            case "admin123":
-               JOptionPane.showConfirmDialog(null, "Welcome admin, what would you like to do?", "Admin Page",
-                                                  JOptionPane.YES_NO_OPTION);
-                  break;
-         default:
-            JOptionPane.showMessageDialog(null, "Please try again");
-            Adminlogin();
-      }
-   }
-   public static boolean sqlLogin (String uname, String pw) {
-
+   public static boolean sqlLogin (String uname, String pw) throws SQLException {
       try {
-         Class.forName(DRIVER);
-         SQLiteConfig config = new SQLiteConfig();
-         config.enforceForeignKeys(true); // Denna kodrad ser till att s�tta databasen i ett l�ge d�r den ger felmeddelande ifall man bryter mot n�gon fr�mmande-nyckel-regel
-         conn = DriverManager.getConnection(DB_URL,config.toProperties());
          Statement st = conn.createStatement();
-         String sql = ("select email from member where email = '"+uname.toLowerCase()+"';");
+         String sql = ("select email from member where email = '" + uname.toLowerCase() + "';");
          ResultSet rs = st.executeQuery(sql);
          String user = rs.getString("email");
          int compare = uname.compareTo(user);
-         System.out.println("användarcompare = "+compare);
+         //System.out.println("Compare uname --> user = "+compare);
          if (compare == 0) {
+            System.out.println("userID matches,\nchecking password:");
             String sqlpw = ("select loginpw from member where email = '" + uname + "';");
             rs = conn.createStatement().executeQuery(sqlpw);
             String password = rs.getString("loginpw");
-            System.out.println(password +" --> "+pw);
+            //System.out.println(password + " --> " + pw);
             int comparePw = pw.compareTo(password);
-            System.out.println(comparePw);
+            //System.out.println(comparePw);
             if (comparePw == 0) {
+               System.out.println("Password match!\nLogging in");
                return true;
+            } else  {
+               System.out.println("Passowrd incorrect.");
+               int choice = showConfirmDialog(null, "The password is not correct.\nDo you want to try again?", "Error", JOptionPane.YES_NO_OPTION);
+               if (choice == JOptionPane.YES_OPTION) {
+                  login();
+               } else {
+                  System.exit(15);
+               }
             }
          }
          else {
-            JOptionPane.showMessageDialog(null,"VARFÖR HAMNAR JAG HÄR");
+         JOptionPane.showMessageDialog(null, "VARFÖR HAMNAR JAG HÄR");
          }
-         //String namn = rs.getString("fnamn"+" "+"lnamn");
-         //System.out.println(namn);
       }
       catch (Exception e) {
          System.out.println( e.toString() );
-         int response = showConfirmDialog(null, "The user credentials are not correct..\nDo you want to try again?", "Error", JOptionPane.YES_NO_OPTION);
+         int response = showConfirmDialog(null, "Cannot find that username.\nDo you want to try again?", "Error", JOptionPane.YES_NO_OPTION);
          if (response == JOptionPane.NO_OPTION || response == JOptionPane.CLOSED_OPTION) {
             System.exit(2);
          }
@@ -147,20 +118,3 @@ public class fitnessAB {
       return false;
    }
 }
-
-// hej DANIEL
-// WHADDAP DANIBOI
-
-/*
-se alla pass
-if (staff inloggad)
-se dessutom möjlighet att lägga till pass
-
-väljs pass
-If (staff inloggad) mer text
-
-view all classes, massa kod
-
-
-view all classes , massa kod
- */
