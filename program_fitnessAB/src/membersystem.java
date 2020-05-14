@@ -7,7 +7,5 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class membersystem {
 
-    public static void testmember () {
-        JOptionPane.showMessageDialog(null, "this is a test for membersystem");
-    }
+    public static void testmember () { JOptionPane.showMessageDialog(null, "this is a test for membersystem"); }
 }
