@@ -1,8 +1,5 @@
 import javax.swing.*;
-
 import org.sqlite.SQLiteConfig;
-
-import java.awt.desktop.SystemSleepEvent;
 import java.sql.*;
 
 import static javax.swing.JOptionPane.showConfirmDialog;
@@ -63,13 +60,12 @@ public class fitnessAB {
       }
    }
 
-   private static void menu(String username) throws SQLException { //MENY
-
+   private static void menu(String username) throws SQLException { //forslar vidare beroende medlem eller ej
 
       String sqlname= ("select fName, lName from member where email = '" + username + "';");
       ResultSet rs = conn.createStatement().executeQuery(sqlname);
       String fnamn = rs.getString("fName");
-      showMessageDialog(null,fnamn);
+      showMessageDialog(null,"Välkommen "+fnamn+" forslar nu vidare dig till huvudmenyn");
 
    }
    public static boolean sqlLogin (String uname, String pw) throws SQLException {
