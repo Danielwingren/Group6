@@ -64,7 +64,7 @@ public class membershipSystem {
     }
     public static void UpdateInformation (String memberID, int tier) throws SQLException {
 
-        String currentMember = showInputDialog("Enter memberID for the person who whish to update:");
+        String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
         String[] options = new String[4];
