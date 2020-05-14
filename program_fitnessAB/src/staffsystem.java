@@ -11,5 +11,4 @@ public class staffsystem {
 
         JOptionPane.showMessageDialog(null, "this is a test for staffsystem");
     }
-
 }
