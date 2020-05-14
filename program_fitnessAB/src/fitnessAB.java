@@ -36,7 +36,7 @@ public class fitnessAB {
       JPanel myPanel = new JPanel();
       myPanel.add(new JLabel("Email"));
       myPanel.add(userField);
-      myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+      myPanel.add(Box.createHorizontalStrut(8)); // a spacer
       myPanel.add(new JLabel("Password"));
       myPanel.add(pwField);
       while (true) {
@@ -50,7 +50,10 @@ public class fitnessAB {
          String password = pwField.getText();
          //System.out.println(username + "\n" + password);
          if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showConfirmDialog(null, "You have to enter your correct credentials, do you wish to try again?", "Error", JOptionPane.YES_NO_OPTION);
+            int val = JOptionPane.showConfirmDialog(null, "You have to enter your correct credentials, do you wish to try again?", "Error", JOptionPane.YES_NO_OPTION);
+            if (val == JOptionPane.NO_OPTION || val == JOptionPane.CLOSED_OPTION) {
+               System.exit(1337);
+            }
          } else if (sqlLogin(username, password)) {
             menu(); //detta programmet initierar huvudmenyn
          } else {
@@ -83,8 +86,6 @@ public class fitnessAB {
                break;
          default:
             menu();
-
-
       }
    }
       public static void Adminlogin () { //metod Adminlogin
@@ -93,21 +94,17 @@ public class fitnessAB {
          String Pass = JOptionPane.showInputDialog(null, "Password?");
          String unpass = Uname + Pass;
 
-
          switch(unpass) { //Kollar om admin har rätt login
             case "admin123":
                JOptionPane.showConfirmDialog(null, "Welcome admin, what would you like to do?", "Admin Page",
                                                   JOptionPane.YES_NO_OPTION);
                   break;
-
          default:
             JOptionPane.showMessageDialog(null, "Please try again");
             Adminlogin();
       }
-
    }
    public static boolean sqlLogin (String uname, String pw) {
-
 
       try {
          Class.forName(DRIVER);
@@ -121,7 +118,7 @@ public class fitnessAB {
          int compare = uname.compareTo(user);
          System.out.println("användarcompare = "+compare);
          if (compare == 0) {
-            String sqlpw = ("select loginpw from member where email = '" + pw.toLowerCase() + "';");
+            String sqlpw = ("select loginpw from member where email = '" + uname + "';");
             rs = conn.createStatement().executeQuery(sqlpw);
             String password = rs.getString("loginpw");
             System.out.println(password +" --> "+pw);
@@ -132,14 +129,14 @@ public class fitnessAB {
             }
          }
          else {
-            JOptionPane.showMessageDialog(null,"Ajajaj");
+            JOptionPane.showMessageDialog(null,"VARFÖR HAMNAR JAG HÄR");
          }
          //String namn = rs.getString("fnamn"+" "+"lnamn");
          //System.out.println(namn);
       }
       catch (Exception e) {
          System.out.println( e.toString() );
-         int response = showConfirmDialog(null, "Den mail du angav finns inte regisrerad.\nVill du försöka igen?", "Error", JOptionPane.YES_NO_OPTION);
+         int response = showConfirmDialog(null, "The user credentials are not correct..\nDo you want to try again?", "Error", JOptionPane.YES_NO_OPTION);
          if (response == JOptionPane.NO_OPTION || response == JOptionPane.CLOSED_OPTION) {
             System.exit(2);
          }
@@ -147,10 +144,23 @@ public class fitnessAB {
             login();
          }
       }
-
       return false;
    }
 }
 
 // hej DANIEL
 // WHADDAP DANIBOI
+
+/*
+se alla pass
+if (staff inloggad)
+se dessutom möjlighet att lägga till pass
+
+väljs pass
+If (staff inloggad) mer text
+
+view all classes, massa kod
+
+
+view all classes , massa kod
+ */
