@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.sqlite.SQLiteConfig;
 import java.sql.*;
@@ -22,24 +23,26 @@ public class fitnessAB {
          System.out.println( e.toString() );
          System.exit(0);
       }
-      //membersystem.testmember();
-      //staffsystem.teststaff();
    login();
    }
    private static void login() throws SQLException {
+      JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images\\login.png")));
 
       JTextField userField = new JTextField(14);
       JPasswordField pwField = new JPasswordField(14);
 
       JPanel myPanel = new JPanel();
+      //myPanel.add(bild);
       myPanel.add(new JLabel("Email"));
       myPanel.add(userField);
       myPanel.add(Box.createHorizontalStrut(8)); // a spacer
       myPanel.add(new JLabel("Password"));
       myPanel.add(pwField);
+
       while (true) {
+         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images\\login.png"));
          int result = JOptionPane.showConfirmDialog(null, myPanel,
-                 "Fitness AB login", JOptionPane.OK_CANCEL_OPTION);
+                 "Fitness AB login", JOptionPane.OK_CANCEL_OPTION,0, (Icon) bild1);
          if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION){
             System.exit(22);
          }
@@ -54,19 +57,57 @@ public class fitnessAB {
             }
          } else if (sqlLogin(username, password)) {
             menu(username); //detta programmet initierar huvudmenyn
+            break;
          } else {
             System.exit(333);
          }
       }
    }
-
    private static void menu(String username) throws SQLException { //forslar vidare beroende medlem eller ej
+      ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));
 
-      String sqlname= ("select fName, lName from member where email = '" + username + "';");
-      ResultSet rs = conn.createStatement().executeQuery(sqlname);
-      String fnamn = rs.getString("fName");
-      showMessageDialog(null,"Välkommen "+fnamn+" forslar nu vidare dig till huvudmenyn");
 
+      String sqlname= ("select fName, lName from member where email = '" + username + "';"); //-
+      ResultSet rs = conn.createStatement().executeQuery(sqlname);                           //- - Dessa tre rader tar fram namnet på den inloggade medlemmen
+      String fnamn = rs.getString("fName");                                      //-
+      String sqlReadTier= ("select tierType from member where email = '" + username + "';");    // -
+      ResultSet rs1 = conn.createStatement().executeQuery(sqlReadTier);                         // -
+      String tierType = rs1.getString("tiertype");                                  // - Dessa fyra rader läser av ifall det är en anställd eller ej
+      int tier = Integer.parseInt(tierType);                                                    // -
+      String sqlReadMemberID= ("select memberID from member where email ='" + username + "';");     // -
+      ResultSet rs2 = conn.createStatement().executeQuery(sqlReadMemberID);                         // - Dessa tre rader läser in medlemsID
+      String memberID = rs2.getString("memberID");                                      // -
+
+      System.out.println(fnamn+" inloggad som "+ tierType +", med medlemsnummer "+memberID+" startar huvudmeny");
+      while(true) {
+         JFrame frame = new JFrame();
+         String[] options = new String[3];
+         options[0] = "Start classbooking program";
+         options[1] = "Start member management program";
+         options[2] = "Change your password";
+         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
+         if (val == JOptionPane.CLOSED_OPTION) {
+            System.exit(11);
+         }
+         switch (val) {
+            case 0:
+               if (tier == 5) {
+                  classbooking.employeeScreen(fnamn);
+               } else {
+                  classbooking.memberscreen(fnamn);
+               }
+               break;
+            case 1:
+               if (tier == 5) {
+                  membershipSystem.EmployeeMembershipView(memberID, tier);
+               } else {
+                  membershipSystem.MemberMembershipView(memberID, tier);
+               }
+               break;
+            case 2:
+               membershipSystem.changePassword(memberID,tier);
+         }
+      }
    }
    public static boolean sqlLogin (String uname, String pw) throws SQLException {
       try {
