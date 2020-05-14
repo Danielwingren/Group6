@@ -127,7 +127,9 @@ public class fitnessAB {
             //System.out.println(comparePw);
             if (comparePw == 0) {
                System.out.println("Password match!\nLogging in");
+
                return true;
+
             } else  {
                System.out.println("Passowrd incorrect.");
                int choice = showConfirmDialog(null, "The password is not correct.\nDo you want to try again?", "Error", JOptionPane.YES_NO_OPTION);
@@ -152,6 +154,8 @@ public class fitnessAB {
             login();
          }
       }
+
+
       return false;
    }
 }

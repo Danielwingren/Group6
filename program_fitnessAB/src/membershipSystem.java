@@ -36,6 +36,8 @@ public class membershipSystem {
             case 1 :
                 UpdateInformation(memberID, tier);
                 break;
+            case 2 :
+                break;
         }
 
     }
@@ -134,6 +136,9 @@ public class membershipSystem {
 
             if (checkOld.equals(CurrentPassword)) {
                 if (newPw.equals(checkNewPw)) {
+                    String sqlNewPassword = ("UPDATE member set loginpw = '" + newPw + "' where memberID ='"+memberID+"';");
+                    conn.createStatement().executeQuery(sqlNewPassword);
+                    String NewPassword = rs.getString("loginpw");
                     showMessageDialog(null, "INSERT-sqlsats new password\nYour password has been changed.");
                     if (tier == 5) {
                         EmployeeMembershipView(memberID, tier);
