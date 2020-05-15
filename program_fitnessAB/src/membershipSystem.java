@@ -43,6 +43,16 @@ public class membershipSystem {
     }
 
     public static void addnewmember() {
+        try {
+            Class.forName(DRIVER);
+            SQLiteConfig config = new SQLiteConfig();
+            config.enforceForeignKeys(true);
+            conn = DriverManager.getConnection(DB_URL, config.toProperties());
+        } catch (Exception e) {
+            // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
+            System.out.println(e.toString());
+            System.exit(0);
+
             JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/settings.png")));
 
             JTextField userField = new JTextField(14);
@@ -55,6 +65,7 @@ public class membershipSystem {
             myPanel.add(Box.createHorizontalStrut(8)); // a spacer
             myPanel.add(new JLabel("Last Name"));
             myPanel.add(pwField);
+        }
     }
 
     public static void MemberMembershipView (String memberID, int tier) throws SQLException {
