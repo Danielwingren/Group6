@@ -31,7 +31,7 @@ public class membershipSystem {
         }
         switch (val) {
             case 0 :
-
+                addnewmember();
                 break;
             case 1 :
                 UpdateInformation(memberID, tier);
@@ -41,6 +41,22 @@ public class membershipSystem {
         }
 
     }
+
+    public static void addnewmember() {
+            JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/settings.png")));
+
+            JTextField userField = new JTextField(14);
+            JPasswordField pwField = new JPasswordField(14);
+
+            JPanel myPanel = new JPanel();
+            //myPanel.add(bild);
+            myPanel.add(new JLabel("First Name"));
+            myPanel.add(userField);
+            myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+            myPanel.add(new JLabel("Last Name"));
+            myPanel.add(pwField);
+    }
+
     public static void MemberMembershipView (String memberID, int tier) throws SQLException {
         try {
             Class.forName(DRIVER);
