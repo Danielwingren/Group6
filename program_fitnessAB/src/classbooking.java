@@ -13,28 +13,48 @@ public class classbooking {
     public static void employeeScreen (String namn) {
 
         JFrame frame = new JFrame();
-        String[] options = new String[3];
+        String[] options = new String[4];
         options[0] = "Manage classes";
         options[1] = "See all classes";
         options[2] = "See booked classes";
+        options[3] = "Back";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "What operation would you like to perform?", "Membership (Admin)", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
+        }
+        switch (val) {
+            case 0 :
+                manageClasses();
+            case 1 :
+                seeClasses();
+            case 2 :
+                seeBookedClasses();
+            case 3 :
         }
     }
     public static void memberscreen (String namn) {
 
         JFrame frame = new JFrame();
-        String[] options = new String[2];
+        String[] options = new String[3];
         options[0] = "See all classes";
         options[1] = "See booked classes";
+        options[2] = "Back";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Would you like to view classes or see already booked classes?", "Member ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
         }
-
+        switch (val) {
+            case 0 :
+                seeClasses();
+            case 1 :
+                seeBookedClasses();
+            case 2 :
+        }
     }
+    public static void manageClasses (){}
+    public static void seeClasses (){}
+    public static void seeBookedClasses(){}
 
 
 
@@ -67,9 +87,6 @@ public class classbooking {
 
 
 
-
-    //-------------------------Danne jobbar ovan ^
-    //------------------------ Emils workspace nedan:
 
 
 
