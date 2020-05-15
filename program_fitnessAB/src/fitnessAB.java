@@ -26,7 +26,7 @@ public class fitnessAB {
    login();
    }
    private static void login() throws SQLException {
-      JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images\\login.png")));
+      JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/login.png")));
 
       JTextField userField = new JTextField(14);
       JPasswordField pwField = new JPasswordField(14);
@@ -40,7 +40,7 @@ public class fitnessAB {
       myPanel.add(pwField);
 
       while (true) {
-         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images\\login.png"));
+         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
          int result = JOptionPane.showConfirmDialog(null, myPanel,
                  "Fitness AB login", JOptionPane.OK_CANCEL_OPTION,0, (Icon) bild1);
          if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION){
