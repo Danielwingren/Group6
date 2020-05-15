@@ -54,7 +54,13 @@ public class classbooking {
     }
     public static void manageClasses (){}
     public static void seeClasses (){}
-    public static void seeBookedClasses(){}
+    public static void seeBookedClasses(){
+/*
+        Sqlsats som hämtar information från memberclass och visar dessa sorterat på det memberID som är inloggad.
+        Select className, time, date,  from class
+
+ */
+    }
 
 
 
