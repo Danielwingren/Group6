@@ -56,7 +56,7 @@ public class fitnessAB {
                System.exit(1337);
             }
          } else if (sqlLogin(username, password)) {
-            menu(username); //detta programmet initierar huvudmenyn
+            menu(username); //detta programmet initierar huvudmenynd
             break;
          } else {
             System.exit(333);
