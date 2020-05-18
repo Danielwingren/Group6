@@ -52,11 +52,13 @@ public class membershipSystem {
             case 3 :
                 MemberMembershipView(memberID, tier);
 
-
         }
     }
     public static void changePassword (String memberID, int tier, String uname) throws SQLException {
+        System.out.println("Du är nu i changepassword");
+        JOptionPane.showMessageDialog(null,"VA FAAN");
         String checkOld = sql.GetPassword(memberID);
+
         String newPw= null;
         String checkNewPw = null;
 
@@ -81,9 +83,9 @@ public class membershipSystem {
             checkOld = oldPassword.getText();
             newPw = newPassword.getText();
             checkNewPw = newPasswordControl.getText();
-            System.out.println("old: "+checkOld+"\nnew1: "+newPw+"\nnew2: "+checkNewPw);
         }
-        if (checkOld.equals(oldPassword)) {
+        if (checkOld.equals(sql.GetPassword(uname))) {
+            assert newPw != null;
             if (newPw.equals(checkNewPw)) {
                 sql.ChangePassword(uname, newPw);
                 break;
@@ -91,7 +93,8 @@ public class membershipSystem {
             else {
                 MemberMembershipView(memberID, tier);
             }
-        } else {
+        }
+        else {
             showMessageDialog(null, "New password doesn't match", "Error", JOptionPane.ERROR_MESSAGE);
 
         }

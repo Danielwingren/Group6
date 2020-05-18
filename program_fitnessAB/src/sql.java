@@ -47,7 +47,7 @@ public class sql {
             return password;
         }
         catch (SQLException e) {
-            fitnessAB.login();
+            showMessageDialog(null,"Could not load old password");
         }
         return error;
     }
@@ -55,7 +55,7 @@ public class sql {
         conn = dbconnection();
         String sqlname= ("select fName, lName from member where email = '" + username + "';"); //-
         ResultSet rs = conn.createStatement().executeQuery(sqlname);                           //- - Dessa tre rader tar fram namnet på den inloggade medlemmen
-        String fnamn = rs.getString("fName");                                      //-
+        String fnamn = rs.getString("fName");                                     //-
         return fnamn;
     }
     public static int GetTier (String username) throws SQLException {

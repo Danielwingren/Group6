@@ -10,28 +10,6 @@ public class classbooking {
     public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
-    public static void employeeScreen (String namn) {
-
-        JFrame frame = new JFrame();
-        String[] options = new String[4];
-        options[0] = "Manage classes";
-        options[1] = "See all classes";
-        options[2] = "See booked classes";
-        options[3] = "Back";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "What operation would you like to perform?", "Membership (Admin)", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-        if (val == JOptionPane.CLOSED_OPTION) {
-            System.exit(11);
-        }
-        switch (val) {
-            case 0 :
-                manageClasses();
-            case 1 :
-                seeClasses();
-            case 2 :
-                seeBookedClasses();
-            case 3 :
-        }
-    }
     public static void memberscreen (String namn, String memberID, int tier) {
 
         JFrame frame = new JFrame();

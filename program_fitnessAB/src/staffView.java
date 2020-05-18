@@ -33,11 +33,13 @@ public class staffView {
                     break;
                 case 2 :
                     membershipSystem.changePassword(memberID, tier, uname);
+                    break;
             }
+            break;
         }
     }
 
-    public static void EmployeeMembershipView (String memberID, int tier) throws SQLException {
+    public static void EmployeeMembershipView (String memberID, int tier, String uname) throws SQLException {
 
         try {
             Class.forName(DRIVER);
@@ -63,7 +65,7 @@ public class staffView {
                 addnewmember();
                 break;
             case 1 :
-                UpdateInformation(memberID, tier);
+                UpdateInformation(memberID, tier, uname);
                 break;
             case 2 :
                 break;
@@ -95,7 +97,7 @@ public class staffView {
             myPanel.add(pwField);
         }
     }
-    public static void UpdateInformation (String memberID, int tier) throws SQLException {
+    public static void UpdateInformation (String memberID, int tier, String uname) throws SQLException {
 
         String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
@@ -109,13 +111,13 @@ public class staffView {
 
         switch (val) {
             case 0 :
-                //membershipSystem.changePassword(memberID, tier);
+                membershipSystem.changePassword(memberID, tier, uname);
             case 1 :
                 membershipSystem.updatePaymentMethod(memberID);
             case 2 :
                 membershipSystem.updateContactInformation(memberID);
             case 3 :
-                EmployeeMembershipView(memberID, tier);
+                EmployeeMembershipView(memberID, tier, uname);
 
         }
     }
