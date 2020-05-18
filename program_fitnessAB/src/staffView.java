@@ -12,8 +12,9 @@ public class staffView {
     public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
-    public static void mainmenu (String memberID, String fnamn) {
+    public static void mainmenu (String memberID, String fnamn, String uname) throws SQLException {
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));
+        int tier = sql.GetTier(uname);
         while (true) {
 
             JFrame frame = new JFrame();
@@ -24,6 +25,14 @@ public class staffView {
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
+            }
+            switch (val) {
+                case 0 :
+                    break;
+                case 1 :
+                    break;
+                case 2 :
+                    membershipSystem.changePassword(memberID, tier, uname);
             }
         }
     }
@@ -100,7 +109,7 @@ public class staffView {
 
         switch (val) {
             case 0 :
-                membershipSystem.changePassword(memberID, tier);
+                //membershipSystem.changePassword(memberID, tier);
             case 1 :
                 membershipSystem.updatePaymentMethod(memberID);
             case 2 :

@@ -30,7 +30,7 @@ public class membershipSystem {
         int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Membership (Member)",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
 
     }
-    public static void UpdateInformation (String memberID, int tier) throws SQLException {
+    public static void UpdateInformation (String memberID, int tier, String uname) throws SQLException {
 
         String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
@@ -44,7 +44,7 @@ public class membershipSystem {
 
         switch (val) {
             case 0 :
-                changePassword(memberID, tier);
+                changePassword(memberID, tier, uname);
             case 1 :
                 updatePaymentMethod(memberID);
             case 2 :
@@ -55,25 +55,10 @@ public class membershipSystem {
 
         }
     }
-    public static void changePassword (String memberID, int tier) throws SQLException {
-        try {
-            Class.forName(DRIVER);
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            conn = DriverManager.getConnection(DB_URL,config.toProperties());
-        } catch (Exception e) {
-            // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
-            System.out.println( e.toString() );
-            System.exit(0);
-        }
-        String checkOld = null;
+    public static void changePassword (String memberID, int tier, String uname) throws SQLException {
+        String checkOld = sql.GetPassword(memberID);
         String newPw= null;
         String checkNewPw = null;
-
-        String sqlCurrentPassword = ("select loginpw from member where memberID = '" + memberID + "';");
-        ResultSet rs = conn.createStatement().executeQuery(sqlCurrentPassword);
-        String CurrentPassword = rs.getString("loginpw");
-
 
         JPasswordField oldPassword = new JPasswordField(10);
         JPasswordField newPassword = new JPasswordField(10);
@@ -91,36 +76,28 @@ public class membershipSystem {
         int result = JOptionPane.showConfirmDialog(null, myPanel,
                 "Enter information below", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION)
-            UpdateInformation(memberID, tier);
+            UpdateInformation(memberID, tier, uname);
         else if  (result == JOptionPane.OK_OPTION) {
             checkOld = oldPassword.getText();
             newPw = newPassword.getText();
             checkNewPw = newPasswordControl.getText();
             System.out.println("old: "+checkOld+"\nnew1: "+newPw+"\nnew2: "+checkNewPw);
         }
-
-            if (checkOld.equals(CurrentPassword)) {
-                if (newPw.equals(checkNewPw)) {
-                    String sqlNewPassword = ("UPDATE member set loginpw = '" + newPw + "' where memberID ='"+memberID+"';");
-                    conn.createStatement().executeQuery(sqlNewPassword);
-                    String NewPassword = rs.getString("loginpw");
-                    showMessageDialog(null, "INSERT-sqlsats new password\nYour password has been changed.");
-                    if (tier == 5) {
-                        staffView.EmployeeMembershipView(memberID, tier);
-                        break;
-                    }
-                    else {
-                        MemberMembershipView(memberID, tier);
-                    }
-                } else {
-                    showMessageDialog(null, "New password doesn't match", "Error", JOptionPane.ERROR_MESSAGE);
-
-                }
-            } else {
-                showMessageDialog(null, "Wrong current password", "Error", JOptionPane.ERROR_MESSAGE);
-
+        if (checkOld.equals(oldPassword)) {
+            if (newPw.equals(checkNewPw)) {
+                sql.ChangePassword(uname, newPw);
+                break;
             }
+            else {
+                MemberMembershipView(memberID, tier);
+            }
+        } else {
+            showMessageDialog(null, "New password doesn't match", "Error", JOptionPane.ERROR_MESSAGE);
+
         }
+
+        }
+
 
     }
     public static void updatePaymentMethod (String memberID) {

@@ -50,7 +50,7 @@ public class fitnessAB {
       ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));
 
       String fnamn = sql.getName(username);
-      int tier = sql.tier(username);
+      int tier = sql.GetTier(username);
       String memberID = sql.GetMemberID(username);
       System.out.println("Namn: "+fnamn+"\nTier: "+tier+"\nMemberID: "+memberID);
 
@@ -66,7 +66,7 @@ public class fitnessAB {
       }
       System.out.println(fnamn+" inloggad som "+ tier +", med medlemsnummer "+memberID+" startar huvudmeny");
       if (tier == 5) {
-         staffView.mainmenu(memberID, fnamn);
+         staffView.mainmenu(memberID, fnamn, username);
       }
       else {
          classbooking.memberscreen(fnamn, memberID, tier);

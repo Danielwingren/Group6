@@ -58,7 +58,7 @@ public class sql {
         String fnamn = rs.getString("fName");                                      //-
         return fnamn;
     }
-    public static int tier (String username) throws SQLException {
+    public static int GetTier (String username) throws SQLException {
         conn = dbconnection();
         String sqlReadTier= ("select tierType from member where email = '" + username + "';");    // -
         ResultSet rs1 = conn.createStatement().executeQuery(sqlReadTier);                         // -
@@ -73,8 +73,13 @@ public class sql {
         String memberID = rs2.getString("memberID");                                      // -
         return memberID;
     }
+    public static void ChangePassword (String uname, String newPw) throws SQLException {
+        dbconnection();
+        String sqlNewPassword = ("UPDATE member set loginpw = '" + newPw + "' where email ='"+uname+"';");
+        conn.createStatement().executeQuery(sqlNewPassword);
 
-
+        showMessageDialog(null, "INSERT-sqlsats new password\nYour password has been changed.");
+    }
 }
 
 
