@@ -2,22 +2,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.sqlite.SQLiteConfig;
 import java.sql.*;
-
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class fitnessAB {
-   static Connection conn = null;
-
    public static void main (String [] arg) throws SQLException {
-      try {
-         sql.dbconnection();
-      } catch (Exception e) {
-         // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
-         System.out.println( e.toString() );
-         System.exit(0);
-      }
-   login();
+      sql.dbconnection();
+      login();
    }
    private static void login() throws SQLException {
       JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/login.png")));
@@ -40,10 +31,8 @@ public class fitnessAB {
          if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION){
             System.exit(22);
          }
-         //System.out.println(result);
          String username = userField.getText();
          String password = pwField.getText();
-         //System.out.println(username + "\n" + password);
          if (username.isEmpty() || password.isEmpty()) {
             int val = JOptionPane.showConfirmDialog(null, "You have to enter your correct credentials, do you wish to try again?", "Error", JOptionPane.YES_NO_OPTION);
             if (val == JOptionPane.NO_OPTION || val == JOptionPane.CLOSED_OPTION) {
@@ -60,17 +49,10 @@ public class fitnessAB {
    private static void menu(String username) throws SQLException { //forslar vidare beroende medlem eller ej
       ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));
 
-
-      String sqlname= ("select fName, lName from member where email = '" + username + "';"); //-
-      ResultSet rs = conn.createStatement().executeQuery(sqlname);                           //- - Dessa tre rader tar fram namnet på den inloggade medlemmen
-      String fnamn = rs.getString("fName");                                      //-
-      String sqlReadTier= ("select tierType from member where email = '" + username + "';");    // -
-      ResultSet rs1 = conn.createStatement().executeQuery(sqlReadTier);                         // -
-      String tierType = rs1.getString("tiertype");                                  // - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
-      int tier = Integer.parseInt(tierType);                                                    // -
-      String sqlReadMemberID= ("select memberID from member where email ='" + username + "';");     // -
-      ResultSet rs2 = conn.createStatement().executeQuery(sqlReadMemberID);                         // - Dessa tre rader läser in medlemsID
-      String memberID = rs2.getString("memberID");                                      // -
+      String fnamn = sql.getName(username);
+      int tier = sql.tier(username);
+      String memberID = sql.GetMemberID(username);
+      System.out.println("Namn: "+fnamn+"\nTier: "+tier+"\nMemberID: "+memberID);
 
       if (tier == 5) {
          JFrame frame = new JFrame();
@@ -90,54 +72,18 @@ public class fitnessAB {
          classbooking.memberscreen(fnamn, memberID, tier);
       }
    }
-   public static boolean sqlLogin (String uname, String pw) throws SQLException {
-      try {
-         Statement st = conn.createStatement();
-         System.out.println();
-         String sql = ("select email from member where email = '" + uname.toLowerCase() + "';");
-         ResultSet rs = st.executeQuery(sql);
-         String user = rs.getString("email");
-         int compare = uname.compareTo(user);
-         //System.out.println("Compare uname --> user = "+compare);
-         if (compare == 0) {
-            System.out.println("userID matches,\nchecking password:");
-            String sqlpw = ("select loginpw from member where email = '" + uname + "';");
-            rs = conn.createStatement().executeQuery(sqlpw);
-            String password = rs.getString("loginpw");
-            //System.out.println(password + " --> " + pw);
-            int comparePw = pw.compareTo(password);
-            //System.out.println(comparePw);
-            if (comparePw == 0) {
-               System.out.println("Password match!\nLogging in");
+   public static boolean sqlLogin(String uname, String pw) throws SQLException {
+         //String username = sql.login(uname);
+         String password = sql.GetPassword(uname);
 
-               return true;
-
-            } else  {
-               System.out.println("Passowrd incorrect.");
-               int choice = showConfirmDialog(null, "The password is not correct.\nDo you want to try again?", "Error", JOptionPane.YES_NO_OPTION);
-               if (choice == JOptionPane.YES_OPTION) {
-                  login();
-               } else {
-                  System.exit(15);
-               }
-            }
+         int comparePw = pw.compareTo(password);
+         if (comparePw == 0) {
+            System.out.println("Password match!\nLogging in");
+            return true;
          }
          else {
-         JOptionPane.showMessageDialog(null, "VARFÖR HAMNAR JAG HÄR");
+            showMessageDialog(null,"Wrong password","Error",JOptionPane.ERROR_MESSAGE);
          }
-      }
-      catch (Exception e) {
-         System.out.println( e.toString() );
-         int response = showConfirmDialog(null, "Cannot find that username.\nDo you want to try again?", "Error", JOptionPane.YES_NO_OPTION);
-         if (response == JOptionPane.NO_OPTION || response == JOptionPane.CLOSED_OPTION) {
-            System.exit(2);
-         }
-         else {
-            login();
-         }
-      }
-
-
       return false;
    }
 }
