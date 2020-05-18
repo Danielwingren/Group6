@@ -30,6 +30,7 @@ public class staffView {
                 case 0 :
                     break;
                 case 1 :
+                    staffView.EmployeeMembershipView(memberID, tier);
                     break;
                 case 2 :
                     membershipSystem.changePassword(memberID, tier, uname);
@@ -55,7 +56,7 @@ public class staffView {
         String[] options = new String[3];
         options[0] = "Add new member";
         options[1] = "Update Member Information";
-        options[2] = "och så vidare...";
+        options[2] = "bajskorv";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Choose action below", "Membership (Admin)", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
@@ -73,29 +74,11 @@ public class staffView {
 
     }
     public static void addnewmember() {
-        try {
-            Class.forName(DRIVER);
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            conn = DriverManager.getConnection(DB_URL, config.toProperties());
-        } catch (Exception e) {
-            // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
-            System.out.println(e.toString());
-            System.exit(0);
+        System.out.println("eh. BOOM");
+        JOptionPane.showMessageDialog(null, "Detta funkar nu");
 
-            JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/settings.png")));
 
-            JTextField userField = new JTextField(14);
-            JPasswordField pwField = new JPasswordField(14);
 
-            JPanel myPanel = new JPanel();
-            //myPanel.add(bild);
-            myPanel.add(new JLabel("First Name"));
-            myPanel.add(userField);
-            myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-            myPanel.add(new JLabel("Last Name"));
-            myPanel.add(pwField);
-        }
     }
     public static void UpdateInformation (String memberID, int tier, String uname) throws SQLException {
 
