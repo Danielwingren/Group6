@@ -32,14 +32,14 @@ public class classbooking {
             case 3 :
         }
     }
-    public static void memberscreen (String namn) {
+    public static void memberscreen (String namn, String memberID, int tier) {
 
         JFrame frame = new JFrame();
         String[] options = new String[3];
         options[0] = "See all classes";
         options[1] = "See booked classes";
         options[2] = "Back";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Would you like to view classes or see already booked classes?", "Member ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+namn+". Would you like to view classes or see already booked classes?", "Member ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);

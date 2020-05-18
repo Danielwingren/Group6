@@ -9,65 +9,6 @@ public class membershipSystem {
     public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
-    public static void EmployeeMembershipView (String memberID, int tier) throws SQLException {
-        try {
-            Class.forName(DRIVER);
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            conn = DriverManager.getConnection(DB_URL,config.toProperties());
-        } catch (Exception e) {
-            // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
-            System.out.println( e.toString() );
-            System.exit(0);
-        }
-        JFrame frame = new JFrame();
-        String[] options = new String[3];
-        options[0] = "Add new member";
-        options[1] = "Update Member Information";
-        options[2] = "och så vidare...";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Choose action below", "Membership (Admin)", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-        if (val == JOptionPane.CLOSED_OPTION) {
-            System.exit(11);
-        }
-        switch (val) {
-            case 0 :
-                addnewmember();
-                break;
-            case 1 :
-                UpdateInformation(memberID, tier);
-                break;
-            case 2 :
-                break;
-        }
-
-    }
-
-    public static void addnewmember() {
-        try {
-            Class.forName(DRIVER);
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            conn = DriverManager.getConnection(DB_URL, config.toProperties());
-        } catch (Exception e) {
-            // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
-            System.out.println(e.toString());
-            System.exit(0);
-
-            JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/settings.png")));
-
-            JTextField userField = new JTextField(14);
-            JPasswordField pwField = new JPasswordField(14);
-
-            JPanel myPanel = new JPanel();
-            //myPanel.add(bild);
-            myPanel.add(new JLabel("First Name"));
-            myPanel.add(userField);
-            myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-            myPanel.add(new JLabel("Last Name"));
-            myPanel.add(pwField);
-        }
-    }
-
     public static void MemberMembershipView (String memberID, int tier) throws SQLException {
         try {
             Class.forName(DRIVER);
@@ -109,12 +50,8 @@ public class membershipSystem {
             case 2 :
                 updateContactInformation(memberID);
             case 3 :
-                if (tier == 5) {
-                    EmployeeMembershipView(memberID, tier);
-                }
-                else {
-                    MemberMembershipView(memberID, tier);
-                }
+                MemberMembershipView(memberID, tier);
+
 
         }
     }
@@ -136,6 +73,7 @@ public class membershipSystem {
         String sqlCurrentPassword = ("select loginpw from member where memberID = '" + memberID + "';");
         ResultSet rs = conn.createStatement().executeQuery(sqlCurrentPassword);
         String CurrentPassword = rs.getString("loginpw");
+
 
         JPasswordField oldPassword = new JPasswordField(10);
         JPasswordField newPassword = new JPasswordField(10);
@@ -168,7 +106,7 @@ public class membershipSystem {
                     String NewPassword = rs.getString("loginpw");
                     showMessageDialog(null, "INSERT-sqlsats new password\nYour password has been changed.");
                     if (tier == 5) {
-                        EmployeeMembershipView(memberID, tier);
+                        staffView.EmployeeMembershipView(memberID, tier);
                         break;
                     }
                     else {

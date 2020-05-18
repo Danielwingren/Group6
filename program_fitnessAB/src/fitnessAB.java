@@ -7,17 +7,11 @@ import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class fitnessAB {
-
-   public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
-   public static final String DRIVER = "org.sqlite.JDBC";
    static Connection conn = null;
 
    public static void main (String [] arg) throws SQLException {
       try {
-         Class.forName(DRIVER);
-         SQLiteConfig config = new SQLiteConfig();
-         config.enforceForeignKeys(true);
-         conn = DriverManager.getConnection(DB_URL,config.toProperties());
+         sql.dbconnection();
       } catch (Exception e) {
          // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
          System.out.println( e.toString() );
@@ -72,46 +66,34 @@ public class fitnessAB {
       String fnamn = rs.getString("fName");                                      //-
       String sqlReadTier= ("select tierType from member where email = '" + username + "';");    // -
       ResultSet rs1 = conn.createStatement().executeQuery(sqlReadTier);                         // -
-      String tierType = rs1.getString("tiertype");                                  // - Dessa fyra rader läser av ifall det är en anställd eller ej
+      String tierType = rs1.getString("tiertype");                                  // - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
       int tier = Integer.parseInt(tierType);                                                    // -
       String sqlReadMemberID= ("select memberID from member where email ='" + username + "';");     // -
       ResultSet rs2 = conn.createStatement().executeQuery(sqlReadMemberID);                         // - Dessa tre rader läser in medlemsID
       String memberID = rs2.getString("memberID");                                      // -
 
-      System.out.println(fnamn+" inloggad som "+ tierType +", med medlemsnummer "+memberID+" startar huvudmeny");
-      while(true) {
+      if (tier == 5) {
          JFrame frame = new JFrame();
-         String[] options = new String[3];
-         options[0] = "Start classbooking program";
-         options[1] = "Start member management program";
-         options[2] = "Change your password";
-         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
-         if (val == JOptionPane.CLOSED_OPTION) {
-            System.exit(11);
+         String[] options = new String[2];
+         options[0] = "Log in as staff";
+         options[1] = "Log in as member";
+         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose options below:", "Choose login view", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
+         if (val == 1) {
+            tier = (tier - 1);
          }
-         switch (val) {
-            case 0:
-               if (tier == 5) {
-                  classbooking.employeeScreen(fnamn);
-               } else {
-                  classbooking.memberscreen(fnamn);
-               }
-               break;
-            case 1:
-               if (tier == 5) {
-                  membershipSystem.EmployeeMembershipView(memberID, tier);
-               } else {
-                  membershipSystem.MemberMembershipView(memberID, tier);
-               }
-               break;
-            case 2:
-               membershipSystem.changePassword(memberID,tier);
-         }
+      }
+      System.out.println(fnamn+" inloggad som "+ tier +", med medlemsnummer "+memberID+" startar huvudmeny");
+      if (tier == 5) {
+         staffView.mainmenu(memberID, fnamn);
+      }
+      else {
+         classbooking.memberscreen(fnamn, memberID, tier);
       }
    }
    public static boolean sqlLogin (String uname, String pw) throws SQLException {
       try {
          Statement st = conn.createStatement();
+         System.out.println();
          String sql = ("select email from member where email = '" + uname.toLowerCase() + "';");
          ResultSet rs = st.executeQuery(sql);
          String user = rs.getString("email");
