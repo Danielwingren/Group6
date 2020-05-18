@@ -1,5 +1,5 @@
 import java.sql.*;
-
+import static javax.swing.JOptionPane.*;
 import org.sqlite.SQLiteConfig;
 
 public class sql {
@@ -23,19 +23,33 @@ public class sql {
     }
     public static String login (String uname) throws SQLException {
         conn = dbconnection();
-        Statement st = conn.createStatement();
-        String sql = ("select email from member where email = '" + uname.toLowerCase() + "';");
-        ResultSet rs = st.executeQuery(sql);
-        String user = rs.getString("email");
-        return user;
+        String error = "-";
+        try {
+            Statement st = conn.createStatement();
+            String sql = ("select email from member where email = '" + uname.toLowerCase() + "';");
+            ResultSet rs = st.executeQuery(sql);
+            String user = rs.getString("email");
+            return user;
+        }
+        catch (SQLException e) {
+            showMessageDialog(null,"Could not find that user, please try again or\nvisit one of our facilitites to register a new membership.\n \nKind Regards\nFitness AB");
+        }
+        return error;
     }
 
     public static String GetPassword(String uname) throws SQLException {
         conn = dbconnection();
-        String sqlpw = ("select loginpw from member where email = '" + uname + "';");
-        ResultSet rs = conn.createStatement().executeQuery(sqlpw);
-        String password = rs.getString("loginpw");
-        return password;
+        String error = "-";
+        try {
+            String sqlpw = ("select loginpw from member where email = '" + uname + "';");
+            ResultSet rs = conn.createStatement().executeQuery(sqlpw);
+            String password = rs.getString("loginpw");
+            return password;
+        }
+        catch (SQLException e) {
+            fitnessAB.login();
+        }
+        return error;
     }
     public static String getName(String username) throws SQLException {
         conn = dbconnection();

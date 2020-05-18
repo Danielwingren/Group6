@@ -10,7 +10,7 @@ public class fitnessAB {
       sql.dbconnection();
       login();
    }
-   private static void login() throws SQLException {
+   public static void login() throws SQLException {
       JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/login.png")));
 
       JTextField userField = new JTextField(14);
@@ -73,7 +73,10 @@ public class fitnessAB {
       }
    }
    public static boolean sqlLogin(String uname, String pw) throws SQLException {
-         //String username = sql.login(uname);
+         String username = sql.login(uname);
+         if (username.isEmpty()) {
+            showMessageDialog(null,"Could not find that user, please try again or\nvisit one of our facilitites to register a new membership.\n \nKind Regards\nFitness AB");
+         }
          String password = sql.GetPassword(uname);
 
          int comparePw = pw.compareTo(password);
@@ -83,6 +86,7 @@ public class fitnessAB {
          }
          else {
             showMessageDialog(null,"Wrong password","Error",JOptionPane.ERROR_MESSAGE);
+            login();
          }
       return false;
    }
