@@ -51,12 +51,18 @@ public class classbooking {
         JOptionPane.showMessageDialog(null,(str.toString()));
 
     }
-    public static void seeBookedClasses(){
-/*
-        Sqlsats som hämtar information från memberclass och visar dessa sorterat på det memberID som är inloggad.
-        Select className, time, date,  from class
-
- */
+    public static void seeBookedClasses () throws SQLException {
+        ResultSet rs = sql.getBookedClasses();
+        JOptionPane.showMessageDialog(null,rs);
+        StringBuilder str = new StringBuilder();
+        while(rs.next()){ //här hämtar den in data för varje kolumn
+            str.append("Name:\t " + rs.getString("className")+ "\t, ");
+            str.append("\tStart time:" + rs.getInt("time") + "\t, ");
+            str.append("\tDate: " + rs.getInt("date") + "\t, ");
+            str.append("\tRoom: " + rs.getInt("roomID") + "\t, ");
+            str.append("\tIntructor: " + rs.getString("fName") + "\t, ");
+            str.append("\n");
+        }
     }
 
 
