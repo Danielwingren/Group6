@@ -157,6 +157,19 @@ public class sql {
         }
         return rs;
     }
+    public static ResultSet getBookedClasses () throws SQLException {
+        conn = dbconnection();
+        ResultSet rs = null;
+        String bookedQuery = "";
+        try {
+            bookedQuery = "Select-sats";
+            rs = conn.createStatement().executeQuery(bookedQuery);
+        } catch (SQLException e) {
+            showMessageDialog(null, "Fel din idjut");
+            System.out.println(e.toString());
+        }
+        return rs;
+    }
 }
 
 
