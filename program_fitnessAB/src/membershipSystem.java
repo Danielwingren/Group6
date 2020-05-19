@@ -5,21 +5,8 @@ import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class membershipSystem {
-    public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
-    public static final String DRIVER = "org.sqlite.JDBC";
-    static Connection conn = null;
+    public static void MemberMembershipView (String memberID, int tier, String fnamn) throws SQLException {
 
-    public static void MemberMembershipView (String memberID, int tier) throws SQLException {
-        try {
-            Class.forName(DRIVER);
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            conn = DriverManager.getConnection(DB_URL,config.toProperties());
-        } catch (Exception e) {
-            // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
-            System.out.println( e.toString() );
-            System.exit(0);
-        }
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
         String[] options = new String[4];
@@ -27,10 +14,11 @@ public class membershipSystem {
         options[1] = "Change payment method";
         options[2] = "Update contact information";
         options[3] = "Back to membership menu";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Membership (Member)",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Membership: ("+fnamn+")",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
+
 
     }
-    public static void UpdateInformation (String memberID, int tier, String uname) throws SQLException {
+    public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
 
         String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
@@ -44,17 +32,17 @@ public class membershipSystem {
 
         switch (val) {
             case 0 :
-                changePassword(memberID, tier, uname);
+                changePassword(memberID, tier, uname, fnamn);
             case 1 :
                 updatePaymentMethod(memberID);
             case 2 :
                 updateContactInformation(memberID);
             case 3 :
-                MemberMembershipView(memberID, tier);
+                MemberMembershipView(memberID, tier, fnamn);
 
         }
     }
-    public static void changePassword (String memberID, int tier, String uname) throws SQLException {
+    public static void changePassword (String memberID, int tier, String uname, String fnamn) throws SQLException {
         String checkOld = sql.GetPassword(memberID);
         String newPw= null;
         String checkNewPw = null;
@@ -76,7 +64,7 @@ public class membershipSystem {
         int result = JOptionPane.showConfirmDialog(null, myPanel,
                 "Enter information below", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION)
-            UpdateInformation(memberID, tier, uname);
+            UpdateInformation(memberID, tier, uname, fnamn);
         else if  (result == JOptionPane.OK_OPTION) {
             checkOld = oldPassword.getText();
             newPw = newPassword.getText();
@@ -90,7 +78,7 @@ public class membershipSystem {
                 break;
             }
             else {
-                MemberMembershipView(memberID, tier);
+                MemberMembershipView(memberID, tier, fnamn);
             }
         }
         else {
@@ -98,6 +86,9 @@ public class membershipSystem {
 
         }
 
+        }
+        if (tier == 5) {
+            staffView.mainmenu(memberID, fnamn, uname);
         }
 
 

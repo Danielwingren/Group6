@@ -30,17 +30,17 @@ public class staffView {
                 case 0 :
                     break;
                 case 1 :
-                    staffView.EmployeeMembershipView(memberID, tier, uname);
+                    staffView.EmployeeMembershipView(memberID, tier, uname, fnamn);
                     break;
                 case 2 :
-                    membershipSystem.changePassword(memberID, tier, uname);
+                    membershipSystem.changePassword(memberID, tier, uname, fnamn);
                     break;
             }
             break;
         }
     }
 
-    public static void EmployeeMembershipView (String memberID, int tier, String uname) throws SQLException {
+    public static void EmployeeMembershipView (String memberID, int tier, String uname, String fnamn) throws SQLException {
 
         try {
             Class.forName(DRIVER);
@@ -66,7 +66,7 @@ public class staffView {
                 addnewmember();
                 break;
             case 1 :
-                UpdateInformation(memberID, tier, uname);
+                UpdateInformation(memberID, tier, uname, fnamn);
                 break;
             case 2 :
                 break;
@@ -80,7 +80,7 @@ public class staffView {
 
 
     }
-    public static void UpdateInformation (String memberID, int tier, String uname) throws SQLException {
+    public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
 
         String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
@@ -94,13 +94,13 @@ public class staffView {
 
         switch (val) {
             case 0 :
-                membershipSystem.changePassword(memberID, tier, uname);
+                membershipSystem.changePassword(memberID, tier, uname, fnamn);
             case 1 :
                 membershipSystem.updatePaymentMethod(memberID);
             case 2 :
                 membershipSystem.updateContactInformation(memberID);
             case 3 :
-                EmployeeMembershipView(memberID, tier, uname);
+                EmployeeMembershipView(memberID, tier, uname, fnamn);
 
         }
     }

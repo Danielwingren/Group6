@@ -10,13 +10,13 @@ public class classbooking {
     public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
-    public static void memberscreen (String namn, String memberID, int tier) {
+    public static void memberscreen (String namn, String memberID, int tier, String fnamn, String uname) throws SQLException {
 
         JFrame frame = new JFrame();
         String[] options = new String[3];
         options[0] = "See all classes";
         options[1] = "See booked classes";
-        options[2] = "Back";
+        options[2] = "Update Account information";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+namn+". Would you like to view classes or see already booked classes?", "Member ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
@@ -28,6 +28,7 @@ public class classbooking {
             case 1 :
                 seeBookedClasses();
             case 2 :
+                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn);
         }
     }
     public static void manageClasses (){}

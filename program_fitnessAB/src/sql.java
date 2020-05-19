@@ -135,15 +135,14 @@ public class sql {
         conn.commit();
         String SQL = "select loginpw from member where email = '"+uname+"';";
         ResultSet rs = stmt.executeQuery(SQL);
-        showMessageDialog(null,"Nytt lösenord: "+ rs);
+        showMessageDialog(null,"Your password is updated.");
         rs.close();
         stmt.close();
         conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        finally {
-            //finally block used to close resources
+        /*finally {
             try{
                 if(stmt!=null)
                     stmt.close();
@@ -156,7 +155,7 @@ public class sql {
             }catch(SQLException se){
                 se.printStackTrace();
             }
-        }
+        }*/
     }
 }
 
