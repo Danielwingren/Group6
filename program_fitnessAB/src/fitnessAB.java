@@ -7,6 +7,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class fitnessAB {
    public static void main (String [] arg) throws SQLException {
+
       sql.dbconnection();
       login();
    }
@@ -67,6 +68,7 @@ public class fitnessAB {
       System.out.println(fnamn+" inloggad som "+ tier +", med medlemsnummer "+memberID+" startar huvudmeny");
       if (tier == 5) {
          staffView.mainmenu(memberID, fnamn, username);
+
       }
       else {
          classbooking.memberscreen(fnamn, memberID, tier);

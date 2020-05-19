@@ -30,7 +30,7 @@ public class staffView {
                 case 0 :
                     break;
                 case 1 :
-                    staffView.EmployeeMembershipView(memberID, tier);
+                    staffView.EmployeeMembershipView(memberID, tier, uname);
                     break;
                 case 2 :
                     membershipSystem.changePassword(memberID, tier, uname);
