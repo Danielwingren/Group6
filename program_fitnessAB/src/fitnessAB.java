@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.sqlite.SQLiteConfig;
+
+import java.awt.*;
 import java.sql.*;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -19,6 +21,7 @@ public class fitnessAB {
       JPasswordField pwField = new JPasswordField(14);
 
       JPanel myPanel = new JPanel();
+      myPanel.setLayout(new GridLayout(2,0));
       //myPanel.add(bild);
       myPanel.add(new JLabel("Email"));
       myPanel.add(userField);
