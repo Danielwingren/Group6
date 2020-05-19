@@ -1,6 +1,7 @@
 import org.sqlite.SQLiteConfig;
 
 import javax.swing.*;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -89,6 +90,7 @@ public class staffView {
         JTextField defaultGym = new JTextField(14);
 
         JPanel myPanel = new JPanel();
+        myPanel.setLayout(new GridLayout(5,1));
         //myPanel.add(bild);
         myPanel.add(new JLabel("First Name"));
         myPanel.add(fName);
