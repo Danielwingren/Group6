@@ -51,7 +51,7 @@ public class sql {
         try {
             String sqlpw = ("select loginpw from member where email = '" + uname + "';");
             rs = conn.createStatement().executeQuery(sqlpw);
-            
+
             return rs.getString("loginpw");
         } catch (SQLException e) {
             showMessageDialog(null, "Catch on reading old password");
@@ -158,16 +158,22 @@ public class sql {
         }
         return rs;
     }
-    public static ResultSet getBookedClasses () throws SQLException {
+    public static ResultSet getBookedClasses (String memberID) throws SQLException {
         conn = dbconnection();
         ResultSet rs = null;
         String bookedQuery = "";
         try {
-            bookedQuery = "Select-sats";
+            bookedQuery = "select class.className, class.time, class.date, instructor.fName, " +
+                    "room.roomID from class natural join memberClass natural join instructor natural join room " +
+                    "where memberClass.memberID = '"+memberID+"';";
             rs = conn.createStatement().executeQuery(bookedQuery);
         } catch (SQLException e) {
             showMessageDialog(null, "Fel din idjut");
             System.out.println(e.toString());
+        }
+        finally {
+            conn.close();
+            rs.close();
         }
         return rs;
     }

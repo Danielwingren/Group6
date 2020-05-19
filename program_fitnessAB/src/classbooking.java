@@ -27,7 +27,7 @@ public class classbooking {
                 seeClasses();
                 break;
             case 1 :
-                seeBookedClasses();
+                seeBookedClasses(memberID);
 
             case 2 :
                 membershipSystem.UpdateInformation(memberID, tier, uname, fnamn);
@@ -50,8 +50,8 @@ public class classbooking {
         }
         JOptionPane.showMessageDialog(null,(str.toString()));
     }
-    public static void seeBookedClasses () throws SQLException {
-        ResultSet rs = sql.getBookedClasses();
+    public static void seeBookedClasses (String memberID) throws SQLException {
+        ResultSet rs = sql.getBookedClasses(memberID);
         JOptionPane.showMessageDialog(null,rs);
         StringBuilder str = new StringBuilder();
         while(rs.next()){ //här hämtar den in data för varje kolumn
