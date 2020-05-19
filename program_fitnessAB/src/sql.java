@@ -51,6 +51,7 @@ public class sql {
         try {
             String sqlpw = ("select loginpw from member where email = '" + uname + "';");
             rs = conn.createStatement().executeQuery(sqlpw);
+            
             return rs.getString("loginpw");
         } catch (SQLException e) {
             showMessageDialog(null, "Catch on reading old password");
