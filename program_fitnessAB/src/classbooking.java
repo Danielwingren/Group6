@@ -17,7 +17,7 @@ public class classbooking {
         options[0] = "See all classes";
         options[1] = "See booked classes";
         options[2] = "Update Account information";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+namn+". Would you like to view classes or see already booked classes?", "Member ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+namn+". Would you like to view classes or see already booked classes?\n", "Member ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
@@ -25,14 +25,32 @@ public class classbooking {
         switch (val) {
             case 0 :
                 seeClasses();
+                break;
             case 1 :
                 seeBookedClasses();
+
             case 2 :
                 membershipSystem.UpdateInformation(memberID, tier, uname, fnamn);
+
         }
     }
     public static void manageClasses (){}
-    public static void seeClasses (){}
+
+    public static void seeClasses () throws SQLException {
+        ResultSet rs = sql.ViewAllClasses();
+        JOptionPane.showMessageDialog(null,rs);
+        StringBuilder str = new StringBuilder();
+        while(rs.next()){ //här hämtar den in data för varje kolumn
+            str.append("Name:\t " + rs.getString("className")+ "\t, ");
+            str.append("\tStart time:" + rs.getInt("time") + "\t, ");
+            str.append("\tDate: " + rs.getInt("date") + "\t, ");
+            str.append("\tRoom: " + rs.getInt("roomID") + "\t, ");
+            str.append("\tIntructor: " + rs.getString("fName") + "\t, ");
+            str.append("\n");
+        }
+        JOptionPane.showMessageDialog(null,(str.toString()));
+
+    }
     public static void seeBookedClasses(){
 /*
         Sqlsats som hämtar information från memberclass och visar dessa sorterat på det memberID som är inloggad.

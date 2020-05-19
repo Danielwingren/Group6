@@ -138,6 +138,20 @@ public class sql {
             e.printStackTrace();
         }
     }
+    public static ResultSet ViewAllClasses () throws SQLException {
+        conn = dbconnection();
+        ResultSet rs = null;
+        String query = "";
+        try {
+            query = "select className, time, date, room.roomID, instructor.fName FROM class natural join instructor natural join room;";
+            rs = conn.createStatement().executeQuery(query);
+            }
+        catch (SQLException e) {
+            showMessageDialog(null,"DET ÄR FEL");
+            System.out.println(e.toString());
+        }
+        return rs;
+    }
 }
 
 
