@@ -145,10 +145,15 @@ public class sql {
         try {
             query = "select className, time, date, room.roomID, instructor.fName FROM class natural join instructor natural join room;";
             rs = conn.createStatement().executeQuery(query);
-            }
+        }
         catch (SQLException e) {
             showMessageDialog(null,"DET ÄR FEL");
             System.out.println(e.toString());
+        }
+        finally {
+            assert rs != null;
+            rs.close();
+            conn.close();
         }
         return rs;
     }

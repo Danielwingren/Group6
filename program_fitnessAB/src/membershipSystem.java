@@ -5,22 +5,12 @@ import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class membershipSystem {
-    public static void MemberMembershipView (String memberID, int tier, String fnamn) throws SQLException {
 
-        ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
-        JFrame frame = new JFrame();
-        String[] options = new String[4];
-        options[0] = "Change Password";
-        options[1] = "Change payment method";
-        options[2] = "Update contact information";
-        options[3] = "Back to membership menu";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Membership: ("+fnamn+")",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
-
-
-    }
     public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
 
-        String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
+        if (tier == 5) {
+            String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
+        }
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
         String[] options = new String[4];
@@ -38,7 +28,7 @@ public class membershipSystem {
             case 2 :
                 updateContactInformation(memberID);
             case 3 :
-                MemberMembershipView(memberID, tier, fnamn);
+
 
         }
     }
@@ -77,24 +67,30 @@ public class membershipSystem {
                 sql.ChangePassword(uname, newPw);
                 break;
             }
-            else {
-                MemberMembershipView(memberID, tier, fnamn);
-            }
         }
         else {
             showMessageDialog(null, "New password doesn't match", "Error", JOptionPane.ERROR_MESSAGE);
-
         }
-
         }
         if (tier == 5) {
             staffView.mainmenu(memberID, fnamn, uname);
         }
-
-
+        else {
+            UpdateInformation(memberID, tier, uname, fnamn);
+        }
     }
     public static void updatePaymentMethod (String memberID) {
         showMessageDialog(null,"UNDER CONSTRUCTION");
+
+        JPanel info = new JPanel();
+        String [] cardtype = {"MasterCard","American Express","VISA"};
+        JTextField cardnumber, cvc, dateOfExp, cardHolderName = new JTextField(20);
+        JComboBox cardtypes = new JComboBox(cardtype);
+        cardtypes.setEditable(false);
+
+
+
+
     }
     public static void updateContactInformation(String memberID) {
         showMessageDialog(null,"UNDER CONSTRUCTION");

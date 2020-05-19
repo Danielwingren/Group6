@@ -49,7 +49,6 @@ public class classbooking {
             str.append("\n");
         }
         JOptionPane.showMessageDialog(null,(str.toString()));
-
     }
     public static void seeBookedClasses(){
 /*
