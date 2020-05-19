@@ -84,7 +84,6 @@ public class membershipSystem {
             originalpw = sql.GetPassword(uname);
         }
         if (checkOld.equals(originalpw)) {
-            System.out.println("TITTA HÄR ---->"+originalpw+"\nOCH HÄR --->"+checkOld);
             assert newPw != null;
             if (newPw.equals(checkNewPw)) {
                 sql.ChangePassword(uname, newPw);

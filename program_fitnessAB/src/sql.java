@@ -2,6 +2,8 @@ import java.sql.*;
 import static javax.swing.JOptionPane.*;
 import org.sqlite.SQLiteConfig;
 
+import javax.swing.*;
+
 public class sql {
     public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
     public static final String DRIVER = "org.sqlite.JDBC";
@@ -37,6 +39,7 @@ public class sql {
         }
         finally {
         rs.close();
+        conn.close();
         System.out.println("Vi nådde finally i password efter att ha klippt anslutningen");
     }
         return error;
@@ -54,6 +57,7 @@ public class sql {
             showMessageDialog(null, "Catch on reading old password");
         } finally {
             rs.close();
+            conn.close();
             System.out.println("Vi nådde finally i password efter att ha klippt anslutningen");
         }
         return error;
@@ -73,6 +77,7 @@ public class sql {
 
             assert rs != null;
             rs.close();
+            conn.close();
             System.out.println("Vi nådde finally i name");
         }
         return error;
@@ -92,6 +97,11 @@ public class sql {
         } catch (SQLException e) {
             showMessageDialog(null, "Could not load tier");
         }
+        finally {
+            rs1.close();
+            conn.close();
+        }
+
 
         return error;
     }
@@ -108,46 +118,45 @@ public class sql {
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting memberID");
         } finally {
-            assert false;
             rs2.close();
+            conn.close();
         }
         return error;
     }
 
     public static void ChangePassword(String uname, String newPw) throws SQLException {
         conn = dbconnection();
-        int rs3 = 0;
+        Statement stmt = null;
         try {
-            String sqlNewPassword = ("update member set loginpw = '" + newPw + "' where email = '" + uname + "';");
-            System.out.println("önskad lösenord: " + newPw + "\ntill användare: " + uname);
-            rs3 = conn.createStatement().executeUpdate(sqlNewPassword);
+        conn.setAutoCommit(false);
+        stmt = conn.createStatement();
+        String sql = ("update member set loginpw = '" + newPw + "'where email = '"+ uname +"';");
+        stmt.executeUpdate(sql);
+        conn.commit();
+        String SQL = "select loginpw from member where email = '"+uname+"';";
+        ResultSet rs = stmt.executeQuery(SQL);
+        showMessageDialog(null,"Nytt lösenord: "+ rs);
+        rs.close();
+        stmt.close();
+        conn.close();
         } catch (SQLException e) {
-        } finally {
+            e.printStackTrace();
+        }
+        finally {
+            //finally block used to close resources
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
 
-            if (rs3 != 0) {
-                rs3.close();
             }
-            if (conn != null) {
-                try {
+            try{
+                if(conn!=null)
                     conn.close();
-                } catch (SQLException e) {
-
-                }
+            }catch(SQLException se){
+                se.printStackTrace();
             }
         }
-    }
-
-
-    public static void createRoom () throws SQLException {
-        try {
-            conn = dbconnection();
-            Statement st = conn.createStatement();
-            st.executeUpdate("insert into room (roomID, gymID) VALUES ('1','1')");
-        }
-        catch (SQLException e){
-            System.out.println(e.toString());
-        }
-
     }
 }
 
