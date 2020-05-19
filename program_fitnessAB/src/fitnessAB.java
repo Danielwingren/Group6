@@ -26,7 +26,6 @@ public class fitnessAB {
       myPanel.add(new JLabel("Password"));
       myPanel.add(pwField);
 
-      //while (true) {
          ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
          int result = JOptionPane.showConfirmDialog(null, myPanel, "Fitness AB login", JOptionPane.OK_CANCEL_OPTION,0,bild1);
          if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION){
@@ -45,7 +44,6 @@ public class fitnessAB {
          } else {
             System.exit(333);
          }
-      //}
    }
    private static void menu(String username) throws SQLException { //forslar vidare beroende medlem eller ej
       ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));

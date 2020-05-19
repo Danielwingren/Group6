@@ -40,7 +40,6 @@ public class sql {
         finally {
         rs.close();
         conn.close();
-        System.out.println("Vi nådde finally i password efter att ha klippt anslutningen");
     }
         return error;
     }
@@ -58,7 +57,6 @@ public class sql {
         } finally {
             rs.close();
             conn.close();
-            System.out.println("Vi nådde finally i password efter att ha klippt anslutningen");
         }
         return error;
     }
@@ -78,10 +76,9 @@ public class sql {
             assert rs != null;
             rs.close();
             conn.close();
-            System.out.println("Vi nådde finally i name");
+
         }
         return error;
-
     }
 
     public static int GetTier(String username) throws SQLException {
@@ -101,8 +98,6 @@ public class sql {
             rs1.close();
             conn.close();
         }
-
-
         return error;
     }
 
@@ -142,20 +137,6 @@ public class sql {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        /*finally {
-            try{
-                if(stmt!=null)
-                    stmt.close();
-            }catch(SQLException se2){
-
-            }
-            try{
-                if(conn!=null)
-                    conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }
-        }*/
     }
 }
 

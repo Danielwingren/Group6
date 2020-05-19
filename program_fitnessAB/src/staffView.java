@@ -19,7 +19,7 @@ public class staffView {
 
             JFrame frame = new JFrame();
             String[] options = new String[3];
-            options[0] = "Start classbooking program";
+            options[0] = "Add new member";
             options[1] = "Start member management program";
             options[2] = "Change your password";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
@@ -28,6 +28,7 @@ public class staffView {
             }
             switch (val) {
                 case 0 :
+                    addnewmember();
                     break;
                 case 1 :
                     staffView.EmployeeMembershipView(memberID, tier, uname, fnamn);
