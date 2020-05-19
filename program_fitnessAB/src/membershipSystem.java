@@ -1,5 +1,7 @@
 import javax.swing.*;
 import org.sqlite.SQLiteConfig;
+
+import java.awt.*;
 import java.sql.*;
 
 import static javax.swing.JOptionPane.*;
@@ -83,6 +85,7 @@ public class membershipSystem {
         showMessageDialog(null,"UNDER CONSTRUCTION");
 
         JPanel info = new JPanel();
+        info.setLayout(new GridLayout(5,1));
         String [] cardtype = {"MasterCard","American Express","VISA"};
         JTextField cardnumber = new JTextField(20);
         JTextField cvc = new JTextField(20);
@@ -99,6 +102,8 @@ public class membershipSystem {
         info.add(dateOfExp);
         info.add(new JLabel("Card Holder Name: "));
         info.add(cardHolderName);
+        info.add(new JLabel("Card Type: "));
+        info.add(cardtypes);
         int val = JOptionPane.showOptionDialog(null,info,"Payment Method",YES_NO_OPTION,INFORMATION_MESSAGE,null,null,null);
 
 
