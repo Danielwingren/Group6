@@ -76,8 +76,53 @@ public class staffView {
     }
     public static void addnewmember() {
         System.out.println("eh. BOOM");
-        JOptionPane.showMessageDialog(null, "Detta funkar nu");
 
+        JTextField fName = new JTextField(14);
+        JTextField lName = new JTextField(14);
+        JTextField cardNo = new JTextField(14);
+        JTextField tierType = new JTextField(14);
+        JTextField phone = new JTextField(14);
+        JTextField email = new JTextField(14);
+        JPasswordField loginpw = new JPasswordField(14);
+        JTextField creditCard = new JTextField(14);
+        JTextField pNr = new JTextField(14);
+        JTextField defaultGym = new JTextField(14);
+
+        JPanel myPanel = new JPanel();
+        //myPanel.add(bild);
+        myPanel.add(new JLabel("First Name"));
+        myPanel.add(fName);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Last Name"));
+        myPanel.add(lName);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Card no"));
+        myPanel.add(cardNo);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Tier"));
+        myPanel.add(tierType);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Phone"));
+        myPanel.add(phone);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Email"));
+        myPanel.add(email);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Password"));
+        myPanel.add(loginpw);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("creditCard"));
+        myPanel.add(creditCard);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Personnummer"));
+        myPanel.add(pNr);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        myPanel.add(new JLabel("Home Gym"));
+        myPanel.add(defaultGym);
+        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
+
+        ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
+        int result = JOptionPane.showConfirmDialog(null, myPanel, "Fitness AB login", JOptionPane.OK_CANCEL_OPTION,0,bild1);
 
 
     }
