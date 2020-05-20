@@ -91,6 +91,7 @@ public class staffView {
         myPanel.add(defaultGym);
         myPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
+
         String fNames = fName.getText();
         String lNames = lName.getText();
         String cardNumbers = cardNo.getText();
@@ -122,9 +123,11 @@ public class staffView {
         options[0] = "Change Password";
         options[1] = "Change payment method";
         options[2] = "Update contact information";
-        options[3] = "Back to membership menu";
+        options[3] = "Back to staff main menu";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Update Member Information",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
-
+        if (val == JOptionPane.CLOSED_OPTION) {
+            System.exit(11);
+        }
         switch (val) {
             case 0 :
                 membershipSystem.changePassword(memberID, tier, uname, fnamn);

@@ -72,7 +72,7 @@ public class fitnessAB {
          staffView.mainmenu(memberID, tier, fnamn, username);
       }
       else {
-         classbooking.memberscreen(fnamn, memberID, tier, fnamn, uname);
+         classbooking.memberscreen(memberID, tier, fnamn, uname);
       }
    }
    public static boolean sqlLogin(String uname, String pw) throws SQLException {
