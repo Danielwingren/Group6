@@ -52,46 +52,51 @@ public class staffView {
         JTextField tierType = new JTextField(14);
         JTextField phone = new JTextField(14);
         JTextField email = new JTextField(14);
-        JPasswordField loginpw = new JPasswordField(14);
+        JTextField loginpw = new JTextField(14);
         JTextField creditCard = new JTextField(14);
         JTextField pNr = new JTextField(14);
         JTextField defaultGym = new JTextField(14);
 
-        JPanel myPanel = new JPanel();
-        myPanel.setLayout(new GridLayout(5,1));
+        JPanel newmemberPanel = new JPanel();
+        newmemberPanel.setLayout(new GridLayout(5,1));
         //myPanel.add(bild);
-        myPanel.add(new JLabel("First Name"));
-        myPanel.add(fName);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Last Name"));
-        myPanel.add(lName);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Card no"));
-        myPanel.add(cardNo);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Tier"));
-        myPanel.add(tierType);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Phone"));
-        myPanel.add(phone);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Email"));
-        myPanel.add(email);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Password"));
-        myPanel.add(loginpw);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("creditCard"));
-        myPanel.add(creditCard);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Personnummer"));
-        myPanel.add(pNr);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        myPanel.add(new JLabel("Home Gym"));
-        myPanel.add(defaultGym);
-        myPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
+        newmemberPanel.add(new JLabel("First Name"));
+        newmemberPanel.add(fName);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Last Name"));
+        newmemberPanel.add(lName);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Card no"));
+        newmemberPanel.add(cardNo);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Tier"));
+        newmemberPanel.add(tierType);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Phone"));
+        newmemberPanel.add(phone);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Email"));
+        newmemberPanel.add(email);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Password"));
+        newmemberPanel.add(loginpw);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("creditCard"));
+        newmemberPanel.add(creditCard);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Personnummer"));
+        newmemberPanel.add(pNr);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newmemberPanel.add(new JLabel("Home Gym"));
+        newmemberPanel.add(defaultGym);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
+        ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
+        int result = JOptionPane.showConfirmDialog(null, newmemberPanel, "New member", JOptionPane.OK_CANCEL_OPTION,0,bild1);
+        if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
+            System.exit(22);
+        }
         String fNames = fName.getText();
         String lNames = lName.getText();
         String cardNumbers = cardNo.getText();
@@ -102,15 +107,11 @@ public class staffView {
         String creditCards = creditCard.getText();
         String personNummers = pNr.getText();
         String defaultGyms = defaultGym.getText();
-
-        System.out.println(phones + tiers + creditCards);
+        System.out.println(fNames);
 
         String addnewsql = "INSERT INTO member" +
-                "(\"memberID, \"fName\", \"lName\", \"card#\", \"tierType\", \"phone#\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
+                "(\"memberID\", \"fName\", \"lName\", \"card#\", \"tierType\", \"phone#\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
                 "VALUES ('"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+tiers+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
-
-        ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
-        int result = JOptionPane.showConfirmDialog(null, myPanel, "New member", JOptionPane.OK_CANCEL_OPTION,0,bild1);
         System.out.println(addnewsql);
         //sql.addnewmember(addnewsql);
     }
