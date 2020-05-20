@@ -69,7 +69,7 @@ public class fitnessAB {
       }
       System.out.println(fnamn+" inloggad som "+ tier +", med medlemsnummer "+memberID+" startar huvudmeny");
       if (tier == 5) {
-         staffView.mainmenu(memberID, fnamn, username);
+         staffView.mainmenu(memberID, tier, fnamn, username);
       }
       else {
          classbooking.memberscreen(fnamn, memberID, tier, fnamn, uname);

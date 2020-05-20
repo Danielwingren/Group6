@@ -177,6 +177,22 @@ public class sql {
         }
         return rs;
     }
+    public static void addnewmember (String sql) throws SQLException {
+        conn = dbconnection();
+        ResultSet rs = null;
+        String bookedQuery = "";
+        try {
+            bookedQuery = sql;
+            rs = conn.createStatement().executeQuery(bookedQuery);
+        } catch (SQLException e) {
+            showMessageDialog(null, "wtf is this");
+            System.out.println(e.toString());
+        }
+        finally {
+            conn.close();
+            rs.close();
+        }
+    }
 }
 
 

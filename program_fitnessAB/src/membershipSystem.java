@@ -75,7 +75,7 @@ public class membershipSystem {
         }
         }
         if (tier == 5) {
-            staffView.mainmenu(memberID, fnamn, uname);
+            staffView.mainmenu(memberID, tier, fnamn, uname);
         }
         else {
             UpdateInformation(memberID, tier, uname, fnamn);
