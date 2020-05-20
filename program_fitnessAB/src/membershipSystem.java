@@ -15,11 +15,12 @@ public class membershipSystem {
         }
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
-        String[] options = new String[4];
+        String[] options = new String[5];
         options[0] = "Change password";
         options[1] = "Change payment method";
         options[2] = "Update contact information";
         options[3] = "Back to main menu";
+        options[4] = "Payment history";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Update Member Information",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
@@ -37,6 +38,8 @@ public class membershipSystem {
             case 3 :
                 classbooking.memberscreen(memberID, tier, fnamn, uname);
                 break;
+            case 4 :
+                paymentHistory(memberID);
 
         }
     }
@@ -117,6 +120,12 @@ public class membershipSystem {
 
     }
     public static void updateContactInformation(String memberID) {
+
         showMessageDialog(null,"UNDER CONSTRUCTION");
+    }
+    public static void paymentHistory(String memberID){
+        showMessageDialog(null,"Här ska det stå payment history");
+        System.out.println(memberID);
+
     }
 }

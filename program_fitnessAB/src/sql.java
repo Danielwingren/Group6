@@ -120,6 +120,24 @@ public class sql {
         return error;
     }
 
+    /* public static int GetTransactionID(String username) throws SQLException {
+        ResultSet rs2 = null;
+        String error = "-";
+        try {
+            conn = dbconnection();
+
+            String sqlReadTransactionID = ("select transactionID from transaction where member.memberID = transaction.memberID and email ='" + username + "';");     // -
+            rs2 = conn.createStatement().executeQuery(sqlReadTransactionID);                         // - Dessa tre rader läser in medlemsID
+            return rs2.getString("transactionID");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting memberID");
+        } finally {
+            rs2.close();
+            conn.close();
+        }
+        return error;
+    } */
+
     public static void ChangePassword(String uname, String newPw) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
