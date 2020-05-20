@@ -46,6 +46,7 @@ public class staffView {
     public static void addnewmember() throws SQLException {
         System.out.println("eh. BOOM");
 
+        JTextField memberID = new JTextField(14);
         JTextField fName = new JTextField(14);
         JTextField lName = new JTextField(14);
         JTextField cardNo = new JTextField(14);
@@ -61,6 +62,9 @@ public class staffView {
         newmemberPanel.setLayout(new GridLayout(5,1));
         //myPanel.add(bild);
 
+        newmemberPanel.add(new JLabel("MemberID"));
+        newmemberPanel.add(memberID);
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newmemberPanel.add(new JLabel("First Name"));
         newmemberPanel.add(fName);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
@@ -97,6 +101,7 @@ public class staffView {
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
         }
+        String memberIDs = memberID.getText();
         String fNames = fName.getText();
         String lNames = lName.getText();
         String cardNumbers = cardNo.getText();
@@ -107,13 +112,12 @@ public class staffView {
         String creditCards = creditCard.getText();
         String personNummers = pNr.getText();
         String defaultGyms = defaultGym.getText();
-        System.out.println(fNames);
 
         String addnewsql = "INSERT INTO member" +
                 "(\"memberID\", \"fName\", \"lName\", \"card#\", \"tierType\", \"phone#\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
-                "VALUES ('"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+tiers+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
+                "VALUES ('"+memberIDs+"','"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+tiers+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
         System.out.println(addnewsql);
-        //sql.addnewmember(addnewsql);
+        sql.addnewmember(addnewsql);
     }
     public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
 

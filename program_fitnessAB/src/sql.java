@@ -199,10 +199,10 @@ public class sql {
     public static void addnewmember (String sql) throws SQLException {
         conn = dbconnection();
         ResultSet rs = null;
-        String bookedQuery = "";
+        String addMemberQuery = sql;
         try {
-            bookedQuery = sql;
-            rs = conn.createStatement().executeQuery(bookedQuery);
+            addMemberQuery = sql;
+            rs = conn.createStatement().executeQuery(addMemberQuery);
         } catch (SQLException e) {
             showMessageDialog(null, "wtf is this");
             System.out.println(e.toString());
