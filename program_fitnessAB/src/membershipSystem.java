@@ -19,18 +19,22 @@ public class membershipSystem {
         options[0] = "Change Password";
         options[1] = "Change payment method";
         options[2] = "Update contact information";
-        options[3] = "Back to membership menu";
+        options[3] = "Back to staff main menu";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Update Member Information",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
 
         switch (val) {
             case 0 :
                 changePassword(memberID, tier, uname, fnamn);
+                break;
             case 1 :
                 updatePaymentMethod(memberID);
+                break;
             case 2 :
                 updateContactInformation(memberID);
+                break;
             case 3 :
-
+                staffView.mainmenu(memberID, tier, fnamn, uname);
+                break;
 
         }
     }
