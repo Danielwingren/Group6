@@ -16,21 +16,27 @@ public class membershipSystem {
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
         String[] options = new String[4];
-        options[0] = "Change Password";
+        options[0] = "Change password";
         options[1] = "Change payment method";
         options[2] = "Update contact information";
-        options[3] = "Back to membership menu";
+        options[3] = "Back to main menu";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Update Member Information",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
-
+        if (val == JOptionPane.CLOSED_OPTION) {
+            System.exit(11);
+        }
         switch (val) {
             case 0 :
                 changePassword(memberID, tier, uname, fnamn);
+                break;
             case 1 :
                 updatePaymentMethod(memberID);
+                break;
             case 2 :
                 updateContactInformation(memberID);
+                break;
             case 3 :
-
+                classbooking.memberscreen(memberID, tier, fnamn, uname);
+                break;
 
         }
     }

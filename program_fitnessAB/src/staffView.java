@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class staffView {
     public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
@@ -90,6 +91,7 @@ public class staffView {
         myPanel.add(defaultGym);
         myPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
+
         String fNames = fName.getText();
         String lNames = lName.getText();
         String cardNumbers = cardNo.getText();
@@ -121,9 +123,11 @@ public class staffView {
         options[0] = "Change Password";
         options[1] = "Change payment method";
         options[2] = "Update contact information";
-        options[3] = "Back to membership menu";
+        options[3] = "Back to staff main menu";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Update Member Information",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
-
+        if (val == JOptionPane.CLOSED_OPTION) {
+            System.exit(11);
+        }
         switch (val) {
             case 0 :
                 membershipSystem.changePassword(memberID, tier, uname, fnamn);
