@@ -104,6 +104,8 @@ public class membershipSystem {
         info.add(cardHolderName);
         info.add(new JLabel("Card Type: "));
         info.add(cardtypes);
+        String summan = cardnumber + cvc + dateOfExp;
+        System.out.println(summan);
         int val = JOptionPane.showOptionDialog(null,info,"Payment Method",YES_NO_OPTION,INFORMATION_MESSAGE,null,null,null);
 
 
