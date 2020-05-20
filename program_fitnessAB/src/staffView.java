@@ -110,7 +110,7 @@ public class staffView {
                 "VALUES ('"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+tiers+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
 
         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
-        int result = JOptionPane.showConfirmDialog(null, myPanel, "Fitness AB login", JOptionPane.OK_CANCEL_OPTION,0,bild1);
+        int result = JOptionPane.showConfirmDialog(null, myPanel, "New member", JOptionPane.OK_CANCEL_OPTION,0,bild1);
         System.out.println(addnewsql);
         //sql.addnewmember(addnewsql);
     }

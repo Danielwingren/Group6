@@ -138,6 +138,7 @@ public class sql {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        fitnessAB.login();
     }
     public static ResultSet ViewAllClasses () throws SQLException {
         conn = dbconnection();

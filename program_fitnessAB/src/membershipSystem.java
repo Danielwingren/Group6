@@ -77,7 +77,7 @@ public class membershipSystem {
             }
         }
         else {
-            showMessageDialog(null, "New password doesn't match", "Error", JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(null, "Wrong input of old password", "Error", JOptionPane.ERROR_MESSAGE);
         }
         }
         if (tier == 5) {
