@@ -126,6 +126,10 @@ public class membershipSystem {
     public static void paymentHistory(String memberID){
         showMessageDialog(null,"Här ska det stå payment history");
         System.out.println(memberID);
-
+        try {
+            sql.GetTransactionID(memberID);
+        } catch (SQLException e) {
+            System.out.println("Fel?");
+        }
     }
 }
