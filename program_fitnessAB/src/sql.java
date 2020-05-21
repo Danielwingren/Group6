@@ -165,7 +165,7 @@ public class sql {
         ResultSet rs = null;
         String query = "";
         try {
-            query = "select className, time, date, room.roomID, instructor.fName FROM class natural join instructor natural join room;";
+            query = "select className, time, date, room.roomID, instructor.name FROM class natural join instructor natural join room;";
             rs = conn.createStatement().executeQuery(query);
         }
         catch (SQLException e) {

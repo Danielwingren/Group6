@@ -126,7 +126,7 @@ public class membershipSystem {
     public static void paymentHistory(String memberID){
         showMessageDialog(null,"Här ska det stå payment history");
         System.out.println(memberID);
-        try {
+        try { // finns det någon anledning till att vi inte kör try/catch:en i sql.java? :)
             sql.GetTransactionID(memberID);
         } catch (SQLException e) {
             System.out.println("Fel?");

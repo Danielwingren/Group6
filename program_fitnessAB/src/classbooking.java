@@ -45,7 +45,7 @@ public class classbooking {
             str.append("\tStart time:" + rs.getInt("time") + "\t, ");
             str.append("\tDate: " + rs.getInt("date") + "\t, ");
             str.append("\tRoom: " + rs.getInt("roomID") + "\t, ");
-            str.append("\tIntructor: " + rs.getString("fName") + "\t, ");
+            str.append("\tIntructor: " + rs.getString("name") + "\t, ");
             str.append("\n");
         }
         JOptionPane.showMessageDialog(null,(str.toString()));
