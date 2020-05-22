@@ -68,7 +68,7 @@ public class staffView {
         newmemberPanel.add(new JLabel("Last Name"));
         newmemberPanel.add(lName);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        newmemberPanel.add(new JLabel("Card no"));
+        newmemberPanel.add(new JLabel("Gym card no"));
         newmemberPanel.add(cardNo);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newmemberPanel.add(new JLabel("Tier"));
@@ -116,9 +116,10 @@ public class staffView {
         String memberIDs = memberID.getText();
         String addnewsql = "INSERT INTO member" +
                 "(\"memberID\", \"fName\", \"lName\", \"card#\", \"tierType\", \"phone#\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
-                "VALUES ('"+memberIDs+"''"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+tiers+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
+                "VALUES ('"+memberIDs+"','"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
         System.out.println(addnewsql);
-        sql.addnewmember(addnewsql);
+        String name = fNames + " " + lNames;
+        sql.addnewmember(addnewsql, name);
     }
     public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
 
@@ -140,7 +141,7 @@ public class staffView {
             case 1 :
                 membershipSystem.updatePaymentMethod(memberID);
             case 2 :
-                membershipSystem.updateContactInformation(memberID);
+                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn);
             case 3 :
                 staffView.mainmenu(memberID, tier, uname, fnamn);
 

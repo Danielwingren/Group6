@@ -198,23 +198,28 @@ public class sql {
         }
         return rs;
     }
-    public static void addnewmember (String sql) throws SQLException {
+    public static void addnewmember (String sqladd, String name) throws SQLException {
         conn = dbconnection();
-        ResultSet rs = null;
-        String addMemberQuery = sql;
+        Statement stmt = null;
         try {
-            addMemberQuery = sql;
-            rs = conn.createStatement().executeQuery(addMemberQuery);
-        } catch (SQLException e) {
-            showMessageDialog(null, "wtf is this");
-            System.out.println(e.toString());
-        }
-        finally {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = (sqladd);
+            stmt.executeUpdate(sql);
+            conn.commit();
+            stmt.close();
             conn.close();
-            rs.close();
+            JOptionPane.showMessageDialog(null, "Success!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            staffView.addnewmember();
         }
+        System.out.println("korv");
     }
 }
+
+
 
 
 
