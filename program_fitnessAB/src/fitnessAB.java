@@ -9,7 +9,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class fitnessAB {
    public static void main (String [] arg) throws SQLException {
-
+      //String memberID = "3";
+      //classbooking.bookClass(memberID);
       sql.dbconnection();
       login();
    }

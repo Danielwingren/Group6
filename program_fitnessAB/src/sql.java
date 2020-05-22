@@ -120,25 +120,22 @@ public class sql {
         return error;
     }
 
-    public static int GetPaymentHistory(String memberID) throws SQLException {
-        ResultSet rs2 = null;
-        int error = 0;
+    public static ResultSet GetPaymentHistory(String memberID) throws SQLException {
+        ResultSet rs = null;
         try {
             conn = dbconnection();
 
-            String sqlReadPaymentHistory = ("select date, name from Transaction where email ='" + memberID + "';");     // -
-            rs2 = conn.createStatement().executeQuery(sqlReadPaymentHistory);                         // - Dessa tre rader läser in transactionID
-            String transac = rs2.getString("date, name");
-            int transaction = Integer.parseInt(transac);
-            return transaction;
+            String sqlReadPaymentHistory = ("select date, amount from payments where memberID ='" + memberID + "';");     // -
+            rs = conn.createStatement().executeQuery(sqlReadPaymentHistory);                         // - Dessa tre rader läser in transactionID
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting payment history");
             System.out.println(e);
         } finally {
-            rs2.close();
+            assert rs != null;
+            rs.close();
             conn.close();
         }
-        return error;
+        return rs;
     }
 
     public static void ChangePassword(String uname, String newPw) throws SQLException {
@@ -216,6 +213,25 @@ public class sql {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Något gick fel!");
             staffView.addnewmember();
+        }
+        System.out.println("korv");
+    }
+    public static void createClass (String classsql) throws SQLException {
+        conn = dbconnection();
+        Statement stmt = null;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = (classsql);
+            stmt.executeUpdate(sql);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Sucess! Class added!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something went wrong, please try again!");
+            staffView.createclass();
         }
         System.out.println("korv");
     }

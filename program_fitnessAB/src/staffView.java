@@ -148,7 +148,7 @@ public class staffView {
     public static void addnewcertificate () {
 
     }
-    public static void createclass () {
+    public static void createclass () throws SQLException {
         System.out.println("system activated: superbiff 3000 starting...");
 
         JTextField classID = new JTextField(14);
@@ -193,11 +193,13 @@ public class staffView {
         String availableSlots = availableSlot.getText();
         String instructorIDs = instructorID.getText();
 
-        String newclasssql = "INSERT INTO member" +
+        String newclasssql = "INSERT INTO class" +
                 "(\"classID\", \"className\", \"time\", \"date\", \"availableSlots\", \"InstructorID\")" +
                 "VALUES ('"+classIDs+"','"+classNames+"', '"+times+"', '"+dates+"', '"+availableSlots+"', '"+instructorIDs+"');";
 
         System.out.println(newclasssql);
+
+        sql.createClass(newclasssql);
     }
 }
 
