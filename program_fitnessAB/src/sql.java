@@ -120,20 +120,19 @@ public class sql {
         return error;
     }
 
-    public static int GetPaymentHistory(String memberID) throws SQLException {
+    public static int GetTransactionID(String memberID) throws SQLException {
         ResultSet rs2 = null;
         int error = 0;
         try {
             conn = dbconnection();
 
-            String sqlReadPaymentHistory = ("select date, amount from Transaction where email ='" + memberID + "';");     // -
-            rs2 = conn.createStatement().executeQuery(sqlReadPaymentHistory);                         // - Dessa tre rader läser in payment history
-            String transac = rs2.getString("date, name");
+            String sqlReadTransactionID = ("select transactionID from Transaction join member on transaction where email ='" + memberID + "';");     // -
+            rs2 = conn.createStatement().executeQuery(sqlReadTransactionID);                         // - Dessa tre rader läser in transactionID
+            String transac = rs2.getString("transactionID");
             int transaction = Integer.parseInt(transac);
             return transaction;
         } catch (SQLException e) {
-            showMessageDialog(null, "Error getting payment history");
-            System.out.println(e);
+            showMessageDialog(null, "Error getting transactionID");
         } finally {
             rs2.close();
             conn.close();
