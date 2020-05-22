@@ -40,6 +40,7 @@ public class membershipSystem {
                 break;
             case 3:
                 paymentHistory(memberID);
+                break;
 
         }
     }
