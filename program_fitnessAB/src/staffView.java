@@ -157,7 +157,55 @@ public class staffView {
 
     }
     public static void createclass () {
-        JOptionPane.showMessageDialog(null, "Create a class");
+        System.out.println("system activated: superbiff 3000 starting...");
+
+        JTextField classID = new JTextField(14);
+        JTextField className = new JTextField(14);
+        JTextField time = new JTextField(14);
+        JTextField date = new JTextField(14);
+        JTextField availableSlot = new JTextField(14);
+        JTextField instructorID = new JTextField(14);
+
+        JPanel newclassPanel = new JPanel();
+        newclassPanel.setLayout(new GridLayout(6,1));
+
+        newclassPanel.add(new JLabel("classID"));
+        newclassPanel.add(classID);
+        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newclassPanel.add(new JLabel("Class Name"));
+        newclassPanel.add(className);
+        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newclassPanel.add(new JLabel("Time HHMM"));
+        newclassPanel.add(time);
+        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newclassPanel.add(new JLabel("Date YYYYMMDD"));
+        newclassPanel.add(date);
+        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newclassPanel.add(new JLabel("Available Slots"));
+        newclassPanel.add(availableSlot);
+        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newclassPanel.add(new JLabel("instructorID"));
+        newclassPanel.add(instructorID);
+        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
+
+        ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
+        int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New member", JOptionPane.OK_CANCEL_OPTION,0,bild1);
+        if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
+            System.exit(22);
+        }
+
+        String classIDs = classID.getText();
+        String classNames = className.getText();
+        String times = time.getText();
+        String dates = date.getText();
+        String availableSlots = availableSlot.getText();
+        String instructorIDs = instructorID.getText();
+
+        String newclasssql = "INSERT INTO member" +
+                "(\"classID\", \"className\", \"time\", \"date\", \"availableSlots\", \"InstructorID\")" +
+                "VALUES ('"+classIDs+"','"+classNames+"', '"+times+"', '"+dates+"', '"+availableSlots+"', '"+instructorIDs+"');";
+
+        System.out.println(newclasssql);
     }
 }
 
