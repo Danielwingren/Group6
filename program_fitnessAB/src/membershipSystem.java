@@ -39,7 +39,7 @@ public class membershipSystem {
                 classbooking.memberscreen(memberID, tier, fnamn, uname);
                 break;
             case 4 :
-                paymentHistory(memberID);
+                viewPaymentHistory(memberID);
 
         }
     }
@@ -123,13 +123,9 @@ public class membershipSystem {
 
         showMessageDialog(null,"UNDER CONSTRUCTION");
     }
-    public static void paymentHistory(String memberID){
+    public static void viewPaymentHistory(String memberID) throws SQLException {
         showMessageDialog(null,"Här ska det stå payment history");
-        System.out.println(memberID);
-        try { // finns det någon anledning till att vi inte kör try/catch:en i sql.java? :)
-            sql.GetTransactionID(memberID);
-        } catch (SQLException e) {
-            System.out.println("Fel?");
-        }
+        int paymentH = sql.GetPaymentHistory(memberID);
+        showMessageDialog(null, paymentH);
     }
 }

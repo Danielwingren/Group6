@@ -23,7 +23,7 @@ public class staffView {
             String[] options = new String[3];
             options[0] = "Add new member";
             options[1] = "Update member information";
-            options[2] = "Change your password";
+            options[2] = "Add new certificate";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -36,17 +36,16 @@ public class staffView {
                     staffView.UpdateInformation(memberID, tier, uname, fnamn);
                     break;
                 case 2 :
-                    membershipSystem.changePassword(memberID, tier, uname, fnamn);
+                    addnewcertificate();
                     break;
             }
-            break;
         }
     }
 
     public static void addnewmember() throws SQLException {
         System.out.println("eh. BOOM");
 
-        JTextField memberID = new JTextField(14);
+
         JTextField fName = new JTextField(14);
         JTextField lName = new JTextField(14);
         JTextField cardNo = new JTextField(14);
@@ -57,14 +56,12 @@ public class staffView {
         JTextField creditCard = new JTextField(14);
         JTextField pNr = new JTextField(14);
         JTextField defaultGym = new JTextField(14);
-
+        JTextField memberID = new JTextField(14);
         JPanel newmemberPanel = new JPanel();
-        newmemberPanel.setLayout(new GridLayout(5,1));
+        newmemberPanel.setLayout(new GridLayout(5,2));
         //myPanel.add(bild);
 
-        newmemberPanel.add(new JLabel("MemberID"));
-        newmemberPanel.add(memberID);
-        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
+
         newmemberPanel.add(new JLabel("First Name"));
         newmemberPanel.add(fName);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
@@ -94,6 +91,9 @@ public class staffView {
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newmemberPanel.add(new JLabel("Home Gym"));
         newmemberPanel.add(defaultGym);
+
+        newmemberPanel.add(new JLabel("MemberID"));
+        newmemberPanel.add(memberID);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
@@ -101,7 +101,7 @@ public class staffView {
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
         }
-        String memberIDs = memberID.getText();
+
         String fNames = fName.getText();
         String lNames = lName.getText();
         String cardNumbers = cardNo.getText();
@@ -112,10 +112,10 @@ public class staffView {
         String creditCards = creditCard.getText();
         String personNummers = pNr.getText();
         String defaultGyms = defaultGym.getText();
-
+        String memberIDs = memberID.getText();
         String addnewsql = "INSERT INTO member" +
                 "(\"memberID\", \"fName\", \"lName\", \"card#\", \"tierType\", \"phone#\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
-                "VALUES ('"+memberIDs+"','"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+tiers+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
+                "VALUES ('"+memberIDs+"''"+fNames+"', '"+lNames+"', '"+cardNumbers+"', '"+tiers+"', '"+phones+"', '"+tiers+"', '"+emails+"', '"+passwords+"', '"+creditCards+"', '"+personNummers+"', '"+defaultGyms+"');";
         System.out.println(addnewsql);
         sql.addnewmember(addnewsql);
     }
@@ -144,6 +144,9 @@ public class staffView {
                 staffView.mainmenu(memberID, tier, uname, fnamn);
 
         }
+    }
+    public static void addnewcertificate () {
+
     }
 }
 
