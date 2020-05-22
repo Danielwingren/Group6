@@ -62,7 +62,10 @@ public class fitnessAB {
          String[] options = new String[2];
          options[0] = "Log in as staff";
          options[1] = "Log in as member";
-         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose options below:", "Choose login view", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
+         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose options below:", "Select login view", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
+         if (val == JOptionPane.CLOSED_OPTION) {
+            System.exit(11);
+         }
          if (val == 1) {
             tier = (tier - 1);
          }

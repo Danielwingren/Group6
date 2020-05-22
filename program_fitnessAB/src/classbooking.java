@@ -13,11 +13,12 @@ public class classbooking {
     public static void memberscreen (String memberID, int tier, String fnamn, String uname) throws SQLException {
 
         JFrame frame = new JFrame();
-        String[] options = new String[3];
+        String[] options = new String[4];
         options[0] = "See all classes";
         options[1] = "See booked classes";
         options[2] = "Update Account information";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". Would you like to view classes or see already booked classes?\n", "Member ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        options [3] = "Log out";
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\n", "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
@@ -28,9 +29,13 @@ public class classbooking {
                 break;
             case 1 :
                 seeBookedClasses(memberID);
+                break;
 
             case 2 :
                 membershipSystem.UpdateInformation(memberID, tier, uname, fnamn);
+                break;
+            case 3 :
+                fitnessAB.login();
 
         }
     }
