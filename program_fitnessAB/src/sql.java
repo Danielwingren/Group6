@@ -54,7 +54,7 @@ public class sql {
 
             return rs.getString("loginpw");
         } catch (SQLException e) {
-            showMessageDialog(null, "Catch on reading old password");
+
         } finally {
             rs.close();
             conn.close();
@@ -207,7 +207,7 @@ public class sql {
             conn.commit();
             stmt.close();
             conn.close();
-            JOptionPane.showMessageDialog(null, "Success!");
+            JOptionPane.showMessageDialog(null, "Success! " + name + " is now a registered member");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Något gick fel!");
