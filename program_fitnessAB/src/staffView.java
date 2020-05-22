@@ -20,11 +20,12 @@ public class staffView {
         while (true) {
 
             JFrame frame = new JFrame();
-            String[] options = new String[4];
+            String[] options = new String[5];
             options[0] = "Add new member";
             options[1] = "Update member information";
             options[2] = "Add new certificate";
             options[3] = "Logout";
+            options[4] = "Create a class";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -41,6 +42,8 @@ public class staffView {
                     break;
                 case 3 :
                     fitnessAB.login();
+                case 4 :
+                    staffView.createclass();
             }
         }
     }
@@ -152,6 +155,9 @@ public class staffView {
     }
     public static void addnewcertificate () {
 
+    }
+    public static void createclass () {
+        JOptionPane.showMessageDialog(null, "Create a class");
     }
 }
 
