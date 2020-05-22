@@ -70,6 +70,11 @@ public class classbooking {
         }
     }
 
+    public static void bookClass (String memberID) {
+
+
+
+    }
 
 
 
