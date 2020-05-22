@@ -23,7 +23,7 @@ public class staffView {
             String[] options = new String[3];
             options[0] = "Add new member";
             options[1] = "Update member information";
-            options[2] = "Change your password";
+            options[2] = "Add new certificate";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -36,10 +36,9 @@ public class staffView {
                     staffView.UpdateInformation(memberID, tier, uname, fnamn);
                     break;
                 case 2 :
-                    membershipSystem.changePassword(memberID, tier, uname, fnamn);
+                    addnewcertificate();
                     break;
             }
-            break;
         }
     }
 
@@ -145,6 +144,9 @@ public class staffView {
                 staffView.mainmenu(memberID, tier, uname, fnamn);
 
         }
+    }
+    public static void addnewcertificate () {
+
     }
 }
 

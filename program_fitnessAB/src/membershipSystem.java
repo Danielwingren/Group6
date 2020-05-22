@@ -123,7 +123,7 @@ public class membershipSystem {
 
         showMessageDialog(null,"UNDER CONSTRUCTION");
     }
-    public static void paymentHistory(String memberID){
+    public static void paymentHistory(String memberID) throws SQLException {
         showMessageDialog(null,"Här ska det stå payment history");
         System.out.println(memberID);
         try { // finns det någon anledning till att vi inte kör try/catch:en i sql.java? :)
