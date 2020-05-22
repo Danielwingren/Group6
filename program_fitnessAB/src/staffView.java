@@ -96,6 +96,7 @@ public class staffView {
         newmemberPanel.add(memberID);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
+
         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newmemberPanel, "New member", JOptionPane.OK_CANCEL_OPTION,0,bild1);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
