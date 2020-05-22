@@ -120,25 +120,22 @@ public class sql {
         return error;
     }
 
-    public static int GetPaymentHistory(String memberID) throws SQLException {
-        ResultSet rs2 = null;
-        int error = 0;
+    public static ResultSet GetPaymentHistory(String memberID) throws SQLException {
+        ResultSet rs = null;
         try {
             conn = dbconnection();
 
-            String sqlReadPaymentHistory = ("select date, name from Transaction where email ='" + memberID + "';");     // -
-            rs2 = conn.createStatement().executeQuery(sqlReadPaymentHistory);                         // - Dessa tre rader läser in transactionID
-            String transac = rs2.getString("date, name");
-            int transaction = Integer.parseInt(transac);
-            return transaction;
+            String sqlReadPaymentHistory = ("select date, amount from payments where memberID ='" + memberID + "';");     // -
+            rs = conn.createStatement().executeQuery(sqlReadPaymentHistory);                         // - Dessa tre rader läser in transactionID
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting payment history");
             System.out.println(e);
         } finally {
-            rs2.close();
+            assert rs != null;
+            rs.close();
             conn.close();
         }
-        return error;
+        return rs;
     }
 
     public static void ChangePassword(String uname, String newPw) throws SQLException {
