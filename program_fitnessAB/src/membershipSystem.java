@@ -18,7 +18,7 @@ public class membershipSystem {
         String[] options = new String[5];
         options[0] = "Change password";
         options[1] = "Change payment method";
-        options[2] = "Update contact information";
+        options[2] = "View contact information";
         options[3] = "Back to main menu";
         options[4] = "Payment history";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Update Member Information",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
@@ -33,7 +33,7 @@ public class membershipSystem {
                 updatePaymentMethod(memberID);
                 break;
             case 2 :
-                updateContactInformation(memberID);
+                ViewContactInformation(memberID);
                 break;
             case 3 :
                 classbooking.memberscreen(memberID, tier, fnamn, uname);
@@ -119,9 +119,10 @@ public class membershipSystem {
 
 
     }
-    public static void updateContactInformation(String memberID) {
+    public static void ViewContactInformation(String memberID) {
 
         showMessageDialog(null,"UNDER CONSTRUCTION");
+
     }
     public static void paymentHistory(String memberID) throws SQLException {
         showMessageDialog(null,"Här ska det stå payment history");

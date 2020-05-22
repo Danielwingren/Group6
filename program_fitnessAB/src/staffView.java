@@ -58,7 +58,7 @@ public class staffView {
         JTextField defaultGym = new JTextField(14);
         JTextField memberID = new JTextField(14);
         JPanel newmemberPanel = new JPanel();
-        newmemberPanel.setLayout(new GridLayout(5,2));
+        newmemberPanel.setLayout(new GridLayout(12,1));
         //myPanel.add(bild);
 
 
@@ -91,7 +91,7 @@ public class staffView {
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newmemberPanel.add(new JLabel("Home Gym"));
         newmemberPanel.add(defaultGym);
-
+        newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newmemberPanel.add(new JLabel("MemberID"));
         newmemberPanel.add(memberID);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer

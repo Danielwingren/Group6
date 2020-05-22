@@ -41,11 +41,11 @@ public class classbooking {
         JOptionPane.showMessageDialog(null,rs);
         StringBuilder str = new StringBuilder();
         while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:\t " + rs.getString("className"));
-            str.append("\tStart time:" + rs.getInt("time"));
-            str.append("\tDate: " + rs.getInt("date"));
-            str.append("\tRoom: " + rs.getInt("roomID"));
-            str.append("\tIntructor: " + rs.getString("name"));
+            str.append("Name:").append(rs.getString("className"));
+            str.append("Start time:").append(rs.getInt("time"));
+            str.append("Date: ").append(rs.getInt("date"));
+            str.append("Room: ").append(rs.getInt("roomID"));
+            str.append("Intructor: ").append(rs.getString("name"));
             str.append("\n");
         }
         String resultat = (str.toString());
