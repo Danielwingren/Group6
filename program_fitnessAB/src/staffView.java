@@ -1,19 +1,10 @@
-import org.sqlite.SQLiteConfig;
-
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class staffView {
-    public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
-    public static final String DRIVER = "org.sqlite.JDBC";
-    static Connection conn = null;
-
     public static void mainmenu (String memberID, int tier, String fnamn, String uname) throws SQLException {
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));
         tier = sql.GetTier(uname);
@@ -24,8 +15,8 @@ public class staffView {
             options[0] = "Add new member";
             options[1] = "Update member information";
             options[2] = "Add new certificate";
-            options[3] = "Logout";
-            options[4] = "Create a class";
+            options[4] = "Logout";
+            options[3] = "Create a class";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -40,9 +31,9 @@ public class staffView {
                 case 2 :
                     addnewcertificate();
                     break;
-                case 3 :
-                    fitnessAB.login();
                 case 4 :
+                    fitnessAB.login();
+                case 3 :
                     staffView.createclass();
             }
         }
@@ -130,6 +121,7 @@ public class staffView {
     public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
 
         String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
+
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
         String[] options = new String[4];
