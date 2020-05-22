@@ -218,6 +218,25 @@ public class sql {
         }
         System.out.println("korv");
     }
+    public static void createClass (String classsql) throws SQLException {
+        conn = dbconnection();
+        Statement stmt = null;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = (classsql);
+            stmt.executeUpdate(sql);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Sucess! Class added!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something went wrong, please try again!");
+            staffView.createclass();
+        }
+        System.out.println("korv");
+    }
 }
 
 
