@@ -1,6 +1,8 @@
 import javax.swing.*;
 
 import org.sqlite.SQLiteConfig;
+
+import java.awt.*;
 import java.sql.*;
 
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -71,8 +73,15 @@ public class classbooking {
     }
 
     public static void bookClass (String memberID) {
+        int x = 5;
+        String class1 = "";
+        JPanel bookclasspanel = new JPanel();
+        bookclasspanel.setLayout(new GridLayout(10,1));
 
+        for (int i = 0; i <= x; i++) {
+            JLabel info = new JLabel("Class: "+class1);
 
+        }
 
     }
 
