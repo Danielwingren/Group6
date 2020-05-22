@@ -120,13 +120,13 @@ public class sql {
         return error;
     }
 
-    public static int GetTransactionID(String username) throws SQLException {
+    public static int GetTransactionID(String memberID) throws SQLException {
         ResultSet rs2 = null;
         int error = 0;
         try {
             conn = dbconnection();
 
-            String sqlReadTransactionID = ("select transactionID from transaction join member on transaction where email ='" + username + "';");     // -
+            String sqlReadTransactionID = ("select transactionID from Transaction join member on transaction where email ='" + memberID + "';");     // -
             rs2 = conn.createStatement().executeQuery(sqlReadTransactionID);                         // - Dessa tre rader läser in transactionID
             String transac = rs2.getString("transactionID");
             int transaction = Integer.parseInt(transac);
