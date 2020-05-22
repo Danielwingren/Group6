@@ -126,9 +126,14 @@ public class membershipSystem {
     }
 
     public static void paymentHistory(String memberID) throws SQLException {
-        showMessageDialog(null, "Här ska det stå payment history");
-        System.out.println(memberID);
-        int paymentH = sql.GetPaymentHistory(memberID);
-        showMessageDialog(null, paymentH);
+        //showMessageDialog(null, "Här ska det stå payment history");
+        ResultSet rs = sql.GetPaymentHistory(memberID);
+        //showMessageDialog(null, rs);
+        while(rs.next()) {
+            String date = rs.getString("date");
+            String amount = rs.getString("amount");
+
+            showMessageDialog(null, date + amount);
+        }
     }
 }
