@@ -45,13 +45,15 @@ public class classbooking {
         ResultSet rs = sql.ViewAllClasses();
         JOptionPane.showMessageDialog(null,rs);
         StringBuilder str = new StringBuilder();
+        String Class = rs.getString("className");
+        JOptionPane.showMessageDialog(null,Class);
         while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:").append(rs.getString("className"));
-            str.append("Start time:").append(rs.getInt("time"));
-            str.append("Date: ").append(rs.getInt("date"));
-            str.append("Room: ").append(rs.getInt("roomID"));
-            str.append("Intructor: ").append(rs.getString("name"));
-            str.append("\n");
+            str.append("Name:"+rs.getString("className"));
+            str.append("Start time:"+rs.getString("time"));
+            str.append("Date: "+rs.getString("date"));
+            str.append("Room: "+rs.getInt("roomID"));
+            str.append("Intructor firstname: "+rs.getString("fName"));
+            str.append("Intructor lastname: "+rs.getString("lName"));
         }
         String resultat = (str.toString());
         JOptionPane.showMessageDialog(null,(str.toString())+"här är strängen --> " + resultat);
@@ -61,12 +63,12 @@ public class classbooking {
         JOptionPane.showMessageDialog(null,rs);
         StringBuilder str = new StringBuilder();
         while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:\t " + rs.getString("className")+ "\t, ");
-            str.append("\tStart time:" + rs.getInt("time") + "\t, ");
-            str.append("\tDate: " + rs.getInt("date") + "\t, ");
-            str.append("\tRoom: " + rs.getInt("roomID") + "\t, ");
-            str.append("\tIntructor: " + rs.getString("fName") + "\t, ");
-            str.append("\n");
+            str.append("Name:").append(rs.getString("class.className"));
+            str.append("Start time:").append(rs.getString("class.time"));
+            str.append("Date: ").append(rs.getString("class.date"));
+            str.append("Room: ").append(rs.getInt("class.roomID"));
+            str.append("Intructor firstname: ").append(rs.getString("member.fname"));
+            str.append("Intructor lastname: ").append(rs.getString("member.lname"));
         }
     }
 
