@@ -140,7 +140,7 @@ public class staffView {
             case 1 :
                 membershipSystem.updatePaymentMethod(memberID);
             case 2 :
-                membershipSystem.updateContactInformation(memberID);
+                updateContactInformation(memberID);
             case 3 :
                 staffView.mainmenu(memberID, tier, uname, fnamn);
 
@@ -148,6 +148,8 @@ public class staffView {
     }
     public static void addnewcertificate () {
 
+    }
+    public static void updateContactInformation(String memberID) {
     }
 }
 

@@ -8,7 +8,7 @@ import static javax.swing.JOptionPane.*;
 
 public class membershipSystem {
 
-    public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
+    public static void UpdateInformation(String memberID, int tier, String uname, String fnamn) throws SQLException {
 
         if (tier == 5) {
             String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
@@ -21,31 +21,32 @@ public class membershipSystem {
         options[2] = "View contact information";
         options[3] = "Back to main menu";
         options[4] = "Payment history";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(),"Choose what information to update","Update Member Information",0,JOptionPane.INFORMATION_MESSAGE,icon,options,null);
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Choose what information to update", "Update Member Information", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
         }
         switch (val) {
-            case 0 :
+            case 0:
                 changePassword(memberID, tier, uname, fnamn);
                 break;
-            case 1 :
+            case 1:
                 updatePaymentMethod(memberID);
                 break;
-            case 2 :
+            case 2:
                 ViewContactInformation(memberID);
                 break;
-            case 3 :
+            case 3:
                 classbooking.memberscreen(memberID, tier, fnamn, uname);
                 break;
-            case 4 :
+            case 4:
                 paymentHistory(memberID);
 
         }
     }
-    public static void changePassword (String memberID, int tier, String uname, String fnamn) throws SQLException {
+
+    public static void changePassword(String memberID, int tier, String uname, String fnamn) throws SQLException {
         String checkOld = sql.GetPassword(memberID);
-        String newPw= null;
+        String newPw = null;
         String checkNewPw = null;
         String originalpw = null;
 
@@ -61,41 +62,40 @@ public class membershipSystem {
         myPanel.add(newPassword);
         myPanel.add(new JLabel("Confirm new password"));
         myPanel.add(newPasswordControl);
-        while(true) {
-        int result = JOptionPane.showConfirmDialog(null, myPanel,
-                "Enter information below", JOptionPane.OK_CANCEL_OPTION);
-        if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION)
-            UpdateInformation(memberID, tier, uname, fnamn);
-        else if  (result == JOptionPane.OK_OPTION) {
-            checkOld = oldPassword.getText();
-            newPw = newPassword.getText();
-            checkNewPw = newPasswordControl.getText();
-            originalpw = sql.GetPassword(uname);
-        }
-        if (checkOld.equals(originalpw)) {
-            assert newPw != null;
-            if (newPw.equals(checkNewPw)) {
-                sql.ChangePassword(uname, newPw);
-                break;
+        while (true) {
+            int result = JOptionPane.showConfirmDialog(null, myPanel,
+                    "Enter information below", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION)
+                UpdateInformation(memberID, tier, uname, fnamn);
+            else if (result == JOptionPane.OK_OPTION) {
+                checkOld = oldPassword.getText();
+                newPw = newPassword.getText();
+                checkNewPw = newPasswordControl.getText();
+                originalpw = sql.GetPassword(uname);
             }
-        }
-        else {
-            showMessageDialog(null, "Wrong input of old password", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+            if (checkOld.equals(originalpw)) {
+                assert newPw != null;
+                if (newPw.equals(checkNewPw)) {
+                    sql.ChangePassword(uname, newPw);
+                    break;
+                }
+            } else {
+                showMessageDialog(null, "Wrong input of old password", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         if (tier == 5) {
             staffView.mainmenu(memberID, tier, fnamn, uname);
-        }
-        else {
+        } else {
             UpdateInformation(memberID, tier, uname, fnamn);
         }
     }
-    public static void updatePaymentMethod (String memberID) {
-        showMessageDialog(null,"UNDER CONSTRUCTION");
+
+    public static void updatePaymentMethod(String memberID) {
+        showMessageDialog(null, "UNDER CONSTRUCTION");
 
         JPanel info = new JPanel();
-        info.setLayout(new GridLayout(5,1));
-        String [] cardtype = {"MasterCard","American Express","VISA"};
+        info.setLayout(new GridLayout(5, 1));
+        String[] cardtype = {"MasterCard", "American Express", "VISA"};
         JTextField cardnumber = new JTextField(20);
         JTextField cvc = new JTextField(20);
         JTextField dateOfExp = new JTextField(20);
@@ -113,24 +113,21 @@ public class membershipSystem {
         info.add(cardHolderName);
         info.add(new JLabel("Card Type: "));
         info.add(cardtypes);
-        int val = JOptionPane.showOptionDialog(null,info,"Payment Method",YES_NO_OPTION,INFORMATION_MESSAGE,null,null,null);
-
-
+        int val = JOptionPane.showOptionDialog(null, info, "Payment Method", YES_NO_OPTION, INFORMATION_MESSAGE, null, null, null);
 
 
     }
+
     public static void ViewContactInformation(String memberID) {
 
-        showMessageDialog(null,"UNDER CONSTRUCTION");
+        showMessageDialog(null, "UNDER CONSTRUCTION");
 
     }
+
     public static void paymentHistory(String memberID) throws SQLException {
-        showMessageDialog(null,"Här ska det stå payment history");
+        showMessageDialog(null, "Här ska det stå payment history");
         System.out.println(memberID);
-        try { // finns det någon anledning till att vi inte kör try/catch:en i sql.java? :)
-            sql.GetTransactionID(memberID);
-        } catch (SQLException e) {
-            System.out.println("Fel?");
-        }
+        int paymentH = sql.GetPaymentHistory(memberID);
+        showMessageDialog(null, paymentH);
     }
 }
