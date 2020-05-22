@@ -54,7 +54,7 @@ public class sql {
 
             return rs.getString("loginpw");
         } catch (SQLException e) {
-            showMessageDialog(null, "Catch on reading old password");
+
         } finally {
             rs.close();
             conn.close();
