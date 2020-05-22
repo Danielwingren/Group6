@@ -41,14 +41,15 @@ public class classbooking {
         JOptionPane.showMessageDialog(null,rs);
         StringBuilder str = new StringBuilder();
         while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:\t " + rs.getString("className")+ "\t, ");
-            str.append("\tStart time:" + rs.getInt("time") + "\t, ");
-            str.append("\tDate: " + rs.getInt("date") + "\t, ");
-            str.append("\tRoom: " + rs.getInt("roomID") + "\t, ");
-            str.append("\tIntructor: " + rs.getString("name") + "\t, ");
+            str.append("Name:\t " + rs.getString("className"));
+            str.append("\tStart time:" + rs.getInt("time"));
+            str.append("\tDate: " + rs.getInt("date"));
+            str.append("\tRoom: " + rs.getInt("roomID"));
+            str.append("\tIntructor: " + rs.getString("name"));
             str.append("\n");
         }
-        JOptionPane.showMessageDialog(null,(str.toString()));
+        String resultat = (str.toString());
+        JOptionPane.showMessageDialog(null,(str.toString())+"här är strängen --> " + resultat);
     }
     public static void seeBookedClasses (String memberID) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
