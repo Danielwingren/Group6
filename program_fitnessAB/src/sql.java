@@ -120,13 +120,50 @@ public class sql {
         return error;
     }
 
-    public static ResultSet GetPaymentHistory(String memberID) throws SQLException {
+    public static String GetPaymentDate(String memberID) throws SQLException {
+        ResultSet rs = null;
+        String error = "-";
+        try {
+            conn = dbconnection();
+            String query = ("select date from payments where memberID ='" + memberID + "';");
+            rs = conn.createStatement().executeQuery(query);
+            return rs.getString("date");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting date");
+        } finally {
+            rs.close();
+            conn.close();
+        }
+        return error;
+    }
+
+    public static String GetPaymentAmount(String memberID) throws SQLException {
+        ResultSet rs = null;
+        String error = "-";
+        try {
+            conn = dbconnection();
+            String query = ("select amount from payments where memberID ='" + memberID + "';");
+            rs = conn.createStatement().executeQuery(query);
+            return rs.getString("amount");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting amount");
+        } finally {
+            rs.close();
+            conn.close();
+        }
+        return error;
+    }
+
+    // Alternativ lösning till payment history som inte fungerar
+    /* public static ResultSet GetPaymentHistory(String memberID) throws SQLException {
         ResultSet rs = null;
         try {
             conn = dbconnection();
-
-            String sqlReadPaymentHistory = ("select date, amount from payments where memberID ='" + memberID + "';");     // -
-            rs = conn.createStatement().executeQuery(sqlReadPaymentHistory);                         // - Dessa tre rader läser in transactionID
+            Statement statement = null;
+            statement = conn.createStatement();
+            String query = ("select date, amount from payments where memberID ='" + memberID + "';");
+            rs = statement.executeQuery(query);
+            return rs;
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting payment history");
             System.out.println(e);
@@ -136,7 +173,7 @@ public class sql {
             conn.close();
         }
         return rs;
-    }
+    } */
 
     public static void ChangePassword(String uname, String newPw) throws SQLException {
         conn = dbconnection();

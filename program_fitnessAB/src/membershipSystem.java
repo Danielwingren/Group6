@@ -126,14 +126,18 @@ public class membershipSystem {
     }
 
     public static void paymentHistory(String memberID) throws SQLException {
-        //showMessageDialog(null, "Här ska det stå payment history");
-        ResultSet rs = sql.GetPaymentHistory(memberID);
-        //showMessageDialog(null, rs);
+        // Alternativ lösning till payment history som inte fungerar
+      /*ResultSet rs = sql.GetPaymentHistory(memberID);
         while(rs.next()) {
-            String date = rs.getString("date");
-            String amount = rs.getString("amount");
+            int date = rs.getInt("date");
+            int amount = rs.getInt("amount");
 
             showMessageDialog(null, date + amount);
-        }
+        } */
+
+      // Fixa så det visar endast månad och år som i interface samt slå ihop amount per månad?
+      String date = sql.GetPaymentDate(memberID);
+      String amount = sql.GetPaymentAmount(memberID);
+      showMessageDialog (null, "Payment History:\n" + "Date:" + "         " + "Amount:\n" + date + "           " + amount);
     }
 }
