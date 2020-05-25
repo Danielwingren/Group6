@@ -13,7 +13,7 @@ public class classbooking {
     public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
-    public static void memberscreen(String memberID, int tier, String fnamn, String uname) throws SQLException {
+    public static void memberscreen(String memberID, int tier, String fnamn, String uname, int defaultGym) throws SQLException {
 
         JFrame frame = new JFrame();
         String[] options = new String[5];
@@ -40,7 +40,7 @@ public class classbooking {
                 break;
 
             case 3:
-                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn);
+                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
             case 4:
                 fitnessAB.login();
