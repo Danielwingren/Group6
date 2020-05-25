@@ -170,6 +170,7 @@ public class sql {
             return rs.getString("date");
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting date");
+            System.out.println(e);
         } finally {
             rs.close();
             conn.close();
@@ -182,11 +183,12 @@ public class sql {
         String error = "-";
         try {
             conn = dbconnection();
-            String query = ("select amount from payments where memberID ='" + memberID + "';");
+            String query = ("select amount from payments where memberID =" + memberID + ";");
             rs = conn.createStatement().executeQuery(query);
             return rs.getString("amount");
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting amount");
+            System.out.println(e);
         } finally {
             rs.close();
             conn.close();
@@ -214,6 +216,24 @@ public class sql {
         }
         return rs;
     } */
+
+    public static ResultSet GetClassName() throws SQLException {
+        ResultSet rs = null;
+        //String error = "-";
+        try {
+            conn = dbconnection();
+            String query = ("select classname from class;");
+            rs = conn.createStatement().executeQuery(query);
+            return rs;
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting classname");
+            System.out.println(e);
+        } finally {
+            rs.close();
+            conn.close();
+        }
+        return rs;
+    }
 
     public static void ChangePassword(String uname, String newPw) throws SQLException {
         conn = dbconnection();

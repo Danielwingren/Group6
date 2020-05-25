@@ -19,8 +19,8 @@ public class membershipSystem {
         options[0] = "Change password";
         options[1] = "Change payment method";
         options[2] = "View contact information";
-        options[4] = "Back to main menu";
-        options[3] = "Payment history";
+        options[3] = "Back to main menu";
+        options[4] = "Payment history";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Choose what information to update", "Update Member Information", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
@@ -35,10 +35,10 @@ public class membershipSystem {
             case 2:
                 ViewContactInformation(memberID);
                 break;
-            case 4:
+            case 3:
                 classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
                 break;
-            case 3:
+            case 4:
                 paymentHistory(memberID);
                 break;
 
