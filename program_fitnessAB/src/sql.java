@@ -170,6 +170,7 @@ public class sql {
             return rs.getString("date");
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting date");
+            System.out.println(e);
         } finally {
             rs.close();
             conn.close();
@@ -187,6 +188,7 @@ public class sql {
             return rs.getString("amount");
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting amount");
+            System.out.println(e);
         } finally {
             rs.close();
             conn.close();

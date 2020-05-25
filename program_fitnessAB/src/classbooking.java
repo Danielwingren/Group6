@@ -97,13 +97,15 @@ public class classbooking {
     }
 
     public static void viewClassInformation() throws SQLException {
-        //Choose classtypes
+        //Choose classname
         ResultSet rs = sql.GetClassName();
         //ResultSet rs = classtype;
+        //System.out.println(rs.getString("classname"));
 
         try {
             while (rs.next()) {
-                showMessageDialog(null, rs.getString(0) + " " + rs.getString(1) + "\n");
+                String classname = rs.getString(0);
+                System.out.println(classname);
             }
         } catch (SQLException e){
                 showMessageDialog(null, e);
