@@ -8,7 +8,7 @@ import static javax.swing.JOptionPane.*;
 
 public class membershipSystem {
 
-    public static void UpdateInformation(String memberID, int tier, String uname, String fnamn) throws SQLException {
+    public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, int defaultGym) throws SQLException {
 
         if (tier == 5) {
             String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
@@ -27,7 +27,7 @@ public class membershipSystem {
         }
         switch (val) {
             case 0:
-                changePassword(memberID, tier, uname, fnamn);
+                changePassword(memberID, tier, uname, fnamn, defaultGym);
                 break;
             case 1:
                 updatePaymentMethod(memberID);
@@ -36,7 +36,7 @@ public class membershipSystem {
                 ViewContactInformation(memberID);
                 break;
             case 4:
-                classbooking.memberscreen(memberID, tier, fnamn, uname);
+                classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 3:
                 paymentHistory(memberID);
@@ -45,7 +45,7 @@ public class membershipSystem {
         }
     }
 
-    public static void changePassword(String memberID, int tier, String uname, String fnamn) throws SQLException {
+    public static void changePassword(String memberID, int tier, String uname, String fnamn, int defaultGym) throws SQLException {
         String checkOld = sql.GetPassword(memberID);
         String newPw = null;
         String checkNewPw = null;
@@ -67,7 +67,7 @@ public class membershipSystem {
             int result = JOptionPane.showConfirmDialog(null, myPanel,
                     "Enter information below", JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION)
-                UpdateInformation(memberID, tier, uname, fnamn);
+                UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
             else if (result == JOptionPane.OK_OPTION) {
                 checkOld = oldPassword.getText();
                 newPw = newPassword.getText();
@@ -85,9 +85,9 @@ public class membershipSystem {
             }
         }
         if (tier == 5) {
-            staffView.mainmenu(memberID, tier, fnamn, uname);
+            staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
         } else {
-            UpdateInformation(memberID, tier, uname, fnamn);
+            UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
         }
     }
 

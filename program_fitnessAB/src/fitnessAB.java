@@ -56,8 +56,9 @@ public class fitnessAB {
       int tier = sql.GetTier(username);
       String memberID = sql.GetMemberID(username);
       String uname = username;
+      int defaultGym = sql.getHomeGym(username);
       System.out.println("Namn: "+fnamn+"\nTier: "+tier+"\nMemberID: "+memberID);
-
+      System.out.println("Gym: " + defaultGym);
       if (tier == 5) {
          JFrame frame = new JFrame();
          String[] options = new String[2];
@@ -73,10 +74,10 @@ public class fitnessAB {
       }
       System.out.println(fnamn+" inloggad som "+ tier +", med medlemsnummer "+memberID+" startar huvudmeny");
       if (tier == 5) {
-         staffView.mainmenu(memberID, tier, fnamn, username);
+         staffView.mainmenu(memberID, tier, fnamn, username, defaultGym);
       }
       else {
-         classbooking.memberscreen(memberID, tier, fnamn, uname);
+         classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
       }
    }
    public static boolean sqlLogin(String uname, String pw) throws SQLException {
