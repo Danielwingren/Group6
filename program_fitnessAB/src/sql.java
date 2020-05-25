@@ -183,7 +183,7 @@ public class sql {
         String error = "-";
         try {
             conn = dbconnection();
-            String query = ("select amount from payments where memberID ='" + memberID + "';");
+            String query = ("select amount from payments where memberID =" + memberID + ";");
             rs = conn.createStatement().executeQuery(query);
             return rs.getString("amount");
         } catch (SQLException e) {
