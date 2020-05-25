@@ -58,7 +58,7 @@ public class classbooking {
                 int roomID = rs.getInt("roomID");
                 String fName = rs.getString("fName");
                 String lName = rs.getString("lName");
-                JOptionPane.showMessageDialog(null,classname + time + date + roomID + fName + lName);
+                JOptionPane.showMessageDialog(null,classname  + " \t| " + time + " \t| " + date + " \t| " + roomID + " \t| " + fName + " " + lName);
             }
 
         } catch (SQLException e) {
@@ -66,6 +66,7 @@ public class classbooking {
             System.out.println(e.toString());
         } finally {
             if (stmt != null) { stmt.close(); }
+            conn.close();
         }
         /*ResultSet rs = sql.ViewAllClasses();
         JOptionPane.showMessageDialog(null,rs);
@@ -80,6 +81,7 @@ public class classbooking {
         }
         String resultat = (str.toString());
         JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat); */
+        //memberscreen(); Varför bråkar det och vill inte gå tilblaka till memberscreen????? ?? ? ? ? Danne pls
     }
     public static void seeBookedClasses (String memberID) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
