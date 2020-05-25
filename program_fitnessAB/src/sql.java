@@ -175,6 +175,24 @@ public class sql {
         return rs;
     } */
 
+    public static ResultSet GetClassName() throws SQLException {
+        ResultSet rs = null;
+        //String error = "-";
+        try {
+            conn = dbconnection();
+            String query = ("select classname from class;");
+            rs = conn.createStatement().executeQuery(query);
+            return rs;
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting classname");
+            System.out.println(e);
+        } finally {
+            rs.close();
+            conn.close();
+        }
+        return rs;
+    }
+
     public static void ChangePassword(String uname, String newPw) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
