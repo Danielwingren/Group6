@@ -45,21 +45,41 @@ public class classbooking {
     public static void manageClasses (){}
 
     public static void seeClasses () throws SQLException {
-        ResultSet rs = sql.ViewAllClasses();
+        conn = sql.dbconnection();
+        Statement stmt = null;
+        String query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                String classname = rs.getString("classname");
+                String time = rs.getString("time");
+                String date = rs.getString("date");
+                int roomID = rs.getInt("roomID");
+                String fName = rs.getString("fName");
+                String lName = rs.getString("lName");
+                JOptionPane.showMessageDialog(null,classname + time + date + roomID + fName + lName);
+            }
+
+        } catch (SQLException e) {
+            showMessageDialog(null, "Fel din idjut");
+            System.out.println(e.toString());
+        } finally {
+            if (stmt != null) { stmt.close(); }
+        }
+        /*ResultSet rs = sql.ViewAllClasses();
         JOptionPane.showMessageDialog(null,rs);
         StringBuilder str = new StringBuilder();
-        String Class = rs.getString("className");
-        JOptionPane.showMessageDialog(null,Class);
         while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:"+rs.getString("className"));
-            str.append("Start time:"+rs.getString("time"));
-            str.append("Date: "+rs.getString("date"));
-            str.append("Room: "+rs.getInt("roomID"));
-            str.append("Intructor firstname: "+rs.getString("fName"));
-            str.append("Intructor lastname: "+rs.getString("lName"));
+            str.append("Name:").append(rs.getString("className"));
+            str.append("Start time:").append(rs.getString("time"));
+            str.append("Date: ").append(rs.getString("date"));
+            str.append("Room: ").append(rs.getInt("roomID"));
+            str.append("Intructor firstname: ").append(rs.getString("fName"));
+            str.append("Intructor lastname: ").append(rs.getString("lName"));
         }
         String resultat = (str.toString());
-        JOptionPane.showMessageDialog(null,(str.toString())+"här är strängen --> " + resultat);
+        JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat); */
     }
     public static void seeBookedClasses (String memberID) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
@@ -73,6 +93,8 @@ public class classbooking {
             str.append("Intructor firstname: ").append(rs.getString("member.fname"));
             str.append("Intructor lastname: ").append(rs.getString("member.lname"));
         }
+        String resultat = (str.toString());
+        JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat);
     }
 
     public static void bookClass (String memberID) {

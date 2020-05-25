@@ -242,16 +242,14 @@ public class sql {
         try {
             query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class";
             rs = conn.createStatement().executeQuery(query);
-            return rs;
-        }
-        catch (SQLException e) {
-            showMessageDialog(null,"DET ÄR FEL");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Fel din idjut");
             System.out.println(e.toString());
         }
         finally {
-            assert rs != null;
-            rs.close();
             conn.close();
+            rs.close();
+            if (rs != null) { rs.close(); }
         }
         return rs;
     }
@@ -262,7 +260,7 @@ public class sql {
         try {
             bookedQuery = "select class.className, class.time, class.date, instructor.fName, " +
                     "room.roomID from class natural join memberClass natural join instructor natural join room " +
-                    "where memberClass.memberID = '"+memberID+"';";
+                    "where memberClass.memberID = '"+memberID+"'";
             rs = conn.createStatement().executeQuery(bookedQuery);
         } catch (SQLException e) {
             showMessageDialog(null, "Fel din idjut");
