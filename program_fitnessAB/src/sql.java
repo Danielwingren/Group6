@@ -102,6 +102,44 @@ public class sql {
         return error;
     }
 
+    public static int getHomeGym(String username) throws SQLException {
+        ResultSet rs2 = null;
+        int error = 0;
+        try {
+            conn = dbconnection();
+
+            String sqlGymNo = ("select defaultGym from member where email ='" + username + "';");     // -
+            rs2 = conn.createStatement().executeQuery(sqlGymNo);                         // - Dessa tre rader läser in hemmagym
+            return rs2.getInt("defaultGym");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting location name");
+        } finally {
+            rs2.close();
+            conn.close();
+        }
+        return error;
+    }
+/*
+    public static int getHomeGymName(int gymNO) throws SQLException {
+        conn = dbconnection();
+        String error = "";
+        ResultSet rs1 = null;
+        try {
+            String sqlReadGymName = ("select location from gym where gymID = '" + gymNO + "';");    // -
+            rs1 = conn.createStatement().executeQuery(sqlReadGymName);                         // -
+            String location = rs1.getString("location");                                  // - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
+            return location;
+        } catch (SQLException e) {
+            showMessageDialog(null, "Could not load location");
+        }
+        finally {
+            rs1.close();
+            conn.close();
+        }
+        return error;
+    } */
+
+
     public static String GetMemberID(String username) throws SQLException {
         ResultSet rs2 = null;
         String error = "-";
@@ -119,6 +157,8 @@ public class sql {
         }
         return error;
     }
+
+
 
     public static String GetPaymentDate(String memberID) throws SQLException {
         ResultSet rs = null;

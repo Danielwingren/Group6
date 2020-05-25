@@ -5,7 +5,7 @@ import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class staffView {
-    public static void mainmenu (String memberID, int tier, String fnamn, String uname) throws SQLException {
+    public static void mainmenu (String memberID, int tier, String fnamn, String uname, int defaultGym) throws SQLException {
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));
         tier = sql.GetTier(uname);
         while (true) {
@@ -26,7 +26,7 @@ public class staffView {
                     addnewmember();
                     break;
                 case 1 :
-                    staffView.UpdateInformation(memberID, tier, uname, fnamn);
+                    staffView.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                     break;
                 case 2 :
                     addnewcertificate();
@@ -118,7 +118,7 @@ public class staffView {
         String name = fNames + " " + lNames;
         sql.addnewmember(addnewsql, name);
     }
-    public static void UpdateInformation (String memberID, int tier, String uname, String fnamn) throws SQLException {
+    public static void UpdateInformation (String memberID, int tier, String uname, String fnamn, int defaultGym) throws SQLException {
 
         String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
 
@@ -135,13 +135,13 @@ public class staffView {
         }
         switch (val) {
             case 0 :
-                membershipSystem.changePassword(memberID, tier, uname, fnamn);
+                membershipSystem.changePassword(memberID, tier, uname, fnamn, defaultGym);
             case 1 :
                 membershipSystem.updatePaymentMethod(memberID);
             case 2 :
-                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn);
+                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
             case 3 :
-                staffView.mainmenu(memberID, tier, uname, fnamn);
+                staffView.mainmenu(memberID, tier, uname, fnamn, defaultGym);
 
         }
     }
