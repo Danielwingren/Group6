@@ -217,13 +217,13 @@ public class sql {
         return rs;
     } */
 
-    public static ResultSet GetClassName() throws SQLException {
+    /* public static ResultSet GetClassName() throws SQLException {
         ResultSet rs = null;
         //String error = "-";
+        Statement stmt = conn.createStatement();
         try {
-            conn = dbconnection();
             String query = ("select classname from class;");
-            rs = conn.createStatement().executeQuery(query);
+            rs = stmt.executeQuery(query);
             return rs;
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting classname");
@@ -233,7 +233,7 @@ public class sql {
             conn.close();
         }
         return rs;
-    }
+    } */
 
     public static void ChangePassword(String uname, String newPw) throws SQLException {
         conn = dbconnection();
