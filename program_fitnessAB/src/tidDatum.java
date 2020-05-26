@@ -1,10 +1,11 @@
 import javax.swing.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class tidDatum {
     public static void main(String[] args) {
-        LocalDate datum = LocalDate.now();
+        LocalDateTime datum = LocalDateTime.now();
         System.out.println(datum);
         JOptionPane.showMessageDialog(null,datum);
+
     }
 }
