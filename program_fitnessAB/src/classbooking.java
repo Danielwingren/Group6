@@ -15,12 +15,13 @@ public class classbooking {
     public static void memberscreen (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
         JFrame frame = new JFrame();
-        String[] options = new String[5];
+        String[] options = new String[6];
         options[0] = "See all classes";
         options[1] = "See booked classes";
         options[2] = "Information about classes";
         options[3] = "Account information";
         options [4] = "Log out";
+        options [5] = "Change location";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: " + defaultGym, "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
@@ -41,9 +42,26 @@ public class classbooking {
                 break;
             case 4 :
                 fitnessAB.login();
+            case 5 :
+                classbooking.changelocation(memberID, tier, uname, fnamn, defaultGym);
 
         }
     }
+
+    private static void changelocation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
+        JFrame frame = new JFrame();
+        frame.setAlwaysOnTop(true);
+
+        Object[] options = {"Hisingen", "Bergsjön", "Långedrag"};
+
+        Object selectionObject = JOptionPane.showInputDialog(frame, "Choose", "Menu", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        String selectedGym = selectionObject.toString();
+        System.out.printf(selectedGym);
+        defaultGym = selectedGym;
+        classbooking.memberscreen(memberID, tier, uname, fnamn, defaultGym);
+    }
+
+
 
     public static void seeClasses () throws SQLException {
         conn = sql.dbconnection();
