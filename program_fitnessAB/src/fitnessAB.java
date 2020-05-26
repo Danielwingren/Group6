@@ -56,7 +56,7 @@ public class fitnessAB {
       int tier = sql.GetTier(username);
       String memberID = sql.GetMemberID(username);
       String uname = username;
-      int defaultGym = sql.getHomeGym(username);
+      String defaultGym = sql.getHomeGym(memberID);
       System.out.println("Namn: "+fnamn+"\nTier: "+tier+"\nMemberID: "+memberID);
       System.out.println("Gym: " + defaultGym);
       if (tier == 5) {

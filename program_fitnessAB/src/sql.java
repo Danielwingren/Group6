@@ -102,15 +102,15 @@ public class sql {
         return error;
     }
 
-    public static int getHomeGym(String username) throws SQLException {
+    public static String getHomeGym(String memberID) throws SQLException {
         ResultSet rs2 = null;
-        int error = 0;
+        String error = "";
         try {
             conn = dbconnection();
 
-            String sqlGymNo = ("select defaultGym from member where email ='" + username + "';");     // -
+            String sqlGymNo = ("select location from gym join member on member.defaultGym = gym.gymID where member.memberID ='" + memberID + "';");     // -
             rs2 = conn.createStatement().executeQuery(sqlGymNo);                         // - Dessa tre rader läser in hemmagym
-            return rs2.getInt("defaultGym");
+            return rs2.getString(1);
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting location name");
         } finally {
@@ -119,15 +119,16 @@ public class sql {
         }
         return error;
     }
-/*
-    public static int getHomeGymName(int gymNO) throws SQLException {
+
+   /* public static int getHomeGymName(String gymNO) throws SQLException {
         conn = dbconnection();
         String error = "";
         ResultSet rs1 = null;
         try {
-            String sqlReadGymName = ("select location from gym where gymID = '" + gymNO + "';");    // -
+            String sqlReadGymName = ("select location from gym join member on member.defaultGym = gym.gymID where member.memberID ='" + gymNO + "';");    // -
             rs1 = conn.createStatement().executeQuery(sqlReadGymName);                         // -
-            String location = rs1.getString("location");                                  // - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
+            String location = rs1.getString("location");
+            JOptionPane.showMessageDialog(null, location);// - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
             return location;
         } catch (SQLException e) {
             showMessageDialog(null, "Could not load location");

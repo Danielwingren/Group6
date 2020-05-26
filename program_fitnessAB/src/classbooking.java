@@ -12,7 +12,7 @@ public class classbooking {
     public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
-    public static void memberscreen (String memberID, int tier, String fnamn, String uname, int defaultGym) throws SQLException {
+    public static void memberscreen (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
         JFrame frame = new JFrame();
         String[] options = new String[5];
@@ -21,8 +21,7 @@ public class classbooking {
         options[2] = "Information about classes";
         options[3] = "Account information";
         options [4] = "Log out";
-        //String gymLocation = sql.getHomeGymName(defaultGym); VILL FIXA HÄR SÅ ATT DET DISPLAYAR VILKET GYM MAN HAR DEFAULT /JOHN
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: ", "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: " + defaultGym, "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
@@ -60,7 +59,7 @@ public class classbooking {
                 int roomID = rs.getInt("roomID");
                 String fName = rs.getString("fName");
                 String lName = rs.getString("lName");
-                JOptionPane.showMessageDialog(null,classname + time + date + roomID + fName + lName);
+                JOptionPane.showMessageDialog(null,classname  + " \t| " + time + " \t| " + date + " \t| " + roomID + " \t| " + fName + " " + lName);
             }
 
         } catch (SQLException e) {
@@ -68,6 +67,7 @@ public class classbooking {
             System.out.println(e.toString());
         } finally {
             if (stmt != null) { stmt.close(); }
+            conn.close();
         }
         /*ResultSet rs = sql.ViewAllClasses();
         JOptionPane.showMessageDialog(null,rs);
@@ -82,6 +82,7 @@ public class classbooking {
         }
         String resultat = (str.toString());
         JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat); */
+        //memberscreen(); Varför bråkar det och vill inte gå tilblaka till memberscreen????? ?? ? ? ? Danne pls
     }
     public static void seeBookedClasses (String memberID) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
