@@ -1,10 +1,13 @@
 import javax.swing.*;
 
 import org.sqlite.SQLiteConfig;
-
+import java.text.*;
+import java.util.Date;
 import java.awt.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 
+import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class classbooking {
@@ -29,7 +32,7 @@ public class classbooking {
         }
         switch (val) {
             case 0 :
-                seeClasses();
+                seeClasses(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 1 :
                 seeBookedClasses(memberID);
@@ -63,12 +66,19 @@ public class classbooking {
 
 
 
-    public static void seeClasses () throws SQLException {
+    public static void seeClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         conn = sql.dbconnection();
-        String classes = "";
+        String classes;
         String classesx = "";
+        String message ="Class name: \t Time:\t Date:\t Room Nr:\t Insturctor:\n";
         Statement stmt = null;
-        String query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class";
+        Date realDate = new Date();
+        SimpleDateFormat srdf = new SimpleDateFormat("E dd/MM/yyyy");
+        String realtoday = (srdf.format(realDate));
+        Date sqldate = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String today = (sdf.format(sqldate));
+        String query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class where class.date = '"+today+"'";
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -82,29 +92,16 @@ public class classbooking {
                 classes = (classname  + " \t " + time + " \t " + date + " \t " + roomID + " \t " + fName + " " + lName +"\n");
                 classesx = classesx + classes;
             }
-            JOptionPane.showMessageDialog(null,new JTextArea(classesx));
-
+            message = message + classesx + ("\nAbove you see the classes available for today, to see for other please press next day");
+            JOptionPane.showMessageDialog(null, new JTextArea(message),"Classes for :"+realtoday,PLAIN_MESSAGE);
         } catch (SQLException e) {
-            showMessageDialog(null, "Fel din idjut");
+            showMessageDialog(null, "Error while reading classes");
             System.out.println(e.toString());
         } finally {
             if (stmt != null) { stmt.close(); }
             conn.close();
         }
-        /*ResultSet rs = sql.ViewAllClasses();
-        JOptionPane.showMessageDialog(null,rs);
-        StringBuilder str = new StringBuilder();
-        while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:").append(rs.getString("className"));
-            str.append("Start time:").append(rs.getString("time"));
-            str.append("Date: ").append(rs.getString("date"));
-            str.append("Room: ").append(rs.getInt("roomID"));
-            str.append("Intructor firstname: ").append(rs.getString("fName"));
-            str.append("Intructor lastname: ").append(rs.getString("lName"));
-        }
-        String resultat = (str.toString());
-        JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat); */
-        //memberscreen(); Varför bråkar det och vill inte gå tilblaka till memberscreen????? ?? ? ? ? Danne pls
+        classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
     public static void seeBookedClasses (String memberID) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
