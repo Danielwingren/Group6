@@ -20,8 +20,8 @@ public class classbooking {
         options[1] = "See booked classes";
         options[2] = "Information about classes";
         options[3] = "Account information";
-        options [4] = "Log out";
-        options [5] = "Change location";
+        options [5] = "Log out";
+        options [4] = "Change location";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: " + defaultGym, "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
@@ -40,9 +40,9 @@ public class classbooking {
             case 3 :
                 membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
-            case 4 :
-                fitnessAB.login();
             case 5 :
+                fitnessAB.login();
+            case 4 :
                 classbooking.changelocation(memberID, tier, uname, fnamn, defaultGym);
 
         }

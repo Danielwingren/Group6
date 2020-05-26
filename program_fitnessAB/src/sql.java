@@ -89,7 +89,7 @@ public class sql {
         try {
             String sqlReadTier = ("select tierType from member where email = '" + username + "';");    // -
             rs1 = conn.createStatement().executeQuery(sqlReadTier);                         // -
-            String tierType = rs1.getString("tiertype");                                  // - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
+            String tierType = rs1.getString("tiertype");      // - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
             int tier = Integer.parseInt(tierType);
             return tier;
         } catch (SQLException e) {
@@ -322,7 +322,7 @@ public class sql {
             conn.commit();
             stmt.close();
             conn.close();
-            JOptionPane.showMessageDialog(null, "Sucess! Class added!");
+            JOptionPane.showMessageDialog(null, "Success! Class added!");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong, please try again!");
