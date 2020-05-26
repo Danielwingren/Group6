@@ -113,17 +113,32 @@ public class classbooking {
 
     }
     public static void viewClassInformation() throws SQLException {
-        //Choose classname
-        ResultSet rs = sql.GetClassName();
-        //ResultSet rs = classtype;
+        //Choose classname, click button
 
+        conn = sql.dbconnection();
+        String query = "select distinct classname, description from classtype;";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        String description = "";
+        String classname = "";
+        String classes = "";
         try {
             while (rs.next()) {
-                showMessageDialog(null, rs.getString(0) + " " + rs.getString(1) + "\n");
+                classname = rs.getString("classname");
+                description = rs.getString("description");
+                classes = classes + "\n" + classname + "\n" + description + "\n";
             }
-        } catch (SQLException e){
-            showMessageDialog(null, e);
-        }
+            showMessageDialog(null, classes);
+        } catch (SQLException e) {
+                showMessageDialog(null, "Fel!");
+                System.out.println(e);
+            } finally {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            rs.close();
+            conn.close();
+            }
 
         //Information about classes, fetch description and name
 
