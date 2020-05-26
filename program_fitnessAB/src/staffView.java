@@ -11,13 +11,14 @@ public class staffView {
         while (true) {
 
             JFrame frame = new JFrame();
-            String[] options = new String[6];
+            String[] options = new String[7];
             options[0] = "Add new member";
             options[1] = "Update member information";
             options[3] = "Add new certificate";
-            options[5] = "Logout";
+            options[6] = "Logout";
             options[4] = "Create a class";
             options[2] = "Add new Instructor";
+            options[5] = "Edit class information";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
