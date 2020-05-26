@@ -308,7 +308,6 @@ public class sql {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong!");
-            staffView.addnewmember();
         }
         System.out.println("new member done");
     }
