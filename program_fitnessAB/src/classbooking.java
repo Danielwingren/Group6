@@ -15,11 +15,12 @@ public class classbooking {
     public static void memberscreen (String memberID, int tier, String fnamn, String uname, int defaultGym) throws SQLException {
 
         JFrame frame = new JFrame();
-        String[] options = new String[4];
+        String[] options = new String[5];
         options[0] = "See all classes";
         options[1] = "See booked classes";
-        options[2] = "Update Account information";
-        options [3] = "Log out";
+        options[2] = "Information about classes";
+        options[3] = "Account information";
+        options [4] = "Log out";
         //String gymLocation = sql.getHomeGymName(defaultGym); VILL FIXA HÄR SÅ ATT DET DISPLAYAR VILKET GYM MAN HAR DEFAULT /JOHN
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: ", "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
@@ -33,16 +34,17 @@ public class classbooking {
             case 1 :
                 seeBookedClasses(memberID);
                 break;
-
             case 2 :
-                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
+                viewClassInformation();
                 break;
             case 3 :
+                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
+                break;
+            case 4 :
                 fitnessAB.login();
 
         }
     }
-    public static void manageClasses (){}
 
     public static void seeClasses () throws SQLException {
         conn = sql.dbconnection();
@@ -111,42 +113,20 @@ public class classbooking {
         }
 
     }
+    public static void viewClassInformation() throws SQLException {
+        //Choose classname
+        ResultSet rs = sql.GetClassName();
+        //ResultSet rs = classtype;
 
+        try {
+            while (rs.next()) {
+                showMessageDialog(null, rs.getString(0) + " " + rs.getString(1) + "\n");
+            }
+        } catch (SQLException e){
+            showMessageDialog(null, e);
+        }
 
+        //Information about classes, fetch description and name
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }

@@ -306,10 +306,10 @@ public class sql {
             JOptionPane.showMessageDialog(null, "Success! " + name + " is now a registered member");
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            JOptionPane.showMessageDialog(null, "Something went wrong!");
             staffView.addnewmember();
         }
-        System.out.println("korv");
+        System.out.println("new member done");
     }
     public static void createClass (String classsql) throws SQLException {
         conn = dbconnection();
@@ -328,7 +328,27 @@ public class sql {
             JOptionPane.showMessageDialog(null, "Something went wrong, please try again!");
             staffView.createclass();
         }
-        System.out.println("korv");
+        System.out.println("new class done");
+    }
+
+    public static void addnewinstruct(String addnewinstructsql, String memberIDs) throws SQLException {
+        conn = dbconnection();
+        Statement stmt = null;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = (addnewinstructsql);
+            stmt.executeUpdate(sql);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Success! " + memberIDs + " is now a registered instructor");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something went wrong");
+            staffView.addnewinstruct();
+        }
+        System.out.println("new instructor done");
     }
 }
 
