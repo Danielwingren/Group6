@@ -8,7 +8,7 @@ import static javax.swing.JOptionPane.*;
 
 public class membershipSystem {
 
-    public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, int defaultGym) throws SQLException {
+    public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
 
         if (tier == 5) {
             String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
@@ -45,7 +45,7 @@ public class membershipSystem {
         }
     }
 
-    public static void changePassword(String memberID, int tier, String uname, String fnamn, int defaultGym) throws SQLException {
+    public static void changePassword(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
         String checkOld = sql.GetPassword(memberID);
         String newPw = null;
         String checkNewPw = null;
