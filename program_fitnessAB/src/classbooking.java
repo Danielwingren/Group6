@@ -47,6 +47,8 @@ public class classbooking {
 
     public static void seeClasses () throws SQLException {
         conn = sql.dbconnection();
+        String classes = "";
+        String classesx = "";
         Statement stmt = null;
         String query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class";
         try {
@@ -59,8 +61,10 @@ public class classbooking {
                 int roomID = rs.getInt("roomID");
                 String fName = rs.getString("fName");
                 String lName = rs.getString("lName");
-                JOptionPane.showMessageDialog(null,classname  + " \t| " + time + " \t| " + date + " \t| " + roomID + " \t| " + fName + " " + lName);
+                classes = (classname  + " \t " + time + " \t " + date + " \t " + roomID + " \t " + fName + " " + lName +"\n");
+                classesx = classesx + classes;
             }
+            JOptionPane.showMessageDialog(null,new JTextArea(classesx));
 
         } catch (SQLException e) {
             showMessageDialog(null, "Fel din idjut");
