@@ -14,10 +14,10 @@ public class staffView {
             String[] options = new String[6];
             options[0] = "Add new member";
             options[1] = "Update member information";
-            options[2] = "Add new certificate";
-            options[4] = "Logout";
-            options[3] = "Create a class";
-            options[5] = "Add new Instructor";
+            options[3] = "Add new certificate";
+            options[5] = "Logout";
+            options[4] = "Create a class";
+            options[2] = "Add new Instructor";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -29,14 +29,14 @@ public class staffView {
                 case 1 :
                     staffView.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                     break;
-                case 2 :
+                case 3 :
                     addnewcertificate();
                     break;
-                case 4 :
-                    fitnessAB.login();
-                case 3 :
-                    staffView.createclass();
                 case 5 :
+                    fitnessAB.login();
+                case 4 :
+                    staffView.createclass();
+                case 2 :
                     addnewinstruct();
             }
         }
