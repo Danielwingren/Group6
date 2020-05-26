@@ -65,6 +65,8 @@ public class classbooking {
 
     public static void seeClasses () throws SQLException {
         conn = sql.dbconnection();
+        String classes = "";
+        String classesx = "";
         Statement stmt = null;
         String query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class";
         try {
@@ -77,8 +79,10 @@ public class classbooking {
                 int roomID = rs.getInt("roomID");
                 String fName = rs.getString("fName");
                 String lName = rs.getString("lName");
-                JOptionPane.showMessageDialog(null,classname  + " \t| " + time + " \t| " + date + " \t| " + roomID + " \t| " + fName + " " + lName);
+                classes = (classname  + " \t " + time + " \t " + date + " \t " + roomID + " \t " + fName + " " + lName +"\n");
+                classesx = classesx + classes;
             }
+            JOptionPane.showMessageDialog(null,new JTextArea(classesx));
 
         } catch (SQLException e) {
             showMessageDialog(null, "Fel din idjut");
@@ -131,17 +135,32 @@ public class classbooking {
 
     }
     public static void viewClassInformation() throws SQLException {
-        //Choose classname
-        ResultSet rs = sql.GetClassName();
-        //ResultSet rs = classtype;
+        //Choose classname, click button
 
+        conn = sql.dbconnection();
+        String query = "select distinct classname, description from classtype;";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        String description = "";
+        String classname = "";
+        String classes = "";
         try {
             while (rs.next()) {
-                showMessageDialog(null, rs.getString(0) + " " + rs.getString(1) + "\n");
+                classname = rs.getString("classname");
+                description = rs.getString("description");
+                classes = classes + "\n" + classname + "\n" + description + "\n";
             }
-        } catch (SQLException e){
-            showMessageDialog(null, e);
-        }
+            showMessageDialog(null, classes);
+        } catch (SQLException e) {
+                showMessageDialog(null, "Fel!");
+                System.out.println(e);
+            } finally {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            rs.close();
+            conn.close();
+            }
 
         //Information about classes, fetch description and name
 

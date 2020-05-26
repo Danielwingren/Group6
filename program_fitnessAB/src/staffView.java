@@ -24,7 +24,7 @@ public class staffView {
             }
             switch (val) {
                 case 0 :
-                    addnewmember();
+                    addnewmember(memberID,tier, fnamn, uname, defaultGym);
                     break;
                 case 1 :
                     staffView.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
@@ -34,15 +34,18 @@ public class staffView {
                     break;
                 case 5 :
                     fitnessAB.login();
+                    break;
                 case 4 :
                     staffView.createclass();
+                    break;
                 case 2 :
                     addnewinstruct();
+                    break;
             }
         }
     }
 
-    public static void addnewmember() throws SQLException {
+    public static void addnewmember(String xmemberID, int xtier, String xfnamn, String xuname, String xdefaultGym) throws SQLException {
         System.out.println("eh. BOOM");
 
 
@@ -100,7 +103,7 @@ public class staffView {
         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newmemberPanel, "New member", JOptionPane.OK_CANCEL_OPTION,0,bild1);
         if (result == JOptionPane.CANCEL_OPTION) {
-            fitnessAB.login();
+            staffView.mainmenu(xmemberID, xtier, xfnamn, xuname, xdefaultGym);
         }
         else if (result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
