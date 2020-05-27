@@ -17,7 +17,7 @@ public class classbooking {
     static Connection conn = null;
 
     public static void memberscreen (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
-
+        System.out.println("Gym: " + defaultGym);
         JFrame frame = new JFrame();
         String[] options = new String[6];
         options[0] = "See all classes";
@@ -60,7 +60,6 @@ public class classbooking {
 
         Object selectionObject = JOptionPane.showInputDialog(frame, "Choose", "Menu", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         String selectedGym = selectionObject.toString();
-        System.out.printf(selectedGym);
         defaultGym = selectedGym;
         classbooking.memberscreen(memberID, tier, uname, fnamn, defaultGym);
     }
