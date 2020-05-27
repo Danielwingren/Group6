@@ -288,6 +288,41 @@ public class sql {
         }
         return message;
     }
+    public static String AvailableClasses (String today, String defaultGym) throws SQLException {
+        conn = sql.dbconnection();
+        String classes;
+        String classesx = "";
+        String message = "Class ID | Class name | \t Time |\t Date |\t Room Nr |\t Instructor |\n";
+        Statement stmt = null;
+        String query = "select class.classID, class.className, class.time, class.date, class.availableSlots, room.roomID, gym.location, member.fName, member.lName from class natural join instructor natural join room natural join gym "+
+                "join member on member.memberID=instructor.memberID where class.date = '"+today+"' AND room.roomID in (select room.roomID from gym natural join room where gym.location='"+defaultGym+"')";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("query funkar");
+            while (rs.next()) {
+                String classID = rs.getString("classID");
+                String classname = rs.getString("classname");
+                String time = rs.getString("time");
+                String date = rs.getString("date");
+                int roomID = rs.getInt("roomID");
+                String fName = rs.getString("fName");
+                String lName = rs.getString("lName");
+                classes = (classID + " |\t "+ classname + " |\t " + time + " |\t " + date + " |\t " + roomID + " |\t " + fName + " " + lName + "\n");
+                classesx = classesx + classes;
+            }
+        }
+        catch (SQLException e) {
+            showMessageDialog(null, "Error while reading classes");
+            System.out.println(e.toString());
+        }
+        finally {
+            if (stmt != null) { stmt.close(); }
+            conn.close();
+        }
+        String result = message + classesx;
+        return result;
+    }
     public static ResultSet getBookedClasses (String memberID) throws SQLException {
         conn = dbconnection();
         ResultSet rs = null;

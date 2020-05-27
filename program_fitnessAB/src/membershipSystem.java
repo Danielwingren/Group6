@@ -11,7 +11,7 @@ public class membershipSystem {
     public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
 
         if (tier == 5) {
-            String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
+            memberID = showInputDialog("Enter memberID for the person who wish to update:");
         }
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
@@ -92,7 +92,6 @@ public class membershipSystem {
     }
 
     public static void updatePaymentMethod(String memberID) {
-        showMessageDialog(null, "UNDER CONSTRUCTION");
 
         JPanel info = new JPanel();
         info.setLayout(new GridLayout(5, 1));
