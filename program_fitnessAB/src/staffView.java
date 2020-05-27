@@ -272,14 +272,14 @@ public class staffView {
                 addNewClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 1:
-                deleteClassName(memberID, tier, fnamn, uname, defaultGym);
+                deleteClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 2:
                 editClassDescription(memberID, tier, fnamn, uname, defaultGym);
                 break;
         }
     }
-    // Add new classname: skriva in classname
+    // Add new class: skriva in classname m.m.
     public static void addNewClass(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
         JTextField name = new JTextField(14);
         JTextField type = new JTextField(14);
@@ -315,14 +315,8 @@ public class staffView {
         sql.addClass(addnewsql, newname);
     }
 
-        /* conn = sql.dbconnection();
-        String query = "select distinct classname, description from classtype;";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query); */
-
-
-    // Delete classname: skriva in existerande classname
-    public static void deleteClassName(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+    // Delete class: skriva in existerande classname
+    public static void deleteClass(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
 
     }
     // Edit class description: skriva in classname --> ändra description
@@ -332,7 +326,7 @@ public class staffView {
 }
 
 
-
+// Arraylist som inte används nedan
 
         /* ArrayList<Classtype> classtypelist = new ArrayList<Classtype>();
 
@@ -373,7 +367,3 @@ public class staffView {
         public void setDescription(String description) {
             this.description = description;
         }*/
-
-
-
-//hej daniel

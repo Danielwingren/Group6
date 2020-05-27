@@ -377,7 +377,7 @@ public class sql {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Something went wrong!");
         }
-        System.out.println("new class name done");
+        System.out.println("add new class done");
     }
 
     public static void createClass (String classsql) throws SQLException {
