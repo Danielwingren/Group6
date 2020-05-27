@@ -153,7 +153,12 @@ public class classbooking {
     }
 
     public static void bookClass (String memberID, String result) {
-
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date();
+        System.out.println(formatter.format(date));
+        
+        String timeOfEnroll = (formatter.format(date));
+        String classID = showInputDialog(result +"Please enter the classID of the class you wish to book yourself to.","enter classID here");
 
 
     }
