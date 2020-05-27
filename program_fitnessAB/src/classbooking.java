@@ -160,7 +160,13 @@ public class classbooking {
         String timeOfEnroll = (formatter.format(date));
         String classID = showInputDialog(result +"Please enter the classID of the class you wish to book yourself to.","enter classID here");
 
+        String sqlconfirm = "select class.classID, class.className, class.time, class.date, class.availableSlots, " +
+                "room.roomID, gym.location, member.fName, member.lName from class natural join instructor natural " +
+                "join room natural join gym" +
+                "join member on member.memberID=instructor.memberID where class = '"+classID+"'";
+
         String sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
+
 
         sql.bookClass(sqlbookclass);
 
