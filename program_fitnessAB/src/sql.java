@@ -158,9 +158,6 @@ public class sql {
         }
         return error;
     }
-
-
-
     public static String GetPaymentDate(String memberID) throws SQLException {
         ResultSet rs = null;
         String error = "-";
@@ -256,23 +253,40 @@ public class sql {
         }
         fitnessAB.login();
     }
-    public static ResultSet ViewAllClasses () throws SQLException {
-        conn = dbconnection();
-        ResultSet rs = null;
-        String query = "";
+    public static String ViewAllClasses (String today, String defaultGym) throws SQLException {
+        conn = sql.dbconnection();
+        String classes;
+        String classesx = "";
+        String message = "Class ID | Class name | \t Time |\t Date |\t Room Nr |\t Instructor |\n";
+        Statement stmt = null;
+        String query = "select class.classID, class.className, class.time, class.date, class.availableSlots, room.roomID, gym.location, member.fName, member.lName from class natural join instructor natural join room natural join gym "+
+        "join member on member.memberID=instructor.memberID where class.date = '"+today+"' AND room.roomID in (select room.roomID from gym natural join room where gym.location='"+defaultGym+"')";
         try {
-            query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class";
-            rs = conn.createStatement().executeQuery(query);
-        } catch (SQLException e) {
-            showMessageDialog(null, "Fel din idjut");
-            System.out.println(e.toString());
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("query funkar");
+            while (rs.next()) {
+                String classID = rs.getString("classID");
+                String classname = rs.getString("classname");
+                String time = rs.getString("time");
+                String date = rs.getString("date");
+                int roomID = rs.getInt("roomID");
+                String fName = rs.getString("fName");
+                String lName = rs.getString("lName");
+                classes = (classID + " |\t "+ classname + " |\t " + time + " |\t " + date + " |\t " + roomID + " |\t " + fName + " " + lName + "\n");
+                classesx = classesx + classes;
+            }
+            message = message + classesx + ("\nAbove you see the classes available for today, to see for other please press next day");
+        }
+        catch (SQLException e) {
+        showMessageDialog(null, "Error while reading classes");
+        System.out.println(e.toString());
         }
         finally {
-            conn.close();
-            rs.close();
-            if (rs != null) { rs.close(); }
+        if (stmt != null) { stmt.close(); }
+        conn.close();
         }
-        return rs;
+        return message;
     }
     public static ResultSet getBookedClasses (String memberID) throws SQLException {
         conn = dbconnection();

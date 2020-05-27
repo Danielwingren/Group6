@@ -2,13 +2,14 @@ import javax.swing.*;
 
 import org.sqlite.SQLiteConfig;
 import java.text.*;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.awt.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
-import static javax.swing.JOptionPane.PLAIN_MESSAGE;
-import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.*;
 
 public class classbooking {
     public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
@@ -67,40 +68,49 @@ public class classbooking {
 
 
     public static void seeClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
-        conn = sql.dbconnection();
-        String classes;
-        String classesx = "";
-        String message ="Class name: \t Time:\t Date:\t Room Nr:\t Insturctor:\n";
-        Statement stmt = null;
+
+        // Real date to present for buttons
         Date realDate = new Date();
-        SimpleDateFormat srdf = new SimpleDateFormat("E dd/MM/yyyy");
+        SimpleDateFormat srdf = new SimpleDateFormat(" E dd/MM/yyyy");
         String realtoday = (srdf.format(realDate));
+
+        Date dt1 = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt1);
+        c.add(Calendar.DATE, -1);
+        dt1 = c.getTime();
+        String yesterday = (srdf.format(dt1));
+
+        Date dt2 = new Date();
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(dt2);
+        c1.add(Calendar.DATE, 1);
+        dt2 = c1.getTime();
+        String tomorrow = (srdf.format(dt2));
+
+        //Date in format of SQL database
         Date sqldate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String today = (sdf.format(sqldate));
-        String query = "select class.className, class.time, class.date, class.roomID , member.fName, member.lName from member join instructor on member.memberID = instructor.memberID natural join class where class.date = '"+today+"'";
-        try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                String classname = rs.getString("classname");
-                String time = rs.getString("time");
-                String date = rs.getString("date");
-                int roomID = rs.getInt("roomID");
-                String fName = rs.getString("fName");
-                String lName = rs.getString("lName");
-                classes = (classname  + " \t " + time + " \t " + date + " \t " + roomID + " \t " + fName + " " + lName +"\n");
-                classesx = classesx + classes;
+        String message = sql.ViewAllClasses(today,defaultGym);
+
+            JFrame frame = new JFrame();
+            new JTextArea();
+            String[] options = new String[3];
+            options[0] = yesterday;
+            options[1] = "OK";
+            options[2] = tomorrow;
+            int val = JOptionPane.showOptionDialog(frame.getContentPane(),message,
+                    "Classes for: " +realtoday, 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            if (val == 0) {
+                dt1 = new Date();
+                c = Calendar.getInstance();
+                c.setTime(dt1);
+                c.add(Calendar.DATE, -1);
+                dt1 = c.getTime();
+                today = (sdf.format(dt1));
+
             }
-            message = message + classesx + ("\nAbove you see the classes available for today, to see for other please press next day");
-            JOptionPane.showMessageDialog(null, new JTextArea(message),"Classes for :"+realtoday,PLAIN_MESSAGE);
-        } catch (SQLException e) {
-            showMessageDialog(null, "Error while reading classes");
-            System.out.println(e.toString());
-        } finally {
-            if (stmt != null) { stmt.close(); }
-            conn.close();
-        }
         classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
     public static void seeBookedClasses (String memberID) throws SQLException {
