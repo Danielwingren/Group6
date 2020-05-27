@@ -433,8 +433,8 @@ public class sql {
             JOptionPane.showMessageDialog(null, "Success, you are now booked for a class, CHEERS!");
         } catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Something went wrong when trying to book a class");
-            staffView.addnewinstruct();
+            JOptionPane.showMessageDialog(null, "Something went wrong when trying to book a class\n logging you out...");
+            fitnessAB.login();
         }
         System.out.println("booked to class");
 
@@ -442,6 +442,6 @@ public class sql {
 }
 
 
-
+//LÖSENORD: DANNE ÄGER
 
 
