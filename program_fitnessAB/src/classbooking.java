@@ -36,13 +36,13 @@ public class classbooking {
                 seeClasses(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 1 :
-                seeBookedClasses(memberID);
+                seeBookedClasses(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 2 :
                 viewClassInformation();
                 break;
             case 3 :
-                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
+                membershipSystem.accountInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
             case 5 :
                 fitnessAB.login();
@@ -126,7 +126,7 @@ public class classbooking {
             else if (val == 1) {
                 int choice = showConfirmDialog(null,"Do you wish to book an available class for this date?","Menu",YES_NO_OPTION,PLAIN_MESSAGE);
                 if (choice == YES_OPTION ) {
-                    bookClass(memberID, result);
+                    bookClass(memberID, result, tier, fnamn, uname, defaultGym);
                     break;
                 }
                 else {
@@ -136,7 +136,7 @@ public class classbooking {
         }
         classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
-    public static void seeBookedClasses (String memberID) throws SQLException {
+    public static void seeBookedClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
         JOptionPane.showMessageDialog(null,rs);
         StringBuilder str = new StringBuilder();
@@ -152,24 +152,39 @@ public class classbooking {
         JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat);
     }
 
-    public static void bookClass (String memberID, String result) throws SQLException {
+    public static void bookClass (String memberID, String result, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date date = new Date();
-        System.out.println(formatter.format(date));
-
+        String classesx = "classID |\t  classname  |\t  time  |\t  date |\t  roomID   |\t  Instructor\n";
         String timeOfEnroll = (formatter.format(date));
         String classID = showInputDialog(result +"Please enter the classID of the class you wish to book yourself to.","enter classID here");
 
-        String sqlconfirm = "select class.classID, class.className, class.time, class.date, class.availableSlots, " +
-                "room.roomID, gym.location, member.fName, member.lName from class natural join instructor natural " +
-                "join room natural join gym" +
-                "join member on member.memberID=instructor.memberID where class = '"+classID+"'";
+        String sqlconfirm = "select class.classID, class.className, class.time, class.date, class.availableSlots, room.roomID, gym.location, member.fName, member.lName from class natural join instructor natural join room natural join gym join member on member.memberID=instructor.memberID where class.classID = '"+classID+"';";
+        ResultSet rs = sql.confirmClass(sqlconfirm);
+        if (rs == null) {
+            showMessageDialog(null,"Error");
+        }
+        else
+        while (rs.next()) {
+            String classIDx = rs.getString("classID");
+            String classname = rs.getString("classname");
+            String time = rs.getString("time");
+            String datex = rs.getString("date");
+            int roomID = rs.getInt("roomID");
+            String fName = rs.getString("fName");
+            String lName = rs.getString("lName");
+            String classes = (classIDx + " |\t " + classname + " |\t " + time + " |\t " + datex + " |\t " + roomID + " |\t " + fName + " " + lName + "\n");
+            classesx = classesx + classes;
+        }
 
-        String sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
-
-
-        sql.bookClass(sqlbookclass);
-
+        int val = showConfirmDialog(null,"Do you wish to confirm a reservation for the class below?\n"+classesx,"Confirmation",YES_NO_OPTION,PLAIN_MESSAGE);
+        if (val== YES_OPTION) {
+            String sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
+            sql.bookClass(sqlbookclass);
+        }
+        else {
+            classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+        }
     }
     public static void viewClassInformation() throws SQLException {
         //Choose classname, click button

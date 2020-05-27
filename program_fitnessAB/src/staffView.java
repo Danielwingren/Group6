@@ -210,9 +210,10 @@ public class staffView {
         JTextField date = new JTextField(14);
         JTextField availableSlot = new JTextField(14);
         JTextField instructorID = new JTextField(14);
+        JTextField roomID = new JTextField(14);
 
         JPanel newclassPanel = new JPanel();
-        newclassPanel.setLayout(new GridLayout(6, 1));
+        newclassPanel.setLayout(new GridLayout(7, 1));
 
         newclassPanel.add(new JLabel("classID"));
         newclassPanel.add(classID);
@@ -232,6 +233,9 @@ public class staffView {
         newclassPanel.add(new JLabel("instructorID"));
         newclassPanel.add(instructorID);
         newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
+        newclassPanel.add(new JLabel("roomID"));
+        newclassPanel.add(roomID);
+        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New member", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
@@ -245,10 +249,11 @@ public class staffView {
         String dates = date.getText();
         String availableSlots = availableSlot.getText();
         String instructorIDs = instructorID.getText();
+        String roomIDs = roomID.getText();
 
         String newclasssql = "INSERT INTO class" +
-                "(\"classID\", \"className\", \"time\", \"date\", \"availableSlots\", \"InstructorID\")" +
-                "VALUES ('" + classIDs + "','" + classNames + "', '" + times + "', '" + dates + "', '" + availableSlots + "', '" + instructorIDs + "');";
+                "(\"classID\", \"className\", \"time\", \"date\", \"availableSlots\", \"InstructorID\", \"roomID\")" +
+                "VALUES ('" + classIDs + "','" + classNames + "', '" + times + "', '" + dates + "', '" + availableSlots + "', '" + instructorIDs + "', '" + roomIDs + "');";
 
         System.out.println(newclasssql);
 
