@@ -325,6 +325,26 @@ public class sql {
         }
         System.out.println("new member done");
     }
+
+    public static void addClassName (String sqladd, String newname) throws SQLException {
+        conn = dbconnection();
+        Statement stmt = null;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = (sqladd);
+            stmt.executeUpdate(sql);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Success! " + newname + " is now a new class");
+        } catch (SQLException e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Something went wrong!");
+        }
+        System.out.println("new class name done");
+    }
+
     public static void createClass (String classsql) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
