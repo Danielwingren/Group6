@@ -212,11 +212,8 @@ public class staffView {
         JTextField roomID = new JTextField(14);
 
         JPanel newclassPanel = new JPanel();
-        newclassPanel.setLayout(new GridLayout(7, 1));
+        newclassPanel.setLayout(new GridLayout(6, 1));
 
-        newclassPanel.add(new JLabel("classID"));
-        newclassPanel.add(classID);
-        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newclassPanel.add(new JLabel("Class Name"));
         newclassPanel.add(className);
         newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
@@ -237,18 +234,19 @@ public class staffView {
         newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
-        int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New member", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
+        int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New class", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
         }
 
-        String classIDs = classID.getText();
         String classNames = className.getText();
         String times = time.getText();
         String dates = date.getText();
         String availableSlots = availableSlot.getText();
         String instructorIDs = instructorID.getText();
         String roomIDs = roomID.getText();
+        String classIDs = dates+times+roomIDs;
+        System.out.println(classIDs);
 
         String newclasssql = "INSERT INTO class" +
                 "(\"classID\", \"className\", \"time\", \"date\", \"availableSlots\", \"InstructorID\", \"roomID\")" +
