@@ -218,4 +218,9 @@ public class classbooking {
         //Information about classes, fetch description and name
 
     }
+    public static boolean fullClass (String classID) {
+
+
+        return false;
+    }
 }
