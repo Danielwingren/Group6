@@ -177,6 +177,10 @@ public class classbooking {
             classesx = classesx + classes;
         }
 
+        if (fullClass(classID) == true) {
+            showMessageDialog(null,"Kollar om klassen är full eller ej");
+            System.exit(1337);
+        }
 
         int val = showConfirmDialog(null,"Do you wish to confirm a reservation for the class below?\n"+classesx,"Confirmation",YES_NO_OPTION,PLAIN_MESSAGE);
         if (val== YES_OPTION) {
