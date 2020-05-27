@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.awt.event.*;
 
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -256,12 +257,10 @@ public class staffView {
 
     public static void editClassInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
-        // Tre knappar Add new class, Delete class, Edit class
         JFrame frame = new JFrame();
-        String[] options = new String[3];
+        String[] options = new String[2];
         options[0] = "Add new class";
-        options[1] = "Delete class";
-        options[2] = "Edit class description";
+        options[1] = "Edit class description";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Edit class information ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 
         if (val == JOptionPane.CLOSED_OPTION) {
@@ -272,15 +271,13 @@ public class staffView {
                 addNewClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 1:
-                deleteClass(memberID, tier, fnamn, uname, defaultGym);
-                break;
-            case 2:
                 editClassDescription(memberID, tier, fnamn, uname, defaultGym);
                 break;
         }
     }
+
     // Add new class: skriva in classname m.m.
-    public static void addNewClass(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+    public static void addNewClass(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         JTextField name = new JTextField(14);
         JTextField type = new JTextField(14);
         JTextField description = new JTextField(14);
@@ -315,16 +312,51 @@ public class staffView {
         sql.addClass(addnewsql, newname);
     }
 
-    // Delete class: skriva in existerande classname
-    public static void deleteClass(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
-
-    }
     // Edit class description: skriva in classname --> ändra description
-    public static void editClassDescription(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+    public static void editClassDescription(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
+        String classname = showInputDialog("Enter the classname of the class you want to update:");
 
+        conn = sql.dbconnection();
+        String query = ("select description from classtype where className = '" + classname + "';");
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        String description = "";
+        try {
+            while (rs.next()) {
+                description = rs.getString("description");
+            }
+            // Här ska vi kunna redigera texten
+            showMessageDialog(null, description);
+            // Ändringen ska sedan sparas i databasen
+        } catch (SQLException e) {
+            showMessageDialog(null, "Something went wrong.");
+            System.out.println(e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            rs.close();
+            conn.close();
+        }
     }
 }
 
+// Delete class som inte används
+
+/*
+    // Delete class: skriva in existerande classname
+    public static void deleteClass(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+        JFrame frame = new JFrame();
+        frame.setAlwaysOnTop(true);
+
+        Object[] options = {"spinning3000", "yogaCalm", "coreExtreme"};
+
+        Object selectionObject = JOptionPane.showInputDialog(frame, "Choose", "Menu", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        String selectedClassName = selectionObject.toString();
+        "delete from classtype where classname = " + selectedClassName + ";"""
+        classbooking.memberscreen(memberID, tier, uname, fnamn, defaultGym);
+    }
+ */
 
 // Arraylist som inte används nedan
 
