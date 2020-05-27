@@ -361,7 +361,7 @@ public class sql {
         System.out.println("new member done");
     }
 
-    public static void addClassName (String sqladd, String newname) throws SQLException {
+    public static void addClass (String sqladd, String newname) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
         try {
@@ -377,7 +377,7 @@ public class sql {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Something went wrong!");
         }
-        System.out.println("new class name done");
+        System.out.println("add new class done");
     }
 
     public static void createClass (String classsql) throws SQLException {
