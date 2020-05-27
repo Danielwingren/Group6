@@ -52,7 +52,7 @@ public class staffView {
                     addnewinstruct();
                     break;
                 case 5:
-                    editClassInformation();
+                    editClassInformation(memberID, tier, fnamn, uname, defaultGym);
                     break;
             }
         }
@@ -255,12 +255,72 @@ public class staffView {
         sql.createClass(newclasssql);
     }
 
-    public static void editClassInformation() throws SQLException {
-        conn = sql.dbconnection();
+    public static void editClassInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
+
+        // Tre knappar Add new classname, Delete classname, Edit class
+        JFrame frame = new JFrame();
+        String[] options = new String[3];
+        options[0] = "Add new class name";
+        options[1] = "Delete class name";
+        options[2] = "Edit class description";
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Edit class information ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+
+        if (val == JOptionPane.CLOSED_OPTION) {
+            System.exit(11);
+        }
+        switch (val) {
+            case 0:
+                addNewClassName(memberID, tier, fnamn, uname, defaultGym);
+                break;
+            case 1:
+                deleteClassName(memberID, tier, fnamn, uname, defaultGym);
+                break;
+            case 2:
+                editClassDescription(memberID, tier, fnamn, uname, defaultGym);
+                break;
+        }
+    }
+    // Add new classname: skriva in classname
+    public static void addNewClassName(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+        JTextField name = new JTextField(14);
+        JPanel newclassnamePanel = new JPanel();
+        newclassnamePanel.setLayout(new GridLayout(3, 1));
+        newclassnamePanel.add(new JLabel("Class name"));
+        newclassnamePanel.add(name);
+        newclassnamePanel.add(Box.createHorizontalStrut(8));
+        ImageIcon bild = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
+        int result = JOptionPane.showConfirmDialog(null, newclassnamePanel, "New class name", JOptionPane.OK_CANCEL_OPTION, 0, bild);
+        if (result == JOptionPane.CANCEL_OPTION) {
+            staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
+        } else if (result == JOptionPane.CLOSED_OPTION) {
+            System.exit(22);
+        }
+        String newname = name.getText();
+        String addnewsql = "INSERT INTO classType" + "(className)" + "VALUES ('" + newname + "');";
+        System.out.println(addnewsql);
+        sql.addClassName(addnewsql, newname);
+    }
+
+        /* conn = sql.dbconnection();
         String query = "select distinct classname, description from classtype;";
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        ArrayList<Classtype> classtypelist = new ArrayList<Classtype>();
+        ResultSet rs = stmt.executeQuery(query); */
+
+
+    // Delete classname: skriva in existerande classname
+    public static void deleteClassName(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+
+    }
+    // Edit class description: skriva in classname --> ändra description
+    public static void editClassDescription(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+
+    }
+}
+
+
+
+
+        /* ArrayList<Classtype> classtypelist = new ArrayList<Classtype>();
 
         try {
             while (rs.next()) {
@@ -298,8 +358,8 @@ public class staffView {
 
         public void setDescription(String description) {
             this.description = description;
-        }
-    }
-}
+        }*/
+
+
 
 //hej daniel
