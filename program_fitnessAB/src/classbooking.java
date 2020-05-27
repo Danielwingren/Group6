@@ -177,6 +177,7 @@ public class classbooking {
             classesx = classesx + classes;
         }
 
+
         int val = showConfirmDialog(null,"Do you wish to confirm a reservation for the class below?\n"+classesx,"Confirmation",YES_NO_OPTION,PLAIN_MESSAGE);
         if (val== YES_OPTION) {
             String sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
