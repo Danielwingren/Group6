@@ -13,9 +13,11 @@ public class fitnessAB {
    public static void main (String [] arg) throws SQLException {
 
       sql.dbconnection();
+
       login();
    }
    public static void login() throws SQLException {
+
       JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/login.png")));
 
       JTextField userField = new JTextField(14);
