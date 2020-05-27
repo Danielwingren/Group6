@@ -152,14 +152,17 @@ public class classbooking {
         JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat);
     }
 
-    public static void bookClass (String memberID, String result) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+    public static void bookClass (String memberID, String result) throws SQLException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date date = new Date();
         System.out.println(formatter.format(date));
 
         String timeOfEnroll = (formatter.format(date));
         String classID = showInputDialog(result +"Please enter the classID of the class you wish to book yourself to.","enter classID here");
 
+        String sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
+
+        sql.bookClass(sqlbookclass);
 
     }
     public static void viewClassInformation() throws SQLException {
