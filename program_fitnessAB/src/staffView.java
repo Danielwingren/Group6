@@ -215,9 +215,6 @@ public class staffView {
         JPanel newclassPanel = new JPanel();
         newclassPanel.setLayout(new GridLayout(7, 1));
 
-        newclassPanel.add(new JLabel("classID"));
-        newclassPanel.add(classID);
-        newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newclassPanel.add(new JLabel("Class Name"));
         newclassPanel.add(className);
         newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
@@ -243,13 +240,13 @@ public class staffView {
             System.exit(22);
         }
 
-        String classIDs = classID.getText();
         String classNames = className.getText();
         String times = time.getText();
         String dates = date.getText();
         String availableSlots = availableSlot.getText();
         String instructorIDs = instructorID.getText();
         String roomIDs = roomID.getText();
+        String classIDs = dates+times+roomIDs;
 
         String newclasssql = "INSERT INTO class" +
                 "(\"classID\", \"className\", \"time\", \"date\", \"availableSlots\", \"InstructorID\", \"roomID\")" +
