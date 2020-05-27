@@ -39,7 +39,7 @@ public class membershipSystem {
                 classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 3:
-                paymentHistory(memberID);
+                paymentHistory(memberID, tier, fnamn, uname, defaultGym);
                 break;
 
         }
@@ -124,7 +124,7 @@ public class membershipSystem {
 
     }
 
-    public static void paymentHistory(String memberID) throws SQLException {
+    public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         // Alternativ lösning till payment history som inte fungerar
       /*ResultSet rs = sql.GetPaymentHistory(memberID);
         while(rs.next()) {
@@ -138,5 +138,6 @@ public class membershipSystem {
       String date = sql.GetPaymentDate(memberID);
       String amount = sql.GetPaymentAmount(memberID);
       showMessageDialog (null, "Payment History:\n" + "Date:" + "         " + "Amount:\n" + date + "           " + amount);
+      classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
 }

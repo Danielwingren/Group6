@@ -167,7 +167,7 @@ public class sql {
             rs = conn.createStatement().executeQuery(query);
             return rs.getString("date");
         } catch (SQLException e) {
-            showMessageDialog(null, "Error getting date");
+            System.out.println("Error getting date");
             System.out.println(e);
         } finally {
             rs.close();
@@ -185,7 +185,7 @@ public class sql {
             rs = conn.createStatement().executeQuery(query);
             return rs.getString("amount");
         } catch (SQLException e) {
-            showMessageDialog(null, "Error getting amount");
+            showMessageDialog(null, "Could not find any transactions");
             System.out.println(e);
         } finally {
             rs.close();
