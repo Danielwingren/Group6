@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import static javax.swing.JOptionPane.showInputDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -257,11 +256,11 @@ public class staffView {
 
     public static void editClassInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
-        // Tre knappar Add new classname, Delete classname, Edit class
+        // Tre knappar Add new class, Delete class, Edit class
         JFrame frame = new JFrame();
         String[] options = new String[3];
-        options[0] = "Add new class name";
-        options[1] = "Delete class name";
+        options[0] = "Add new class";
+        options[1] = "Delete class";
         options[2] = "Edit class description";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Edit class information ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 
@@ -270,7 +269,7 @@ public class staffView {
         }
         switch (val) {
             case 0:
-                addNewClassName(memberID, tier, fnamn, uname, defaultGym);
+                addNewClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 1:
                 deleteClassName(memberID, tier, fnamn, uname, defaultGym);
@@ -281,24 +280,39 @@ public class staffView {
         }
     }
     // Add new classname: skriva in classname
-    public static void addNewClassName(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
+    public static void addNewClass(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
         JTextField name = new JTextField(14);
+        JTextField type = new JTextField(14);
+        JTextField description = new JTextField(14);
+        JTextField length = new JTextField(14);
         JPanel newclassnamePanel = new JPanel();
-        newclassnamePanel.setLayout(new GridLayout(3, 1));
+        newclassnamePanel.setLayout(new GridLayout(14, 1));
         newclassnamePanel.add(new JLabel("Class name"));
         newclassnamePanel.add(name);
         newclassnamePanel.add(Box.createHorizontalStrut(8));
+        newclassnamePanel.add(new JLabel("Class type"));
+        newclassnamePanel.add(type);
+        newclassnamePanel.add(Box.createHorizontalStrut(8));
+        newclassnamePanel.add(new JLabel("Class description"));
+        newclassnamePanel.add(description);
+        newclassnamePanel.add(Box.createHorizontalStrut(8));
+        newclassnamePanel.add(new JLabel("Class length"));
+        newclassnamePanel.add(length);
+        newclassnamePanel.add(Box.createHorizontalStrut(8));
         ImageIcon bild = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
-        int result = JOptionPane.showConfirmDialog(null, newclassnamePanel, "New class name", JOptionPane.OK_CANCEL_OPTION, 0, bild);
+        int result = JOptionPane.showConfirmDialog(null, newclassnamePanel, "Add new class", JOptionPane.OK_CANCEL_OPTION, 0, bild);
         if (result == JOptionPane.CANCEL_OPTION) {
             staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
         } else if (result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
         }
         String newname = name.getText();
-        String addnewsql = "INSERT INTO classType" + "(className)" + "VALUES ('" + newname + "');";
+        String newtype = type.getText();
+        String newdescription = description.getText();
+        String newlength = length.getText();
+        String addnewsql = "INSERT INTO classtype" + "(\"className\", \"classType\", \"description\", \"length\")" + "VALUES ('" + newname + "', '" + newtype + "', '" + newdescription + "', '" + newlength + "');";
         System.out.println(addnewsql);
-        sql.addClassName(addnewsql, newname);
+        sql.addClass(addnewsql, newname);
     }
 
         /* conn = sql.dbconnection();
