@@ -7,6 +7,7 @@ import java.awt.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
+import static javax.swing.JOptionPane.PLAIN_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class classbooking {
@@ -69,7 +70,11 @@ public class classbooking {
         conn = sql.dbconnection();
         String classes;
         String classesx = "";
+        String message ="Class name: \t Time:\t Date:\t Room Nr:\t Insturctor:\n";
         Statement stmt = null;
+        Date realDate = new Date();
+        SimpleDateFormat srdf = new SimpleDateFormat("E dd/MM/yyyy");
+        String realtoday = (srdf.format(realDate));
         Date sqldate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String today = (sdf.format(sqldate));
@@ -87,9 +92,8 @@ public class classbooking {
                 classes = (classname  + " \t " + time + " \t " + date + " \t " + roomID + " \t " + fName + " " + lName +"\n");
                 classesx = classesx + classes;
             }
-            classesx = classesx + ("Above you see the classes available for today, to see for other please press next day");
-            JOptionPane.showMessageDialog(null, new JTextArea(classesx));
-
+            message = message + classesx + ("\nAbove you see the classes available for today, to see for other please press next day");
+            JOptionPane.showMessageDialog(null, new JTextArea(message),"Classes for :"+realtoday,PLAIN_MESSAGE);
         } catch (SQLException e) {
             showMessageDialog(null, "Error while reading classes");
             System.out.println(e.toString());
