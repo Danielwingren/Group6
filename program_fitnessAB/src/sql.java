@@ -419,6 +419,26 @@ public class sql {
         }
         System.out.println("new instructor done");
     }
+    public static void bookClass (String sqlbookclass) throws SQLException {
+        conn = dbconnection();
+        Statement stmt;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = (sqlbookclass);
+            stmt.executeUpdate(sql);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Success, you are now booked for a class, CHEERS!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Something went wrong when trying to book a class");
+            staffView.addnewinstruct();
+        }
+        System.out.println("booked to class");
+
+    }
 }
 
 
