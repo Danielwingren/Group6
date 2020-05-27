@@ -162,7 +162,7 @@ public class classbooking {
         String sqlconfirm = "select class.classID, class.className, class.time, class.date, class.availableSlots, room.roomID, gym.location, member.fName, member.lName from class natural join instructor natural join room natural join gym join member on member.memberID=instructor.memberID where class.classID = '"+classID+"';";
         ResultSet rs = sql.confirmClass(sqlconfirm);
         if (rs == null) {
-            showMessageDialog(null,"Error");
+            showMessageDialog(null,"Could no find the class");
         }
         else
         while (rs.next()) {
@@ -176,15 +176,32 @@ public class classbooking {
             String classes = (classIDx + " |\t " + classname + " |\t " + time + " |\t " + datex + " |\t " + roomID + " |\t " + fName + " " + lName + "\n");
             classesx = classesx + classes;
         }
-
-        if (fullClass(classID) == true) {
-            showMessageDialog(null,"Kollar om klassen är full eller ej");
-            System.exit(1337);
+        String sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
+        if (fullClass(classID)) { //if its true
+            int val = showOptionDialog(null,"The class does not currently have any free slots, do you wish to place yourself in queue?","FULL CLASS",YES_NO_OPTION,PLAIN_MESSAGE,null,null,null);
+            if (val == YES_OPTION) {
+                sql.bookClass(sqlbookclass);
+                showConfirmDialog(null,"You are now placed in que, you will recieve a notification if a slot opens.","Message",OK_OPTION,PLAIN_MESSAGE);
+                classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+            }
+            else if (val == NO_OPTION) {
+                showConfirmDialog(null,"Sending you back to available classes","Message",OK_OPTION,PLAIN_MESSAGE);
+                classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
+            }
+        }
+        else {
+            int val = showConfirmDialog(null,"Do you wish to confirm a reservation for the class below?\n"+classesx,"Confirmation",YES_NO_OPTION,PLAIN_MESSAGE);
+            if (val== YES_OPTION) {
+                sql.bookClass(sqlbookclass);
+            }
+            else {
+                classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+            }
         }
 
         int val = showConfirmDialog(null,"Do you wish to confirm a reservation for the class below?\n"+classesx,"Confirmation",YES_NO_OPTION,PLAIN_MESSAGE);
         if (val== YES_OPTION) {
-            String sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
+            sqlbookclass = "insert into memberClass (\"classID\", \"memberID\", \"timeOfEnroll\") VALUES ('"+classID+"','"+memberID+"','"+timeOfEnroll+"')";
             sql.bookClass(sqlbookclass);
         }
         else {
@@ -224,7 +241,10 @@ public class classbooking {
     }
     public static boolean fullClass (String classID) {
 
+        String query = "select class.classID, class.availableSlots, count (memberClass.memberID) from class natural join memberClass where class.classID = '"+classID+"'";
+        sql.checkFull(query);
 
+        //if full, return true;
         return false;
     }
 }

@@ -450,6 +450,11 @@ public class sql {
         }
         return rs;
     }
+    public static ResultSet checkFull (String query) {
+     ResultSet rs = null;
+     
+     return rs;
+    }
 }
 
 
