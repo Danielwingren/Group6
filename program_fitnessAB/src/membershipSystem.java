@@ -33,7 +33,7 @@ public class membershipSystem {
                 updatePaymentMethod(memberID);
                 break;
             case 2:
-                ViewContactInformation(memberID);
+                ViewContactInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
             case 4:
                 classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
@@ -118,11 +118,19 @@ public class membershipSystem {
 
     }
 
-    public static void ViewContactInformation(String memberID) {
+    public static void ViewContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) {
 
-        showMessageDialog(null, "UNDER CONSTRUCTION");
+        JOptionPane.showMessageDialog(null, "UNDER CONSTRUCTION");
 
     }
+
+    public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) {
+
+        JOptionPane.showMessageDialog(null, "Här finns information om kontot");
+
+
+    }
+
 
     public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         // Alternativ lösning till payment history som inte fungerar

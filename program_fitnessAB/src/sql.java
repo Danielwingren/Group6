@@ -430,18 +430,26 @@ public class sql {
             conn.commit();
             stmt.close();
             conn.close();
-            JOptionPane.showMessageDialog(null, "Success, you are now booked for a class, CHEERS!");
+            JOptionPane.showMessageDialog(null, "You are now booked for your desired class");
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong when trying to book a class\n logging you out...");
             fitnessAB.login();
         }
         System.out.println("booked to class");
-
+    }
+    public static ResultSet confirmClass (String sqlconfirm) throws SQLException {
+        conn = dbconnection();
+        ResultSet rs = null;
+        try {
+            rs = conn.createStatement().executeQuery(sqlconfirm);
+            return rs;
+        }
+        catch (SQLException e) {
+            showMessageDialog(null,"Error trying to show confirm window");
+        }
+        return rs;
     }
 }
-
-
-//LÖSENORD: DANNE ÄGER
 
 
