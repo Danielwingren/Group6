@@ -67,31 +67,40 @@ public class classbooking {
 
 
     public static void seeClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
+        int todayx = 0;
+        int yesterdayx = -1;
+        int tomorrowx = +1;
 
-        // Real date to present for buttons
-        Date realDate = new Date();
-        SimpleDateFormat srdf = new SimpleDateFormat(" E dd/MM/yyyy");
-        String realtoday = (srdf.format(realDate));
+        while (true) {
+            String todayy;
+            // Real date to present for buttons
+            Date realDate = new Date();
+            SimpleDateFormat srdf = new SimpleDateFormat(" E dd/MM/yyyy");
+            Calendar cr = Calendar.getInstance();
+            cr.setTime(realDate);
+            cr.add(Calendar.DATE, todayx);
+            realDate = cr.getTime();
+            String realtoday = (srdf.format(realDate));
 
-        Date dt1 = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(dt1);
-        c.add(Calendar.DATE, -1);
-        dt1 = c.getTime();
-        String yesterday = (srdf.format(dt1));
+            Date dt1 = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(dt1);
+            c.add(Calendar.DATE, yesterdayx);
+            dt1 = c.getTime();
+            String yesterday = (srdf.format(dt1));
 
-        Date dt2 = new Date();
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(dt2);
-        c1.add(Calendar.DATE, 1);
-        dt2 = c1.getTime();
-        String tomorrow = (srdf.format(dt2));
+            Date dt2 = new Date();
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(dt2);
+            c1.add(Calendar.DATE, tomorrowx);
+            dt2 = c1.getTime();
+            String tomorrow = (srdf.format(dt2));
 
-        //Date in format of SQL database
-        Date sqldate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String today = (sdf.format(sqldate));
-        String message = sql.ViewAllClasses(today,defaultGym);
+            //Date in format of SQL database
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            todayy = (sdf.format(realDate));
+            String message = sql.ViewAllClasses(todayy, defaultGym);
+            String result = sql.AvailableClasses(todayy,defaultGym);
 
             JFrame frame = new JFrame();
             new JTextArea();
@@ -99,17 +108,32 @@ public class classbooking {
             options[0] = yesterday;
             options[1] = "OK";
             options[2] = tomorrow;
-            int val = JOptionPane.showOptionDialog(frame.getContentPane(),message,
-                    "Classes for: " +realtoday, 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+            int val = JOptionPane.showOptionDialog(frame.getContentPane(), message,
+                    "Classes for: " + realtoday, 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
             if (val == 0) {
-                dt1 = new Date();
-                c = Calendar.getInstance();
-                c.setTime(dt1);
-                c.add(Calendar.DATE, -1);
-                dt1 = c.getTime();
-                today = (sdf.format(dt1));
-
+                todayx = todayx - 1;
+                yesterdayx = yesterdayx - 1;
+                tomorrowx = yesterdayx - 1;
             }
+            else if (val == 2) {
+                todayx = todayx + 1;
+                yesterdayx = yesterdayx + 1;
+                tomorrowx = yesterdayx + 1;
+            }
+            else if (val ==CLOSED_OPTION ) {
+                break;
+            }
+            else if (val == 1) {
+                int choice = showConfirmDialog(null,"Do you wish to book an available class for this date?","Menu",YES_NO_OPTION,PLAIN_MESSAGE);
+                if (choice == YES_OPTION ) {
+                    bookClass(memberID, result);
+                    break;
+                }
+                else {
+                    classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+                }
+            }
+        }
         classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
     public static void seeBookedClasses (String memberID) throws SQLException {
@@ -128,16 +152,9 @@ public class classbooking {
         JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat);
     }
 
-    public static void bookClass (String memberID) {
-        int x = 5;
-        String class1 = "";
-        JPanel bookclasspanel = new JPanel();
-        bookclasspanel.setLayout(new GridLayout(10,1));
+    public static void bookClass (String memberID, String result) {
 
-        for (int i = 0; i <= x; i++) {
-            JLabel info = new JLabel("Class: "+class1);
 
-        }
 
     }
     public static void viewClassInformation() throws SQLException {
