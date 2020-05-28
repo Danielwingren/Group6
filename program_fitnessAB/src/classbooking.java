@@ -19,14 +19,13 @@ public class classbooking {
     public static void memberscreen (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         System.out.println("Gym: " + defaultGym);
         JFrame frame = new JFrame();
-        String[] options = new String[7];
+        String[] options = new String[6];
         options[0] = "See all classes";
         options[1] = "See booked classes";
         options[2] = "Information about classes";
-        options[4] = "Account information";
-        options [6] = "Log out";
-        options [5] = "Change location";
-        options [3] = "Cancel a booking";
+        options[3] = "Account information";
+        options [5] = "Log out";
+        options [4] = "Change location";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: " + defaultGym, "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
@@ -42,16 +41,13 @@ public class classbooking {
             case 2 :
                 viewClassInformation();
                 break;
-            case 4 :
+            case 3 :
                 membershipSystem.accountInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
-            case 6 :
-                fitnessAB.login();
             case 5 :
+                fitnessAB.login();
+            case 4 :
                 classbooking.changelocation(memberID, tier, uname, fnamn, defaultGym);
-            case 3 :
-                classbooking.cancelBooking(memberID, tier, fnamn, uname, defaultGym);
-
         }
     }
 
@@ -154,8 +150,15 @@ public class classbooking {
             classesx = classesx + classes;
         }
         String result = message + classesx;
-        showMessageDialog(null,result);
-        classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+        JFrame framex = new JFrame();
+        String[] options = new String[2];
+        options[0] = "Back to menu";
+        options[1] = "Cancel a reservation";
+        int choice = JOptionPane.showOptionDialog(framex.getContentPane(), result +"Do you wish to cancel any of the classes you are booked on?","Classes",DEFAULT_OPTION,PLAIN_MESSAGE,null,options,null);
+        if (choice == 0 || choice == CLOSED_OPTION) {
+            classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+        }
+        classbooking.cancelBooking(memberID, tier, fnamn, uname, defaultGym, result);
     }
 
     public static void bookClass (String memberID, String result, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
@@ -262,7 +265,13 @@ public class classbooking {
         }
         return false;
     }
-    public static void cancelBooking (String memberID, int tier, String fnamn, String uname, String defaultGym ) {
-
+    public static void cancelBooking (String memberID, int tier, String fnamn, String uname, String defaultGym, String result ) throws SQLException {
+        String classID = (String) showInputDialog(null,result +
+                "Above is the classes you are booked on, type the classID of the class you wish to give up your reservation on",
+                "Cancel a booking",PLAIN_MESSAGE,null,null,"Enter classID here:");
+        String query = "DELETE from memberClass where memberID = '"+memberID+"' AND classID = '"+classID+"' ";
+        sql.cancelBooking(query);
+        showMessageDialog(null,"Removed your booking for class "+classID+" we hope to see you soon again!","Cancelled class",PLAIN_MESSAGE);
+        classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
 }

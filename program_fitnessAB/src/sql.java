@@ -456,6 +456,24 @@ public class sql {
         }
      return rs;
     }
+    public static void cancelBooking (String query) throws SQLException {
+        conn = dbconnection();
+        Statement stmt;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            System.out.println("Removed reservation");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Couldn't remove reservation, please contact your gym");
+            e.printStackTrace();
+            fitnessAB.login();
+        }
+
+    }
 }
 
 
