@@ -126,7 +126,8 @@ public class membershipSystem {
 
     public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
-        String rs = sql.getAccountInformation(memberID);
+        sql.getAccountInformation(memberID);
+        showMessageDialog(null, "+ xMemberID +");
 
     }
 
