@@ -123,7 +123,6 @@ public class membershipSystem {
         ResultSet rs3 = sql.getAccountInformation(memberID);
         System.out.println(rs3);
         int i = 1;
-        System.out.println("start" + i);
         String fName = rs3.getString(1);
         String lName = rs3.getString(2);
         String email = rs3.getString(3);
@@ -131,8 +130,8 @@ public class membershipSystem {
         String location = rs3.getString(5);
         String memberIDx = rs3.getString(6);
         String tierName = rs3.getString(7);
-        System.out.println("end" + i);
         showMessageDialog(null, "First name: " + fName+ "\nLast name: " + lName + "\nE-mail: " + email + "\nPhone number: " + phoneNr + "\nHome gym: " + location + "\nMember ID: " + memberIDx + "\nTier: " + tierName + "");
+        membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
     }
 
     public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {

@@ -481,8 +481,7 @@ public class sql {
         try {
             String getAccountInfo = "select member.fName, member.lName, member.email, member. phoneNr, gym.location, member.memberID, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" +memberID+ "';";
             rs3 = conn.createStatement().executeQuery(getAccountInfo);
-            System.out.println("Query funkar walla");
-            System.out.println(getAccountInfo);
+            System.out.println("Fetching member information");
             return rs3;
         }
         catch (SQLException e) {
