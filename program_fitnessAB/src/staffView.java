@@ -271,7 +271,7 @@ public class staffView {
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Edit class information ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 
         if (val == JOptionPane.CLOSED_OPTION) {
-            System.exit(11);
+            mainmenu(memberID, tier, fnamn, uname, defaultGym);
         }
         switch (val) {
             case 0:
