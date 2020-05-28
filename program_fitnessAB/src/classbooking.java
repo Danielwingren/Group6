@@ -42,7 +42,7 @@ public class classbooking {
                 viewClassInformation();
                 break;
             case 3 :
-                membershipSystem.accountInformation(memberID, tier, uname, fnamn, defaultGym);
+                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
             case 5 :
                 fitnessAB.login();
