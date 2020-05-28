@@ -19,13 +19,14 @@ public class classbooking {
     public static void memberscreen (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         System.out.println("Gym: " + defaultGym);
         JFrame frame = new JFrame();
-        String[] options = new String[6];
+        String[] options = new String[7];
         options[0] = "See all classes";
         options[1] = "See booked classes";
         options[2] = "Information about classes";
-        options[3] = "Account information";
-        options [5] = "Log out";
-        options [4] = "Change location";
+        options[4] = "Account information";
+        options [6] = "Log out";
+        options [5] = "Change location";
+        options [3] = "Cancel a booking";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: " + defaultGym, "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
         // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
@@ -41,13 +42,15 @@ public class classbooking {
             case 2 :
                 viewClassInformation();
                 break;
-            case 3 :
+            case 4 :
                 membershipSystem.accountInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
-            case 5 :
+            case 6 :
                 fitnessAB.login();
-            case 4 :
+            case 5 :
                 classbooking.changelocation(memberID, tier, uname, fnamn, defaultGym);
+            case 3 :
+                classbooking.cancelBooking(memberID, tier, fnamn, uname, defaultGym);
 
         }
     }
@@ -138,18 +141,21 @@ public class classbooking {
     }
     public static void seeBookedClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
-        JOptionPane.showMessageDialog(null,rs);
-        StringBuilder str = new StringBuilder();
-        while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:").append(rs.getString("class.className"));
-            str.append("Start time:").append(rs.getString("class.time"));
-            str.append("Date: ").append(rs.getString("class.date"));
-            str.append("Room: ").append(rs.getInt("class.roomID"));
-            str.append("Intructor firstname: ").append(rs.getString("member.fname"));
-            str.append("Intructor lastname: ").append(rs.getString("member.lname"));
+        String classes;
+        String classesx = "";
+        String message = "Class ID | Class name | \t Time |\t Date |\t Room Nr |\t\n";
+        while (rs.next()) {
+            String classID = rs.getString(1);
+            String classname = rs.getString(2);
+            String time = rs.getString(3);
+            String date = rs.getString(4);
+            int roomID = rs.getInt(5);
+            classes = (classID + " |\t "+ classname + " |\t " + time + " |\t " + date + " |\t " + roomID + " |\t \n");
+            classesx = classesx + classes;
         }
-        String resultat = (str.toString());
-        JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat);
+        String result = message + classesx;
+        showMessageDialog(null,result);
+        classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
 
     public static void bookClass (String memberID, String result, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
@@ -248,11 +254,15 @@ public class classbooking {
         finally {
             rs.close();
         }
-        if (available <= booked) {
-            return true;
-        }
-        else {
+        if (available == 0 || booked == 0 ) {
             return false;
         }
+        else if (available <= booked) {
+            return true;
+        }
+        return false;
+    }
+    public static void cancelBooking (String memberID, int tier, String fnamn, String uname, String defaultGym ) {
+
     }
 }
