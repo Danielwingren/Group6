@@ -204,13 +204,16 @@ public class staffView {
     public static void createclass() throws SQLException {
         System.out.println("system activated: superbiff 3000 starting...");
 
-        JTextField classID = new JTextField(14);
-        JTextField className = new JTextField(14);
+        String[] classchoices = { "spinning3000","yogaCalm", "coreExtreme","coreStatic","spinning2000","yogaPower","stepUp","stepQuick","boxingZ","challengeUltimate","stepInsane"};
+        final JComboBox<String> className = new JComboBox<>(classchoices);
+        String[] instructorchoices = { "John","Maja", "Daniel","Emil","Moa"};
+        final JComboBox<String> instructorname = new JComboBox<>(instructorchoices);
+        String[] roomchoices = { "11","12","21","22","31","32"};
+        final JComboBox<String> roomID = new JComboBox<>(roomchoices);
+
         JTextField time = new JTextField(14);
         JTextField date = new JTextField(14);
         JTextField availableSlot = new JTextField(14);
-        JTextField instructorID = new JTextField(14);
-        JTextField roomID = new JTextField(14);
 
         JPanel newclassPanel = new JPanel();
         newclassPanel.setLayout(new GridLayout(7, 1));
@@ -227,25 +230,27 @@ public class staffView {
         newclassPanel.add(new JLabel("Available Slots"));
         newclassPanel.add(availableSlot);
         newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
-        newclassPanel.add(new JLabel("instructorID"));
-        newclassPanel.add(instructorID);
+        newclassPanel.add(new JLabel("Instructor"));
+        newclassPanel.add(instructorname);
         newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
         newclassPanel.add(new JLabel("roomID"));
         newclassPanel.add(roomID);
         newclassPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
-        int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New member", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
+        int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New class", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
         }
 
-        String classNames = className.getText();
+        String instructor = String.valueOf(instructorname.getSelectedItem());
+        System.out.println(instructor);
+        String instructorIDs = sql.sqlinstructorID(instructor);
+        String classNames = String.valueOf(className.getSelectedItem());
+        String roomIDs = String.valueOf(roomID.getSelectedItem());
         String times = time.getText();
         String dates = date.getText();
         String availableSlots = availableSlot.getText();
-        String instructorIDs = instructorID.getText();
-        String roomIDs = roomID.getText();
         String classIDs = dates+times+roomIDs;
 
         String newclasssql = "INSERT INTO class" +

@@ -48,7 +48,6 @@ public class classbooking {
                 fitnessAB.login();
             case 4 :
                 classbooking.changelocation(memberID, tier, uname, fnamn, defaultGym);
-
         }
     }
 
@@ -138,18 +137,28 @@ public class classbooking {
     }
     public static void seeBookedClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
-        JOptionPane.showMessageDialog(null,rs);
-        StringBuilder str = new StringBuilder();
-        while(rs.next()){ //här hämtar den in data för varje kolumn
-            str.append("Name:").append(rs.getString("class.className"));
-            str.append("Start time:").append(rs.getString("class.time"));
-            str.append("Date: ").append(rs.getString("class.date"));
-            str.append("Room: ").append(rs.getInt("class.roomID"));
-            str.append("Intructor firstname: ").append(rs.getString("member.fname"));
-            str.append("Intructor lastname: ").append(rs.getString("member.lname"));
+        String classes;
+        String classesx = "";
+        String message = "Class ID | Class name | \t Time |\t Date |\t Room Nr |\t\n";
+        while (rs.next()) {
+            String classID = rs.getString(1);
+            String classname = rs.getString(2);
+            String time = rs.getString(3);
+            String date = rs.getString(4);
+            int roomID = rs.getInt(5);
+            classes = (classID + " |\t "+ classname + " |\t " + time + " |\t " + date + " |\t " + roomID + " |\t \n");
+            classesx = classesx + classes;
         }
-        String resultat = (str.toString());
-        JOptionPane.showMessageDialog(null, (str.toString())+"Här är resultratet av string: " + resultat);
+        String result = message + classesx;
+        JFrame framex = new JFrame();
+        String[] options = new String[2];
+        options[0] = "Back to menu";
+        options[1] = "Cancel a reservation";
+        int choice = JOptionPane.showOptionDialog(framex.getContentPane(), result +"Do you wish to cancel any of the classes you are booked on?","Classes",DEFAULT_OPTION,PLAIN_MESSAGE,null,options,null);
+        if (choice == 0 || choice == CLOSED_OPTION) {
+            classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+        }
+        classbooking.cancelBooking(memberID, tier, fnamn, uname, defaultGym, result);
     }
 
     public static void bookClass (String memberID, String result, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
@@ -248,11 +257,21 @@ public class classbooking {
         finally {
             rs.close();
         }
-        if (available <= booked) {
-            return true;
-        }
-        else {
+        if (available == 0 || booked == 0 ) {
             return false;
         }
+        else if (available <= booked) {
+            return true;
+        }
+        return false;
+    }
+    public static void cancelBooking (String memberID, int tier, String fnamn, String uname, String defaultGym, String result ) throws SQLException {
+        String classID = (String) showInputDialog(null,result +
+                "Above is the classes you are booked on, type the classID of the class you wish to give up your reservation on",
+                "Cancel a booking",PLAIN_MESSAGE,null,null,"Enter classID here:");
+        String query = "DELETE from memberClass where memberID = '"+memberID+"' AND classID = '"+classID+"' ";
+        sql.cancelBooking(query);
+        showMessageDialog(null,"Removed your booking for class "+classID+" we hope to see you soon again!","Cancelled class",PLAIN_MESSAGE);
+        classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
     }
 }

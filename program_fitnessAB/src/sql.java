@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.sql.*;
 import static javax.swing.JOptionPane.*;
 import org.sqlite.SQLiteConfig;
@@ -299,7 +300,6 @@ public class sql {
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            System.out.println("query funkar");
             while (rs.next()) {
                 String classID = rs.getString("classID");
                 String classname = rs.getString("classname");
@@ -325,20 +325,13 @@ public class sql {
     }
     public static ResultSet getBookedClasses (String memberID) throws SQLException {
         conn = dbconnection();
+        String bookedQuery = "select class.classID, class.className, class.date, class.time,  room.roomID from class natural join memberClass natural join room where memberClass.memberID = '" + memberID + "';";
         ResultSet rs = null;
-        String bookedQuery = "";
         try {
-            bookedQuery = "select class.className, class.time, class.date, instructor.fName, " +
-                    "room.roomID from class natural join memberClass natural join instructor natural join room " +
-                    "where memberClass.memberID = '"+memberID+"'";
-            rs = conn.createStatement().executeQuery(bookedQuery);
+            return conn.createStatement().executeQuery(bookedQuery);
         } catch (SQLException e) {
-            showMessageDialog(null, "Fel din idjut");
+            showMessageDialog(null, "Error fetching classes");
             System.out.println(e.toString());
-        }
-        finally {
-            conn.close();
-            rs.close();
         }
         return rs;
     }
@@ -463,6 +456,87 @@ public class sql {
             rs.close();
         }
      return rs;
+    }
+
+    public static String sqlinstructorID(String instructorName) throws SQLException {
+        ResultSet rs2 = null;
+        String error = "-";
+        try {
+            conn = dbconnection();
+
+            String sqlReadInstructorID = ("select instructorID from member natural join instructor where fName ='" + instructorName + "';");     // -
+            rs2 = conn.createStatement().executeQuery(sqlReadInstructorID);                         // - Dessa tre rader läser in medlemsID
+            return rs2.getString("instructorID");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting InstructorID");
+        } finally {
+            rs2.close();
+            conn.close();
+        }
+        return error;
+
+    }
+
+    public static String getAccountInformation(String memberID) throws SQLException {
+        conn = dbconnection();
+        String xFname = null;
+        String xLname = null;
+        String xEmail = null;
+        String xPhoneNr = null;
+        String xHomeGym = null;
+        String xMemberID = null;
+        String xTierName = null;
+        Statement stmt = null;
+        String query = "select member.fName, member.lName, member.email, member. phoneNr, gym.location, member.memberID, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" +memberID+ "';";
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("Query funkar walla");
+            while (rs.next()) {
+                String fName = rs.getString("fName");
+                String lName = rs.getString("lName");
+                String email = rs.getString("email");
+                String phoneNr = rs.getString("phoneNr");
+                String location = rs.getString("location");
+                String memberIDx = rs.getString("memberID");
+                String tierName = rs.getString("tierName");
+                System.out.println(fName + lName + email + phoneNr + location + memberIDx + tierName);
+                xFname = fName;
+                xLname = lName;
+                xEmail = email;
+                xPhoneNr = phoneNr;
+                xHomeGym = location;
+                xMemberID = memberIDx;
+                xTierName = tierName;
+            }
+        }
+        catch (SQLException e) {
+            showMessageDialog(null,"Error fetching account information");
+            System.out.println(e.toString());
+        }
+        finally {
+            if (stmt != null) {stmt.close(); }
+            conn.close();
+        }
+        return xFname + xLname + xEmail + xPhoneNr + xHomeGym + xMemberID + xTierName;
+    }
+    public static void cancelBooking(String query) throws SQLException {
+        conn = dbconnection();
+
+        try {
+            conn.setAutoCommit(false);
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            System.out.println("Removed reservation");
+        } catch (SQLException var3) {
+            JOptionPane.showMessageDialog(null, "Couldn't remove reservation, please contact your gym");
+            var3.printStackTrace();
+            fitnessAB.login();
+        }
+
     }
 }
 
