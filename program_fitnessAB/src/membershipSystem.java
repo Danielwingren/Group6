@@ -149,6 +149,6 @@ public class membershipSystem {
       String date = sql.GetPaymentDate(memberID);
       String amount = sql.GetPaymentAmount(memberID);
       showMessageDialog (null, "Payment History:\n" + "Date:" + "         " + "Amount:\n" + date + "           " + amount);
-      classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+      membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
     }
 }
