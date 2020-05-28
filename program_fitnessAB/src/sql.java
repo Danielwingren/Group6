@@ -455,6 +455,25 @@ public class sql {
      
      return rs;
     }
+
+    public static String sqlinstructorID(String instructorName) throws SQLException {
+        ResultSet rs2 = null;
+        String error = "-";
+        try {
+            conn = dbconnection();
+
+            String sqlReadInstructorID = ("select instructorID from member natural join instructor where fName ='" + instructorName + "';");     // -
+            rs2 = conn.createStatement().executeQuery(sqlReadInstructorID);                         // - Dessa tre rader läser in medlemsID
+            return rs2.getString("instructorID");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Error getting InstructorID");
+        } finally {
+            rs2.close();
+            conn.close();
+        }
+        return error;
+
+    }
 }
 
 
