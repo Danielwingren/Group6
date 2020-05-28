@@ -299,7 +299,6 @@ public class sql {
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            System.out.println("query funkar");
             while (rs.next()) {
                 String classID = rs.getString("classID");
                 String classname = rs.getString("classname");
@@ -325,20 +324,13 @@ public class sql {
     }
     public static ResultSet getBookedClasses (String memberID) throws SQLException {
         conn = dbconnection();
+        String bookedQuery = "select class.classID, class.className, class.date, class.time,  room.roomID from class natural join memberClass natural join room where memberClass.memberID = '" + memberID + "';";
         ResultSet rs = null;
-        String bookedQuery = "";
         try {
-            bookedQuery = "select class.className, class.time, class.date, instructor.fName, " +
-                    "room.roomID from class natural join memberClass natural join instructor natural join room " +
-                    "where memberClass.memberID = '"+memberID+"'";
-            rs = conn.createStatement().executeQuery(bookedQuery);
+            return conn.createStatement().executeQuery(bookedQuery);
         } catch (SQLException e) {
-            showMessageDialog(null, "Fel din idjut");
+            showMessageDialog(null, "Error fetching classes");
             System.out.println(e.toString());
-        }
-        finally {
-            conn.close();
-            rs.close();
         }
         return rs;
     }
@@ -430,10 +422,9 @@ public class sql {
             conn.commit();
             stmt.close();
             conn.close();
-            JOptionPane.showMessageDialog(null, "You are now booked for your desired class");
         } catch (SQLException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong when trying to book a class\n logging you out...");
+            e.printStackTrace();
             fitnessAB.login();
         }
         System.out.println("booked to class");
@@ -450,9 +441,19 @@ public class sql {
         }
         return rs;
     }
-    public static ResultSet checkFull (String query) {
-     ResultSet rs = null;
-     
+    public static ResultSet checkFull (String query) throws SQLException {
+        ResultSet rs = null;
+        try {
+            rs = conn.createStatement().executeQuery(query);
+            return rs;
+        }
+        catch (SQLException e) {
+            showMessageDialog(null,"Error checking status of class");
+        }
+        finally {
+            conn.close();
+            rs.close();
+        }
      return rs;
     }
 
