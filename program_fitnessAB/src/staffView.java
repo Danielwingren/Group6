@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.awt.event.*;
 
-import static javax.swing.JOptionPane.showInputDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.*;
 
 public class staffView {
     public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
@@ -20,14 +19,15 @@ public class staffView {
         while (true) {
 
             JFrame frame = new JFrame();
-            String[] options = new String[7];
+            String[] options = new String[8];
             options[0] = "Add new member";
             options[1] = "Update member information";
             options[3] = "Add new certificate";
-            options[6] = "Logout";
+            options[7] = "Logout";
             options[4] = "Create a class";
             options[2] = "Add new Instructor";
             options[5] = "Edit class information";
+            options[6] = "Check inventory";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -42,7 +42,7 @@ public class staffView {
                 case 3:
                     addnewcertificate(memberID, tier, uname, fnamn, defaultGym);
                     break;
-                case 6:
+                case 7:
                     fitnessAB.login();
                     break;
                 case 4:
@@ -54,6 +54,8 @@ public class staffView {
                 case 5:
                     editClassInformation(memberID, tier, fnamn, uname, defaultGym);
                     break;
+                case 6 :
+                    inventory(memberID, tier, fnamn, uname, defaultGym);
             }
         }
     }
@@ -361,6 +363,43 @@ public class staffView {
             conn.close();
             editClassInformation(memberID, tier, fnamn, uname, defaultGym);
         }
+    }
+    public static void inventory (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
+        ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
+        String gym = "";
+
+        JFrame frame = new JFrame();
+        String[] options = new String[3];
+        options[0] = "Hisingen";
+        options[1] = "Bergsjön";
+        options[2] = "Långedrag";
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which gym would you like to see inventory for?", "Inventory", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
+        if (val == JOptionPane.CLOSED_OPTION) {
+            System.exit(11);
+        }
+        switch (val) {
+            case 0:
+                gym = "1";
+                break;
+            case 1:
+                gym = "2";
+                break;
+            case 2:
+                gym = "3";
+                break;
+        }
+        ResultSet rs = sql.getInventory(gym);
+        String classes;
+        String classesx = "";
+        String message = "Equipment: | Quantity: |\n";
+        while (rs.next()) {
+            String classID = rs.getString(1);
+            int classname = rs.getInt(2) ;
+            classes = (classID + " |\t "+ classname + "\n");
+            classesx = classesx +"\t"+ classes;
+        }
+        String result = message + classesx;
+        showMessageDialog(null,result,"Inventory",PLAIN_MESSAGE,null);
     }
 }
 

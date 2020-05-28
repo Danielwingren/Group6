@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.sql.*;
 import static javax.swing.JOptionPane.*;
 import org.sqlite.SQLiteConfig;
@@ -510,6 +509,23 @@ public class sql {
         }
 
     }
+    public static ResultSet getInventory (String gym) throws SQLException {
+        conn = dbconnection();
+        ResultSet rs = null;
+        String query = "select equipment, quantity from gymEquipment where gymID = '"+gym+"';";
+        try {
+            rs = conn.createStatement().executeQuery(query);
+            System.out.println("Loading inventory");
+        } catch (SQLException var3) {
+            JOptionPane.showMessageDialog(null, "Could not load inventory for desired gym");
+            var3.printStackTrace();
+            fitnessAB.login();
+        }
+        String apa = rs.getString("equipment");
+        System.out.println("I SQL " + apa);
+        return rs;
+    }
+
 }
 
 
