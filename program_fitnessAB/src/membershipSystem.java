@@ -124,10 +124,10 @@ public class membershipSystem {
 
     }
 
-    public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) {
+    public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
-        JOptionPane.showMessageDialog(null, "Här finns information om kontot");
-
+        sql.getAccountInformation(memberID);
+        showMessageDialog(null, "+ xMemberID +");
 
     }
 
