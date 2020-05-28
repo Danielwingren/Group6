@@ -475,20 +475,19 @@ public class sql {
 
     }
     public static ResultSet getAccountInformation(String memberID) throws SQLException {
+        conn = dbconnection();
         ResultSet rs3 = null;
+        String error = "Din morsa";
         try {
-            conn = dbconnection();
             String getAccountInfo = "select member.fName, member.lName, member.email, member. phoneNr, gym.location, member.memberID, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" +memberID+ "';";
             rs3 = conn.createStatement().executeQuery(getAccountInfo);
             System.out.println("Query funkar walla");
+            System.out.println(getAccountInfo);
+            return rs3;
         }
         catch (SQLException e) {
             showMessageDialog(null,"Error fetching account information");
             System.out.println(e.toString());
-        }
-        finally {
-            rs3.close();
-            conn.close();
         }
         return rs3;
     }

@@ -121,17 +121,18 @@ public class membershipSystem {
     public static void ViewContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
 
         ResultSet rs3 = sql.getAccountInformation(memberID);
-        while (rs3.next()) {
-            String fName = rs3.getString("fName");
-            String lName = rs3.getString("lName");
-            String email = rs3.getString("email");
-            String phoneNr = rs3.getString("phoneNr");
-            String location = rs3.getString("location");
-            String memberIDx = rs3.getString("memberID");
-            String tierName = rs3.getString("tierName");
-            System.out.println(fName + lName + email + phoneNr + location + memberIDx + tierName);
-
-        }
+        System.out.println(rs3);
+        int i = 1;
+            System.out.println("start" + i);
+            String fName = rs3.getString(1);
+            String lName = rs3.getString(2);
+            String email = rs3.getString(3);
+            String phoneNr = rs3.getString(4);
+            String location = rs3.getString(5);
+            String memberIDx = rs3.getString(6);
+            String tierName = rs3.getString(7);
+            System.out.println("end" + i);
+            showMessageDialog(null, fName);
     }
 
     public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
