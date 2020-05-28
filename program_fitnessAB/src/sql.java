@@ -455,6 +455,24 @@ public class sql {
      
      return rs;
     }
+
+    public static ResultSet getAccountInformation(String memberID) throws SQLException {
+        conn = dbconnection();
+        //String message = "First name | Last name | E-mail | Phone number | Home gym | member ID | Tier ";
+        ResultSet rs = null;
+        String query = "select member.fName, member.lName, member.email, member. phoneNr, gym.location, member.memberID, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" + memberID + "';";
+        try {
+            rs = conn.createStatement().executeQuery(query);
+        } catch (SQLException e) {
+            showMessageDialog(null,"Error fetching account information");
+            System.out.println(e.toString());
+        }
+        finally {
+            conn.close();
+            rs.close();
+        }
+        return rs;
+    }
 }
 
 

@@ -124,9 +124,21 @@ public class membershipSystem {
 
     }
 
-    public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) {
+    public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
-        JOptionPane.showMessageDialog(null, "Här finns information om kontot");
+        ResultSet rs = sql.getAccountInformation(memberID);
+        System.out.println("query funkar");
+        while (rs.next()) {
+            String fName = rs.getString("fName");
+            String lName = rs.getString("lName");
+            String email = rs.getString("email");
+            String phoneNr = rs.getString("phoneNr");
+            String location = rs.getString("location");
+            String memberIDx = rs.getString("memberID");
+            String tierName = rs.getString("tierName");
+            showMessageDialog(null,  fName + lName + email + phoneNr + location + memberIDx + tierName);
+        }
+
 
 
     }
