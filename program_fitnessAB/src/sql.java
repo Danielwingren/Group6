@@ -474,50 +474,25 @@ public class sql {
         return error;
 
     }
-
-    public static String getAccountInformation(String memberID) throws SQLException {
-        conn = dbconnection();
-        String xFname = null;
-        String xLname = null;
-        String xEmail = null;
-        String xPhoneNr = null;
-        String xHomeGym = null;
-        String xMemberID = null;
-        String xTierName = null;
-        Statement stmt = null;
-        String query = "select member.fName, member.lName, member.email, member. phoneNr, gym.location, member.memberID, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" +memberID+ "';";
+    public static ResultSet getAccountInformation(String memberID) throws SQLException {
+        ResultSet rs3 = null;
         try {
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            conn = dbconnection();
+            String getAccountInfo = "select member.fName, member.lName, member.email, member. phoneNr, gym.location, member.memberID, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" +memberID+ "';";
+            rs3 = conn.createStatement().executeQuery(getAccountInfo);
             System.out.println("Query funkar walla");
-            while (rs.next()) {
-                String fName = rs.getString("fName");
-                String lName = rs.getString("lName");
-                String email = rs.getString("email");
-                String phoneNr = rs.getString("phoneNr");
-                String location = rs.getString("location");
-                String memberIDx = rs.getString("memberID");
-                String tierName = rs.getString("tierName");
-                System.out.println(fName + lName + email + phoneNr + location + memberIDx + tierName);
-                xFname = fName;
-                xLname = lName;
-                xEmail = email;
-                xPhoneNr = phoneNr;
-                xHomeGym = location;
-                xMemberID = memberIDx;
-                xTierName = tierName;
-            }
         }
         catch (SQLException e) {
             showMessageDialog(null,"Error fetching account information");
             System.out.println(e.toString());
         }
         finally {
-            if (stmt != null) {stmt.close(); }
+            rs3.close();
             conn.close();
         }
-        return xFname + xLname + xEmail + xPhoneNr + xHomeGym + xMemberID + xTierName;
+        return rs3;
     }
+
     public static void cancelBooking(String query) throws SQLException {
         conn = dbconnection();
 

@@ -118,19 +118,21 @@ public class membershipSystem {
 
     }
 
-    public static void ViewContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) {
+    public static void ViewContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
 
-        JOptionPane.showMessageDialog(null, "UNDER CONSTRUCTION");
+        ResultSet rs3 = sql.getAccountInformation(memberID);
+        while (rs3.next()) {
+            String fName = rs3.getString("fName");
+            String lName = rs3.getString("lName");
+            String email = rs3.getString("email");
+            String phoneNr = rs3.getString("phoneNr");
+            String location = rs3.getString("location");
+            String memberIDx = rs3.getString("memberID");
+            String tierName = rs3.getString("tierName");
+            System.out.println(fName + lName + email + phoneNr + location + memberIDx + tierName);
 
+        }
     }
-
-    public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
-
-        sql.getAccountInformation(memberID);
-        showMessageDialog(null, "+ xMemberID +");
-
-    }
-
 
     public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         // Alternativ lösning till payment history som inte fungerar
