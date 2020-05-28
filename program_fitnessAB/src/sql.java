@@ -430,10 +430,9 @@ public class sql {
             conn.commit();
             stmt.close();
             conn.close();
-            JOptionPane.showMessageDialog(null, "You are now booked for your desired class");
         } catch (SQLException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong when trying to book a class\n logging you out...");
+            e.printStackTrace();
             fitnessAB.login();
         }
         System.out.println("booked to class");
@@ -450,9 +449,19 @@ public class sql {
         }
         return rs;
     }
-    public static ResultSet checkFull (String query) {
-     ResultSet rs = null;
-     
+    public static ResultSet checkFull (String query) throws SQLException {
+        ResultSet rs = null;
+        try {
+            rs = conn.createStatement().executeQuery(query);
+            return rs;
+        }
+        catch (SQLException e) {
+            showMessageDialog(null,"Error checking status of class");
+        }
+        finally {
+            conn.close();
+            rs.close();
+        }
      return rs;
     }
 
