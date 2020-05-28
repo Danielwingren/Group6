@@ -126,20 +126,7 @@ public class membershipSystem {
 
     public static void accountInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
-        ResultSet rs = sql.getAccountInformation(memberID);
-        System.out.println("query funkar");
-        while (rs.next()) {
-            String fName = rs.getString("fName");
-            String lName = rs.getString("lName");
-            String email = rs.getString("email");
-            String phoneNr = rs.getString("phoneNr");
-            String location = rs.getString("location");
-            String memberIDx = rs.getString("memberID");
-            String tierName = rs.getString("tierName");
-            showMessageDialog(null,  fName + lName + email + phoneNr + location + memberIDx + tierName);
-        }
-
-
+        String rs = sql.getAccountInformation(memberID);
 
     }
 

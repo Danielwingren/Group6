@@ -465,22 +465,35 @@ public class sql {
      return rs;
     }
 
-    public static ResultSet getAccountInformation(String memberID) throws SQLException {
+    public static String getAccountInformation(String memberID) throws SQLException {
         conn = dbconnection();
-        //String message = "First name | Last name | E-mail | Phone number | Home gym | member ID | Tier ";
-        ResultSet rs = null;
+        Statement stmt = null;
         String query = "select member.fName, member.lName, member.email, member. phoneNr, gym.location, member.memberID, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" + memberID + "';";
+        //String message = "First name | Last name | E-mail | Phone number | Home gym | member ID | Tier ";
         try {
-            rs = conn.createStatement().executeQuery(query);
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println("query funkar my nigga");
+            while (rs.next()) {
+                String fName = rs.getString("fName");
+                String lName = rs.getString("lName");
+                String email = rs.getString("email");
+                String phoneNr = rs.getString("phoneNr");
+                String location = rs.getString("location");
+                String memberIDx = rs.getString("memberID");
+                String tierName = rs.getString("tierName");
+                showMessageDialog(null, fName + lName + email + phoneNr + location + memberIDx + tierName);
+            }
         } catch (SQLException e) {
-            showMessageDialog(null,"Error fetching account information");
+            showMessageDialog(null, "Error fetching account information");
             System.out.println(e.toString());
-        }
-        finally {
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
             conn.close();
-            rs.close();
         }
-        return rs;
+        return memberID;
     }
 }
 
