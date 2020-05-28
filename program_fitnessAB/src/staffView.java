@@ -312,9 +312,9 @@ public class staffView {
         String addnewsql = "INSERT INTO classtype" + "(\"className\", \"classType\", \"description\", \"length\")" + "VALUES ('" + newname + "', '" + newtype + "', '" + newdescription + "', '" + newlength + "');";
         System.out.println(addnewsql);
         sql.addClass(addnewsql, newname);
+        editClassInformation(memberID, tier, fnamn, uname, defaultGym);
     }
-
-    // Edit class description: skriva in classname --> ändra description
+    
     public static void editClassDescription(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         String classname = showInputDialog("Enter the classname of the class you want to update:");
 
@@ -324,12 +324,18 @@ public class staffView {
         ResultSet rs = stmt.executeQuery(query);
         String description = "";
         try {
-            while (rs.next()) {
-                description = rs.getString("description");
+            if(rs.next() == false){
+                showMessageDialog(null, "This class does not exist");
+                editClassInformation(memberID, tier, fnamn, uname, defaultGym);
             }
-            // Här ska vi kunna redigera texten
-            showMessageDialog(null, description);
-            // Ändringen ska sedan sparas i databasen
+            description = rs.getString("description");
+            String newdescription = JOptionPane.showInputDialog("Edit the description: ", description);
+            if(newdescription == null){
+                editClassInformation(memberID, tier, fnamn, uname, defaultGym);
+            }
+            String updatesql = ("update classtype set description = '" + newdescription + "' where className = '" + classname + "';");
+            stmt.executeUpdate(updatesql);
+            showMessageDialog(null, "The description has been updated.");
         } catch (SQLException e) {
             showMessageDialog(null, "Something went wrong.");
             System.out.println(e);
@@ -339,6 +345,7 @@ public class staffView {
             }
             rs.close();
             conn.close();
+            editClassInformation(memberID, tier, fnamn, uname, defaultGym);
         }
     }
 }
@@ -401,5 +408,3 @@ public class staffView {
         public void setDescription(String description) {
             this.description = description;
         }*/
-
-///// fake push

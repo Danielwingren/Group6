@@ -217,7 +217,7 @@ public class classbooking {
             }
             showMessageDialog(null, classes);
         } catch (SQLException e) {
-                showMessageDialog(null, "Fel!");
+                showMessageDialog(null, "Something went wrong.");
                 System.out.println(e);
             } finally {
                 if (stmt != null) {
