@@ -40,16 +40,16 @@ public class staffView {
                     staffView.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                     break;
                 case 3:
-                    addnewcertificate();
+                    addnewcertificate(memberID, tier, uname, fnamn, defaultGym);
                     break;
                 case 6:
                     fitnessAB.login();
                     break;
                 case 4:
-                    staffView.createclass();
+                    staffView.createclass(memberID, tier, uname, fnamn, defaultGym);
                     break;
                 case 2:
-                    addnewinstruct();
+                    addnewinstruct(memberID, tier, uname, fnamn, defaultGym);
                     break;
                 case 5:
                     editClassInformation(memberID, tier, fnamn, uname, defaultGym);
@@ -168,11 +168,11 @@ public class staffView {
         }
     }
 
-    public static void addnewinstruct() throws SQLException {
+    public static void addnewinstruct(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
         System.out.printf("Preparing to add new instructor");
 
         JTextField instructorID = new JTextField(14);
-        JTextField memberID = new JTextField(14);
+        JTextField memberIDx = new JTextField(14);
         JPanel newinstructpanel = new JPanel();
         newinstructpanel.setLayout(new GridLayout(2, 1));
 
@@ -180,28 +180,32 @@ public class staffView {
         newinstructpanel.add(instructorID);
         newinstructpanel.add(Box.createHorizontalStrut(8)); // a spacer
         newinstructpanel.add(new JLabel("memberID"));
-        newinstructpanel.add(memberID);
+        newinstructpanel.add(memberIDx);
 
         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newinstructpanel, "New instructor", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
-            System.exit(22);
+            mainmenu(memberID, tier, uname, fnamn, defaultGym);
         }
 
         String instructorIDs = instructorID.getText();
-        String memberIDs = memberID.getText();
+        String memberIDs = memberIDx.getText();
 
         String addnewinstructsql = "INSERT INTO instructor" + "(\"instructorID\", \"memberID\")" +
                 "VALUES ('" + instructorIDs + "','" + memberIDs + "');";
         System.out.printf(addnewinstructsql);
-        sql.addnewinstruct(addnewinstructsql, memberIDs);
+        try {
+            sql.addnewinstruct(addnewinstructsql, memberIDs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void addnewcertificate() {
+    public static void addnewcertificate(String memberID, int tier, String uname, String fnamn, String defaultGym) {
         //yet to be done...
     }
 
-    public static void createclass() throws SQLException {
+    public static void createclass(String memberID, int tier,String uname,String fnamn,String defaultGym) throws SQLException {
         System.out.println("system activated: superbiff 3000 starting...");
 
         String[] classchoices = { "spinning3000","yogaCalm", "coreExtreme","coreStatic","spinning2000","yogaPower","stepUp","stepQuick","boxingZ","challengeUltimate","stepInsane"};
@@ -240,12 +244,17 @@ public class staffView {
         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New class", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
-            System.exit(22);
+            staffView.mainmenu(memberID, tier, uname, fnamn, defaultGym);
         }
 
         String instructor = String.valueOf(instructorname.getSelectedItem());
         System.out.println(instructor);
-        String instructorIDs = sql.sqlinstructorID(instructor);
+        String instructorIDs = null;
+        try {
+            instructorIDs = sql.sqlinstructorID(instructor);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String classNames = String.valueOf(className.getSelectedItem());
         String roomIDs = String.valueOf(roomID.getSelectedItem());
         String times = time.getText();

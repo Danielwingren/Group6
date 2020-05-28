@@ -32,10 +32,10 @@ public class fitnessAB {
       myPanel.add(Box.createHorizontalStrut(8)); // a spacer
       myPanel.add(new JLabel("Password"));
       myPanel.add(pwField);
-
-         ImageIcon bild1 = new ImageIcon (fitnessAB.class.getResource("images/login.png"));
-         int result = JOptionPane.showConfirmDialog(null, myPanel, "Fitness AB login", JOptionPane.OK_CANCEL_OPTION,0,bild1);
-         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION){
+         while (true) {
+         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
+         int result = JOptionPane.showConfirmDialog(null, myPanel, "Fitness AB login", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
+         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
          }
          String username = userField.getText();
@@ -47,10 +47,12 @@ public class fitnessAB {
             }
          } else if (sqlLogin(username, password)) {
             menu(username); //detta programmet initierar huvudmenynd
-            //break;
+            break;
+
          } else {
-            System.exit(333);
+            break;
          }
+      }
    }
    private static void menu(String username) throws SQLException { //forslar vidare beroende medlem eller ej
       ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));

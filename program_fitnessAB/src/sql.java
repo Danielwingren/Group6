@@ -94,7 +94,7 @@ public class sql {
             int tier = Integer.parseInt(tierType);
             return tier;
         } catch (SQLException e) {
-            showMessageDialog(null, "Could not load tier");
+            System.out.println("Could not load tier");
         }
         finally {
             rs1.close();
@@ -388,7 +388,6 @@ public class sql {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong, please try again!");
-            staffView.createclass();
         }
         System.out.println("new class done");
     }
@@ -408,7 +407,6 @@ public class sql {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong");
-            staffView.addnewinstruct();
         }
         System.out.println("new instructor done");
     }
