@@ -282,7 +282,7 @@ public class staffView {
                 addNewClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 2:
-                removeClass();
+                removeClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 3:
                 editClassDescription(memberID, tier, fnamn, uname, defaultGym);
@@ -400,8 +400,16 @@ public class staffView {
         showMessageDialog(null,result,"Inventory",PLAIN_MESSAGE,null);
     }
 
-    public static void removeClass() {
+    public static void removeClass(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
 
+        String classID = showInputDialog(null,"Enter the classID of the class you want to remove", "Remove class", INFORMATION_MESSAGE);
+        conn=sql.dbconnection();
+        String removeClassQuery = "DELETE FROM class WHERE classID= '"+ classID +"';";
+        try {
+            sql.removeCLassSql(classID, removeClassQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

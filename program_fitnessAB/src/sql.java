@@ -542,6 +542,25 @@ public class sql {
         System.out.println("I SQL " + apa);
         return rs;
     }
+    public static void removeCLassSql(String classID, String removeClassQuery) throws SQLException {
+        conn = dbconnection();
+        Statement stmt = null;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = (removeClassQuery);
+            stmt.executeUpdate(sql);
+            conn.commit();
+            stmt.close();
+            conn.close();
+            JOptionPane.showMessageDialog(null, "Success! " + classID + " is now removed from classes");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error removing class");
+        }
+        System.out.println("Class removed");
+    }
+
 
 }
 
