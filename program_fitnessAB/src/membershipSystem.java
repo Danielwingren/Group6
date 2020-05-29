@@ -139,12 +139,12 @@ public class membershipSystem {
     }
     //Not working yet!
     public static void UpdateContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym)throws SQLException {
-        // email, phone nr, home gym, tier
+        // email, phone nr, home gym
+
         ResultSet rs = sql.getAccountInformation2(memberID);
         String email = rs.getString(1);
         String phoneNr = rs.getString(2);
         String defaultgym = rs.getString(3);
-        String tierName = rs.getString(4);
 
         String newemail = JOptionPane.showInputDialog(null, "E-mail: ", email);
 
@@ -152,11 +152,13 @@ public class membershipSystem {
 
         String newhomegym = JOptionPane.showInputDialog(null, "Home gym: ", defaultgym);
 
-        conn = sql.dbconnection();
-        Statement stmt = conn.createStatement();
         try {
-            String updatesql = ("update member set email = '" + newemail + "', phoneNr = '" + newphonenr + "', defaultGym = '" + newhomegym + "', where memberID = '" + memberID + "';");
+            conn = sql.dbconnection();
+            Statement stmt = conn.createStatement();
+            System.out.println(memberID);
+            String updatesql = ("update member set email = '" + newemail + "', phoneNr = '" + newphonenr + "', defaultGym = '" + newhomegym + "' where memberID = '" + memberID + "';");
             stmt.executeUpdate(updatesql);
+            showMessageDialog(null, "Your contact information has been updated");
         } catch (SQLException e){
             System.out.println(e);
             showMessageDialog(null, "Something went wrong.");
@@ -164,7 +166,6 @@ public class membershipSystem {
         }
         rs.close();
         conn.close();
-        showMessageDialog(null, "Your contact information has been updated");
         membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
     }
 
