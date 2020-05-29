@@ -7,6 +7,9 @@ import java.sql.*;
 import static javax.swing.JOptionPane.*;
 
 public class membershipSystem {
+    public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
+    public static final String DRIVER = "org.sqlite.JDBC";
+    static Connection conn = null;
 
     public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
 
@@ -133,6 +136,39 @@ public class membershipSystem {
         String tierName = rs3.getString(7);
         showMessageDialog(null, "First name: " + fName+ "\nLast name: " + lName + "\nE-mail: " + email + "\nPhone number: " + phoneNr + "\nHome gym: " + location + "\nMember ID: " + memberIDx + "\nTier: " + tierName + "");
         membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
+    }
+
+    public static void UpdateContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym)throws SQLException {
+        // email, phone nr, home gym, tier
+        /*conn = sql.dbconnection();
+        String query = ("select email, phoneNr, defaultGym, tierType from member where className = '" + classname + "';");
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        String description = "";
+        try {
+            if(rs.next() == false){
+                showMessageDialog(null, "Something went wrong.");
+                staffView.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
+            }
+            description = rs.getString("description");
+            String newdescription = JOptionPane.showInputDialog("Edit the description: ", description);
+            if(newdescription == null){
+                staffView.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
+            }
+            String updatesql = ("update classtype set description = '" + newdescription + "' where className = '" + classname + "';");
+            stmt.executeUpdate(updatesql);
+            showMessageDialog(null, "The description has been updated.");
+        } catch (SQLException e) {
+            showMessageDialog(null, "Something went wrong.");
+            System.out.println(e);
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            rs.close();
+            conn.close();
+            editClassInformation(memberID, tier, fnamn, uname, defaultGym);
+        }*/
     }
 
     public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
