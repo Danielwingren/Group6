@@ -137,29 +137,36 @@ public class membershipSystem {
         showMessageDialog(null, "First name: " + fName+ "\nLast name: " + lName + "\nE-mail: " + email + "\nPhone number: " + phoneNr + "\nHome gym: " + location + "\nMember ID: " + memberIDx + "\nTier: " + tierName + "");
         membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
     }
-
+    //Not working yet!
     public static void UpdateContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym)throws SQLException {
         // email, phone nr, home gym, tier
         ResultSet rs = sql.getAccountInformation2(memberID);
-        System.out.println(rs);
-        Statement stmt = conn.createStatement();
-        int i = 1;
         String email = rs.getString(1);
         String phoneNr = rs.getString(2);
-        String location = rs.getString(3);
+        String defaultgym = rs.getString(3);
         String tierName = rs.getString(4);
+
         String newemail = JOptionPane.showInputDialog(null, "E-mail: ", email);
+
         String newphonenr = JOptionPane.showInputDialog(null, "Phone number: ", phoneNr);
-        String newhomegym = JOptionPane.showInputDialog(null, "Home gym: ", location);
+
+        String newhomegym = JOptionPane.showInputDialog(null, "Home gym: ", defaultgym);
+
         String newtier = JOptionPane.showInputDialog(null, "Tier: ", tierName);
-        String updatesql = ("update member set email = '" + newemail + "' where memberID = '" + memberID + "';");
-        stmt.executeUpdate(updatesql);
-        String updatesql2 = ("update member set phoneNr = '" + newphonenr + "' where memberID = '" + memberID + "';");
-        stmt.executeUpdate(updatesql2);
-        String updatesql3 = ("update member set location = '" + newhomegym + "' where memberID = '" + memberID + "';");
-        stmt.executeUpdate(updatesql3);
-        String updatesql4 = ("update member set tierName = '" + newtier + "' where memberID = '" + memberID + "';");
-        stmt.executeUpdate(updatesql4);
+
+        conn = sql.dbconnection();
+        Statement stmt = conn.createStatement();
+        try {
+            String updatesql = ("update member set email = '" + newemail + "', phoneNr = '" + newphonenr + "', defaultGym = '" + newhomegym + "', tierType = '" + newtier + "' where memberID = '" + memberID + "';");
+            stmt.executeUpdate(updatesql);
+        } catch (SQLException e){
+            System.out.println(e);
+            showMessageDialog(null, "Something went wrong.");
+            membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
+        }
+        rs.close();
+        conn.close();
+        showMessageDialog(null, "Your contact information has been updated");
         membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
     }
 
