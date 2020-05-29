@@ -99,7 +99,7 @@ public class classbooking {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             todayy = (sdf.format(realDate));
             String message = sql.ViewAllClasses(todayy, defaultGym);
-            String result = sql.AvailableClasses(todayy,defaultGym);
+            String result = sql.AvailableClasses(todayy, defaultGym);
 
             JFrame frame = new JFrame();
             new JTextArea();
