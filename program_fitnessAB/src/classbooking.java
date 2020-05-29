@@ -69,6 +69,31 @@ public class classbooking {
         int todayx = 0;
         int yesterdayx = -1;
         int tomorrowx = +1;
+        String type = "%";
+
+        JFrame framex = new JFrame();
+        String[] optionsx = new String[3];
+        optionsx[0] = "All classes at: "+defaultGym;
+        optionsx[1] = "Filter on specific classes";
+        optionsx[2] = "back to menu";
+        int choicex = JOptionPane.showOptionDialog(framex.getContentPane(), "Please choose if you would like to filter on classes",
+                "Do you want to see all classes or filter through type?", 0, JOptionPane.INFORMATION_MESSAGE, null, optionsx, null);
+        if (choicex == 1) {
+            JFrame frame = new JFrame();
+            frame.setAlwaysOnTop(true);
+
+            Object[] options = {"spinning","yoga","core","challenge","step","boxing"};
+
+            Object selectionObject = JOptionPane.showInputDialog(frame, "Choose what type of class to show", "Filter on calsses", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+            type = selectionObject.toString();
+            System.out.println("Vald type: " + type);
+        }
+        if (choicex == 2) {
+            classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+        }
+        if (choicex == CLOSED_OPTION) {
+            classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+        }
 
         while (true) {
             String todayy;
@@ -98,11 +123,10 @@ public class classbooking {
             //Date in format of SQL database
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             todayy = (sdf.format(realDate));
-            String message = sql.ViewAllClasses(todayy, defaultGym);
-            String result = sql.AvailableClasses(todayy, defaultGym);
+            String message = sql.ViewAllClasses(todayy, defaultGym, type);
+            String result = sql.AvailableClasses(todayy, defaultGym, type);
 
             JFrame frame = new JFrame();
-            new JTextArea();
             String[] options = new String[3];
             options[0] = yesterday;
             options[1] = "OK";
@@ -120,7 +144,7 @@ public class classbooking {
                 tomorrowx = yesterdayx + 1;
             }
             else if (val ==CLOSED_OPTION ) {
-                break;
+                classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
             }
             else if (val == 1) {
                 int choice = showConfirmDialog(null,"Do you wish to book an available class for this date?","Menu",YES_NO_OPTION,PLAIN_MESSAGE);
@@ -129,11 +153,11 @@ public class classbooking {
                     break;
                 }
                 else {
-                    classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+                    classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
                 }
             }
         }
-        classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
+        classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
     }
     public static void seeBookedClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         ResultSet rs = sql.getBookedClasses(memberID);
