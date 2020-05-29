@@ -16,12 +16,13 @@ public class membershipSystem {
 
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
-        String[] options = new String[5];
+        String[] options = new String[6];
         options[0] = "Change password";
         options[1] = "Change payment method";
         options[2] = "View contact information";
-        options[4] = "Back to main menu";
-        options[3] = "Payment history";
+        options[3] = "Update contact information";
+        options[5] = "Back to main menu";
+        options[4] = "Payment history";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Choose what information to update", "Update Member Information", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
@@ -36,10 +37,12 @@ public class membershipSystem {
             case 2:
                 ViewContactInformation(memberID, tier, uname, fnamn, defaultGym);
                 break;
-            case 4:
+            case 3:
+                UpdateContactInformation(memberID, tier, uname, fnamn, defaultGym);
+            case 5:
                 classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
                 break;
-            case 3:
+            case 4:
                 paymentHistory(memberID, tier, fnamn, uname, defaultGym);
                 break;
 
@@ -139,45 +142,25 @@ public class membershipSystem {
         // email, phone nr, home gym, tier
         ResultSet rs = sql.getAccountInformation2(memberID);
         System.out.println(rs);
+        Statement stmt = conn.createStatement();
         int i = 1;
         String email = rs.getString(1);
         String phoneNr = rs.getString(2);
         String location = rs.getString(3);
         String tierName = rs.getString(4);
-        JOptionPane.showInputDialog(null, "E-mail: ", email);
-        JOptionPane.showInputDialog(null, "Phone number: ", phoneNr);
-        JOptionPane.showInputDialog(null, "Home gym: ", location);
-        JOptionPane.showInputDialog(null, "Tier: ", tierName);
+        String newemail = JOptionPane.showInputDialog(null, "E-mail: ", email);
+        String newphonenr = JOptionPane.showInputDialog(null, "Phone number: ", phoneNr);
+        String newhomegym = JOptionPane.showInputDialog(null, "Home gym: ", location);
+        String newtier = JOptionPane.showInputDialog(null, "Tier: ", tierName);
+        String updatesql = ("update member set email = '" + newemail + "' where memberID = '" + memberID + "';");
+        stmt.executeUpdate(updatesql);
+        String updatesql2 = ("update member set phoneNr = '" + newphonenr + "' where memberID = '" + memberID + "';");
+        stmt.executeUpdate(updatesql2);
+        String updatesql3 = ("update member set location = '" + newhomegym + "' where memberID = '" + memberID + "';");
+        stmt.executeUpdate(updatesql3);
+        String updatesql4 = ("update member set tierName = '" + newtier + "' where memberID = '" + memberID + "';");
+        stmt.executeUpdate(updatesql4);
         membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
-        /*conn = sql.dbconnection();
-        String query = ("select email, phoneNr, defaultGym, tierType from member where className = '" + classname + "';");
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        String description = "";
-        try {
-            if(rs.next() == false){
-                showMessageDialog(null, "Something went wrong.");
-                staffView.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
-            }
-            description = rs.getString("description");
-            String newdescription = JOptionPane.showInputDialog("Edit the description: ", description);
-            if(newdescription == null){
-                staffView.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
-            }
-            String updatesql = ("update classtype set description = '" + newdescription + "' where className = '" + classname + "';");
-            stmt.executeUpdate(updatesql);
-            showMessageDialog(null, "The description has been updated.");
-        } catch (SQLException e) {
-            showMessageDialog(null, "Something went wrong.");
-            System.out.println(e);
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-            rs.close();
-            conn.close();
-            editClassInformation(memberID, tier, fnamn, uname, defaultGym);
-        }*/
     }
 
     public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
