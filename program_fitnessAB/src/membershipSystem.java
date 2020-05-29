@@ -139,6 +139,18 @@ public class membershipSystem {
 
     public static void UpdateContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym)throws SQLException {
         // email, phone nr, home gym, tier
+        ResultSet rs = sql.getAccountInformation2(memberID);
+        System.out.println(rs);
+        int i = 1;
+        String email = rs.getString(1);
+        String phoneNr = rs.getString(2);
+        String location = rs.getString(3);
+        String tierName = rs.getString(4);
+        JOptionPane.showInputDialog(null, "E-mail: ", email);
+        JOptionPane.showInputDialog(null, "Phone number: ", phoneNr);
+        JOptionPane.showInputDialog(null, "Home gym: ", location);
+        JOptionPane.showInputDialog(null, "Tier: ", tierName);
+        membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
         /*conn = sql.dbconnection();
         String query = ("select email, phoneNr, defaultGym, tierType from member where className = '" + classname + "';");
         Statement stmt = conn.createStatement();

@@ -489,6 +489,22 @@ public class sql {
         }
         return rs3;
     }
+    public static ResultSet getAccountInformation2(String memberID) throws SQLException {
+        conn = dbconnection();
+        ResultSet rs = null;
+        String error = "";
+        try {
+            String getAccountInfo = "select member.email, member. phoneNr, gym.location, memberTiers.tierName from member inner join gym on member.defaultGym = gym.gymID inner join memberTiers on member.tierType = memberTiers.tierType where memberID = '" +memberID+ "';";
+            rs = conn.createStatement().executeQuery(getAccountInfo);
+            System.out.println("Fetching member information");
+            return rs;
+        }
+        catch (SQLException e) {
+            showMessageDialog(null,"Error fetching account information");
+            System.out.println(e.toString());
+        }
+        return rs;
+    }
 
     public static void cancelBooking(String query) throws SQLException {
         conn = dbconnection();
