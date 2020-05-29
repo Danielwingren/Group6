@@ -39,7 +39,7 @@ public class classbooking {
                 seeBookedClasses(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 2 :
-                viewClassInformation();
+                viewClassInformation(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 3 :
                 membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
@@ -232,7 +232,7 @@ public class classbooking {
             }
         }
     }
-    public static void viewClassInformation() throws SQLException {
+    public static void viewClassInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         //Choose classname, click button
 
         conn = sql.dbconnection();
@@ -248,7 +248,7 @@ public class classbooking {
                 description = rs.getString("description");
                 classes = classes + "\n" + classname + "\n" + description + "\n";
             }
-            showMessageDialog(null, classes);
+            showMessageDialog(null, classes, "Class information", INFORMATION_MESSAGE);
         } catch (SQLException e) {
                 showMessageDialog(null, "Something went wrong.");
                 System.out.println(e);
@@ -259,6 +259,7 @@ public class classbooking {
             rs.close();
             conn.close();
             }
+        memberscreen(memberID, tier,fnamn, uname, defaultGym);
 
         //Information about classes, fetch description and name
 
