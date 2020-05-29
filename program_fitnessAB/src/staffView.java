@@ -19,13 +19,12 @@ public class staffView {
         while (true) {
 
             JFrame frame = new JFrame();
-            String[] options = new String[6];
+            String[] options = new String[5];
             options[0] = "Add new member";
-            options[1] = "Update member information";
-            options[5] = "Logout";
-            options[2] = "Add new Instructor";
-            options[3] = "Manage classes";
-            options[4] = "Check inventory";
+            options[4] = "Logout";
+            options[1] = "Add new Instructor";
+            options[2] = "Manage classes";
+            options[3] = "Check inventory";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -34,19 +33,16 @@ public class staffView {
                 case 0:
                     addnewmember(memberID, tier, fnamn, uname, defaultGym);
                     break;
-                case 1:
-                    membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
-                    break;
-                case 5:
+                case 4:
                     fitnessAB.login();
                     break;
-                case 2:
+                case 1:
                     addnewinstruct(memberID, tier, uname, fnamn, defaultGym);
                     break;
-                case 3:
+                case 2:
                     manageClasses(memberID, tier, fnamn, uname, defaultGym);
                     break;
-                case 4 :
+                case 3 :
                     inventory(memberID, tier, fnamn, uname, defaultGym);
             }
         }
@@ -374,7 +370,7 @@ public class staffView {
         options[2] = "Långedrag";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which gym would you like to see inventory for?", "Inventory", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
         if (val == JOptionPane.CLOSED_OPTION) {
-            System.exit(11);
+            staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
         }
         switch (val) {
             case 0:

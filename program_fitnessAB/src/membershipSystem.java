@@ -13,10 +13,7 @@ public class membershipSystem {
 
     public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
 
-        if (tier == 5) {
-            memberID = showInputDialog("Enter memberID for the person who wish to update:");
 
-        }
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();
         String[] options = new String[5];
