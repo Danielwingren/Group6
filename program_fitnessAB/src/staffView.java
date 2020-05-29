@@ -19,14 +19,13 @@ public class staffView {
         while (true) {
 
             JFrame frame = new JFrame();
-            String[] options = new String[7];
+            String[] options = new String[6];
             options[0] = "Add new member";
             options[1] = "Update member information";
-            options[3] = "Add new certificate";
-            options[6] = "Logout";
+            options[5] = "Logout";
             options[2] = "Add new Instructor";
-            options[4] = "Manage classes";
-            options[5] = "Check inventory";
+            options[3] = "Manage classes";
+            options[4] = "Check inventory";
             int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome " + fnamn + ", please choose operation below:", "Main Menu", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
             if (val == JOptionPane.CLOSED_OPTION) {
                 System.exit(11);
@@ -38,19 +37,16 @@ public class staffView {
                 case 1:
                     staffView.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                     break;
-                case 3:
-                    addnewcertificate(memberID, tier, uname, fnamn, defaultGym);
-                    break;
-                case 6:
+                case 5:
                     fitnessAB.login();
                     break;
                 case 2:
                     addnewinstruct(memberID, tier, uname, fnamn, defaultGym);
                     break;
-                case 4:
+                case 3:
                     manageClasses(memberID, tier, fnamn, uname, defaultGym);
                     break;
-                case 5 :
+                case 4 :
                     inventory(memberID, tier, fnamn, uname, defaultGym);
             }
         }
@@ -199,10 +195,6 @@ public class staffView {
         }
     }
 
-    public static void addnewcertificate(String memberID, int tier, String uname, String fnamn, String defaultGym) {
-        //yet to be done...
-    }
-
     public static void createclass(String memberID, int tier,String uname,String fnamn,String defaultGym) throws SQLException {
         System.out.println("system activated: superbiff 3000 starting...");
 
@@ -242,7 +234,7 @@ public class staffView {
         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newclassPanel, "New class", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
-            staffView.mainmenu(memberID, tier, uname, fnamn, defaultGym);
+            staffView.manageClasses(memberID, tier, uname, fnamn, defaultGym);
         }
 
         String instructor = String.valueOf(instructorname.getSelectedItem());
@@ -273,8 +265,8 @@ public class staffView {
 
         JFrame frame = new JFrame();
         String[] options = new String[5];
-        options[0] = "Create new class";
         options[1] = "Add new class";
+        options[0] = "Create new class";
         options[2] = "Remove class";
         options[3] = "Edit class description";
         options[4] = "Back";
@@ -284,10 +276,10 @@ public class staffView {
             mainmenu(memberID, tier, fnamn, uname, defaultGym);
         }
         switch (val) {
-            case 0:
+            case 1:
                 createclass(memberID, tier, uname, fnamn, defaultGym);
                 break;
-            case 1:
+            case 0:
                 addNewClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 2:
@@ -325,7 +317,7 @@ public class staffView {
         ImageIcon bild = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newclassnamePanel, "Add new class", JOptionPane.OK_CANCEL_OPTION, 0, bild);
         if (result == JOptionPane.CANCEL_OPTION) {
-            staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
+            staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
         } else if (result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
         }
