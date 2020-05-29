@@ -46,7 +46,7 @@ public class staffView {
                 case 3 :
                     inventory(memberID, tier, fnamn, uname, defaultGym);
                 case 4 :
-
+                    updateTier(memberID, tier, fnamn, uname, defaultGym);
             }
         }
     }
@@ -54,7 +54,7 @@ public class staffView {
     public static void addnewmember(String xmemberID, int xtier, String xfnamn, String xuname, String xdefaultGym) throws SQLException {
         System.out.println("eh. BOOM");
 
-
+        String newMemberID = sql.GetNewMemberID();
         JTextField fName = new JTextField(14);
         JTextField lName = new JTextField(14);
         JTextField cardNo = new JTextField(14);
@@ -65,7 +65,7 @@ public class staffView {
         JTextField creditCard = new JTextField(14);
         JTextField pNr = new JTextField(14);
         JTextField defaultGym = new JTextField(14);
-        JTextField memberID = new JTextField(14);
+        JLabel memberID = new JLabel(newMemberID);
         JPanel newmemberPanel = new JPanel();
         newmemberPanel.setLayout(new GridLayout(12, 1));
         //myPanel.add(bild);
@@ -124,9 +124,9 @@ public class staffView {
         String creditCards = creditCard.getText();
         String personNummers = pNr.getText();
         String defaultGyms = defaultGym.getText();
-        String memberIDs = memberID.getText();
+        String memberIDs = newMemberID;
         String addnewsql = "INSERT INTO member" +
-                "(\"memberID\", \"fName\", \"lName\", \"card#\", \"tierType\", \"phone#\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
+                "(\"memberID\", \"fName\", \"lName\", \"gymCardNumber\", \"tierType\", \"phoneNr\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
                 "VALUES ('" + memberIDs + "','" + fNames + "', '" + lNames + "', '" + cardNumbers + "', '" + tiers + "', '" + phones + "', '" + emails + "', '" + passwords + "', '" + creditCards + "', '" + personNummers + "', '" + defaultGyms + "');";
         System.out.println(addnewsql);
         String name = fNames + " " + lNames;
@@ -410,6 +410,15 @@ public class staffView {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static void updateTier (String memberID, int tier, String fnamn, String uname, String defaultGym ) throws SQLException {
+        String username = JOptionPane.showInputDialog("Please enter the username for the member whos tier is to be updated:");
+        int currentTier = sql.GetTier(username);
+        String newTier = showInputDialog("Current tier for user: \""+username+"\" is : "+ currentTier+ " .\nWhat tier would you like to change this to?" );
+        int newTierParsed = Integer.parseInt(newTier);
+        sql.ChangeTier(username, newTierParsed);
+
+        staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
     }
 }
 

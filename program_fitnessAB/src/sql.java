@@ -84,12 +84,13 @@ public class sql {
 
     public static int GetTier(String username) throws SQLException {
         conn = dbconnection();
-        int error = 0;
+        int error = 666;
         ResultSet rs1 = null;
         try {
             String sqlReadTier = ("select tierType from member where email = '" + username + "';");    // -
             rs1 = conn.createStatement().executeQuery(sqlReadTier);                         // -
-            String tierType = rs1.getString("tiertype");      // - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
+            String tierType = rs1.getString("tiertype");// - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
+            System.out.println("Tiertype = "+tierType);
             int tier = Integer.parseInt(tierType);
             return tier;
         } catch (SQLException e) {
@@ -144,9 +145,8 @@ public class sql {
     public static String GetMemberID(String username) throws SQLException {
         ResultSet rs2 = null;
         String error = "-";
+        conn = dbconnection();
         try {
-            conn = dbconnection();
-
             String sqlReadMemberID = ("select memberID from member where email ='" + username + "';");     // -
             rs2 = conn.createStatement().executeQuery(sqlReadMemberID);                         // - Dessa tre rader läser in medlemsID
             return rs2.getString("memberID");
@@ -156,6 +156,7 @@ public class sql {
             rs2.close();
             conn.close();
         }
+        conn.close();
         return error;
     }
     public static String GetPaymentDate(String memberID) throws SQLException {
@@ -340,8 +341,7 @@ public class sql {
         try {
             conn.setAutoCommit(false);
             stmt = conn.createStatement();
-            String sql = (sqladd);
-            stmt.executeUpdate(sql);
+            stmt.executeUpdate((sqladd));
             conn.commit();
             stmt.close();
             conn.close();
@@ -559,6 +559,34 @@ public class sql {
             JOptionPane.showMessageDialog(null, "Error removing class");
         }
         System.out.println("Class removed");
+    }
+    public static void ChangeTier(String uname, int newTier) throws SQLException {
+        conn = dbconnection();
+        Statement stmt = null;
+        try {
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+            String sql = ("update member set tierType = '" + newTier+ "'where email = '"+ uname +"';");
+            stmt.executeUpdate(sql);
+            conn.commit();
+            showMessageDialog(null,"Tier for user: "+uname+", is now updated to: "+newTier+" .");
+            stmt.close();
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static String GetNewMemberID () throws SQLException {
+        conn = dbconnection();
+        String newMemberID = "";
+        ResultSet rs = null;
+        String query = "select memberID from member order by memberID desc limit 1;";
+        rs = conn.createStatement().executeQuery(query);
+        int oldestHighestID = rs.getInt(1);
+        oldestHighestID = oldestHighestID +1;
+        newMemberID = Integer.toString(oldestHighestID);
+
+        return newMemberID;
     }
 
 
