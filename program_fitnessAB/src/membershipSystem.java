@@ -152,12 +152,10 @@ public class membershipSystem {
 
         String newhomegym = JOptionPane.showInputDialog(null, "Home gym: ", defaultgym);
 
-        String newtier = JOptionPane.showInputDialog(null, "Tier: ", tierName);
-
         conn = sql.dbconnection();
         Statement stmt = conn.createStatement();
         try {
-            String updatesql = ("update member set email = '" + newemail + "', phoneNr = '" + newphonenr + "', defaultGym = '" + newhomegym + "', tierType = '" + newtier + "' where memberID = '" + memberID + "';");
+            String updatesql = ("update member set email = '" + newemail + "', phoneNr = '" + newphonenr + "', defaultGym = '" + newhomegym + "', where memberID = '" + memberID + "';");
             stmt.executeUpdate(updatesql);
         } catch (SQLException e){
             System.out.println(e);
