@@ -163,7 +163,7 @@ public class staffView {
             case 1:
                 membershipSystem.updatePaymentMethod(memberID);
             case 2:
-                membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
+                membershipSystem.UpdateContactInformation(memberID, tier, uname, fnamn, defaultGym);
             case 3:
                 staffView.mainmenu(memberID, tier, uname, fnamn, defaultGym);
 
@@ -294,7 +294,6 @@ public class staffView {
         }
     }
 
-    // Add new class: skriva in classname m.m.
     public static void addNewClass(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         JTextField name = new JTextField(14);
         JTextField type = new JTextField(14);
