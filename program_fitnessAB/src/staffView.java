@@ -278,7 +278,7 @@ public class staffView {
         options[2] = "Remove class";
         options[3] = "Edit class description";
         options[4] = "Back";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Edit class information ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Class management menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 
         if (val == JOptionPane.CLOSED_OPTION) {
             mainmenu(memberID, tier, fnamn, uname, defaultGym);
