@@ -503,6 +503,7 @@ public class sql {
             showMessageDialog(null,"Error fetching account information");
             System.out.println(e.toString());
         }
+        rs.close();
         conn.close();
         return rs;
     }
