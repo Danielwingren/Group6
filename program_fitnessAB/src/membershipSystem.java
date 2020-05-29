@@ -12,6 +12,7 @@ public class membershipSystem {
 
         if (tier == 5) {
             memberID = showInputDialog("Enter memberID for the person who wish to update:");
+
         }
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
         JFrame frame = new JFrame();

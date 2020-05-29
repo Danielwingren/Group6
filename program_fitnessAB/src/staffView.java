@@ -37,7 +37,7 @@ public class staffView {
                     addnewmember(memberID, tier, fnamn, uname, defaultGym);
                     break;
                 case 1:
-                    staffView.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
+                    membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
                     break;
                 case 3:
                     addnewcertificate(memberID, tier, uname, fnamn, defaultGym);
