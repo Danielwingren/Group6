@@ -7,8 +7,6 @@ import java.sql.*;
 import static javax.swing.JOptionPane.*;
 
 public class membershipSystem {
-    public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
-    public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
     public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {

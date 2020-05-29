@@ -9,8 +9,6 @@ import java.awt.event.*;
 import static javax.swing.JOptionPane.*;
 
 public class staffView {
-    public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
-    public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
     public static void mainmenu(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
@@ -132,35 +130,6 @@ public class staffView {
         String name = fNames + " " + lNames;
         sql.addnewmember(addnewsql, name);
     }
-
-    public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
-
-        String currentMember = showInputDialog("Enter memberID for the person who wish to update:");
-
-        ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
-        JFrame frame = new JFrame();
-        String[] options = new String[4];
-        options[0] = "Change Password";
-        options[1] = "Change payment method";
-        options[2] = "Update contact information";
-        options[3] = "Back to staff main menu";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Choose what information to update", "Update Member Information", 0, JOptionPane.INFORMATION_MESSAGE, icon, options, null);
-        if (val == JOptionPane.CLOSED_OPTION) {
-            System.exit(11);
-        }
-        switch (val) {
-            case 0:
-                membershipSystem.changePassword(memberID, tier, uname, fnamn, defaultGym);
-            case 1:
-                membershipSystem.updatePaymentMethod(memberID);
-            case 2:
-                membershipSystem.UpdateContactInformation(memberID, tier, uname, fnamn, defaultGym);
-            case 3:
-                staffView.mainmenu(memberID, tier, uname, fnamn, defaultGym);
-
-        }
-    }
-
     public static void addnewinstruct(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
         System.out.printf("Preparing to add new instructor");
 
@@ -341,21 +310,25 @@ public class staffView {
             if(rs.next() == false){
                 showMessageDialog(null, "This class does not exist");
                 manageClasses(memberID, tier, fnamn, uname, defaultGym);
+                conn.close();
             }
             description = rs.getString("description");
             String newdescription = JOptionPane.showInputDialog("Edit the description: ", description);
             if(newdescription == null){
                 manageClasses(memberID, tier, fnamn, uname, defaultGym);
+                conn.close();
             }
             String updatesql = ("update classtype set description = '" + newdescription + "' where className = '" + classname + "';");
             stmt.executeUpdate(updatesql);
             showMessageDialog(null, "The description has been updated.");
+            conn.close();
         } catch (SQLException e) {
             showMessageDialog(null, "Something went wrong.");
             System.out.println(e);
         } finally {
             if (stmt != null) {
                 stmt.close();
+                conn.close();
             }
             rs.close();
             conn.close();
@@ -407,9 +380,11 @@ public class staffView {
         String removeClassQuery = "DELETE FROM class WHERE classID= '"+ classID +"';";
         try {
             sql.removeCLassSql(classID, removeClassQuery);
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        conn.close();
     }
     public static void updateTier (String memberID, int tier, String fnamn, String uname, String defaultGym ) throws SQLException {
         String username = JOptionPane.showInputDialog("Please enter the username for the member whos tier is to be updated:");

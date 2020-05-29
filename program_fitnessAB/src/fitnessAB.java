@@ -12,7 +12,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class fitnessAB {
    public static void main (String [] arg) throws SQLException {
 
-      sql.dbconnection();
+      //sql.dbconnection();
 
       login();
    }

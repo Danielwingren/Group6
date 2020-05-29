@@ -12,8 +12,6 @@ import java.text.SimpleDateFormat;
 import static javax.swing.JOptionPane.*;
 
 public class classbooking {
-    public static final String DB_URL = "jdbc:sqlite:db_fitnessAB.db"; // Sökväg till SQLite-databas. Denna bör nu vara relativ så att den fungerar för oss alla i gruppen!
-    public static final String DRIVER = "org.sqlite.JDBC";
     static Connection conn = null;
 
     public static void memberscreen (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {

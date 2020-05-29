@@ -432,11 +432,14 @@ public class sql {
         ResultSet rs = null;
         try {
             rs = conn.createStatement().executeQuery(sqlconfirm);
+            conn.close();
             return rs;
         }
+
         catch (SQLException e) {
             showMessageDialog(null,"Error trying to show confirm window");
         }
+        conn.close();
         return rs;
     }
     public static ResultSet checkFull (String query) throws SQLException {
@@ -487,6 +490,7 @@ public class sql {
             showMessageDialog(null,"Error fetching account information");
             System.out.println(e.toString());
         }
+        conn.close();
         return rs3;
     }
     public static ResultSet getAccountInformation2(String memberID) throws SQLException {
@@ -533,11 +537,13 @@ public class sql {
         try {
             rs = conn.createStatement().executeQuery(query);
             System.out.println("Loading inventory");
+            conn.close();
         } catch (SQLException var3) {
             JOptionPane.showMessageDialog(null, "Could not load inventory for desired gym");
             var3.printStackTrace();
             fitnessAB.login();
         }
+        conn.close();
         String apa = rs.getString("equipment");
         System.out.println("I SQL " + apa);
         return rs;
@@ -585,7 +591,7 @@ public class sql {
         int oldestHighestID = rs.getInt(1);
         oldestHighestID = oldestHighestID +1;
         newMemberID = Integer.toString(oldestHighestID);
-
+        conn.close();
         return newMemberID;
     }
 
