@@ -537,13 +537,11 @@ public class sql {
         try {
             rs = conn.createStatement().executeQuery(query);
             System.out.println("Loading inventory");
-            conn.close();
         } catch (SQLException var3) {
             JOptionPane.showMessageDialog(null, "Could not load inventory for desired gym");
             var3.printStackTrace();
             fitnessAB.login();
         }
-        conn.close();
         String apa = rs.getString("equipment");
         System.out.println("I SQL " + apa);
         return rs;

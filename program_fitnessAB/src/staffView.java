@@ -371,6 +371,7 @@ public class staffView {
         }
         String result = message + classesx;
         showMessageDialog(null,result,"Inventory",PLAIN_MESSAGE,null);
+        staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
     }
 
     public static void removeClass(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
@@ -387,10 +388,17 @@ public class staffView {
         conn.close();
     }
     public static void updateTier (String memberID, int tier, String fnamn, String uname, String defaultGym ) throws SQLException {
+        int newTierParsed = 0;
         String username = JOptionPane.showInputDialog("Please enter the username for the member whos tier is to be updated:");
         int currentTier = sql.GetTier(username);
         String newTier = showInputDialog("Current tier for user: \""+username+"\" is : "+ currentTier+ " .\nWhat tier would you like to change this to?" );
-        int newTierParsed = Integer.parseInt(newTier);
+        try {
+            newTierParsed = Integer.parseInt(newTier);
+        }
+        catch (NullPointerException e) {
+            showMessageDialog(null,"You have to ender a username.");
+            staffView.updateTier(memberID, tier, fnamn, uname, defaultGym);
+        }
         sql.ChangeTier(username, newTierParsed);
 
         staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
