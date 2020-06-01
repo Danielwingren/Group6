@@ -1,32 +1,18 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import org.sqlite.SQLiteConfig;
-
 import java.awt.*;
 import java.sql.*;
-import java.time.LocalDateTime;
-
-import static javax.swing.JOptionPane.showConfirmDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class fitnessAB {
    public static void main (String [] arg) throws SQLException {
-
-      //sql.dbconnection();
-
       login();
    }
    public static void login() throws SQLException {
-
-      JLabel bild = new JLabel(new ImageIcon(fitnessAB.class.getResource("images/login.png")));
-
       JTextField userField = new JTextField(14);
-
       JPasswordField pwField = new JPasswordField(14);
 
       JPanel myPanel = new JPanel();
       myPanel.setLayout(new GridLayout(2,0));
-      //myPanel.add(bild);
       myPanel.add(new JLabel("Email"));
       myPanel.add(userField);
       myPanel.add(Box.createHorizontalStrut(8)); // a spacer
@@ -38,18 +24,20 @@ public class fitnessAB {
          if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
          }
-         String username = userField.getText();
+         String usernamex = userField.getText();
+         String username = usernamex.toLowerCase();
          String password = pwField.getText();
          if (username.isEmpty() || password.isEmpty()) {
             int val = JOptionPane.showConfirmDialog(null, "You have to enter your correct credentials, do you wish to try again?", "Error", JOptionPane.YES_NO_OPTION);
             if (val == JOptionPane.NO_OPTION || val == JOptionPane.CLOSED_OPTION) {
                System.exit(1337);
             }
-         } else if (sqlLogin(username, password)) {
+         }
+         else if (sqlLogin(username, password)) {
             menu(username); //detta programmet initierar huvudmenynd
             break;
-
-         } else {
+         }
+         else {
             break;
          }
       }

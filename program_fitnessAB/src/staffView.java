@@ -4,18 +4,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.awt.event.*;
 
 import static javax.swing.JOptionPane.*;
 
 public class staffView {
     static Connection conn = null;
-
     public static void mainmenu(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/logo_greeen.png"));
         tier = sql.GetTier(uname);
-        while (true) {
 
+        while (true) {
             JFrame frame = new JFrame();
             String[] options = new String[6];
             options[0] = "Add new member";
@@ -48,9 +46,8 @@ public class staffView {
             }
         }
     }
-
     public static void addnewmember(String xmemberID, int xtier, String xfnamn, String xuname, String xdefaultGym) throws SQLException {
-        System.out.println("eh. BOOM");
+        System.out.println("eh. BOOM //Sauron");
 
         String newMemberID = sql.GetNewMemberID();
         JTextField fName = new JTextField(14);
@@ -66,8 +63,6 @@ public class staffView {
         JLabel memberID = new JLabel(newMemberID);
         JPanel newmemberPanel = new JPanel();
         newmemberPanel.setLayout(new GridLayout(12, 1));
-        //myPanel.add(bild);
-
 
         newmemberPanel.add(new JLabel("First Name"));
         newmemberPanel.add(fName);
@@ -103,7 +98,6 @@ public class staffView {
         newmemberPanel.add(memberID);
         newmemberPanel.add(Box.createHorizontalStrut(8)); // a spacer
 
-
         ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newmemberPanel, "New member", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
         if (result == JOptionPane.CANCEL_OPTION) {
@@ -111,7 +105,6 @@ public class staffView {
         } else if (result == JOptionPane.CLOSED_OPTION) {
             System.exit(22);
         }
-
         String fNames = fName.getText();
         String lNames = lName.getText();
         String cardNumbers = cardNo.getText();
@@ -122,37 +115,32 @@ public class staffView {
         String creditCards = creditCard.getText();
         String personNummers = pNr.getText();
         String defaultGyms = defaultGym.getText();
-        String memberIDs = newMemberID;
         String addnewsql = "INSERT INTO member" +
                 "(\"memberID\", \"fName\", \"lName\", \"gymCardNumber\", \"tierType\", \"phoneNr\", \"email\", \"loginpw\", \"creditCardNumber\", \"pNr\", \"defaultGym\")" +
-                "VALUES ('" + memberIDs + "','" + fNames + "', '" + lNames + "', '" + cardNumbers + "', '" + tiers + "', '" + phones + "', '" + emails + "', '" + passwords + "', '" + creditCards + "', '" + personNummers + "', '" + defaultGyms + "');";
+                "VALUES ('" + newMemberID + "','" + fNames + "', '" + lNames + "', '" + cardNumbers + "', '" + tiers + "', '" + phones + "', '" + emails + "', '" + passwords + "', '" + creditCards + "', '" + personNummers + "', '" + defaultGyms + "');";
         System.out.println(addnewsql);
         String name = fNames + " " + lNames;
         sql.addnewmember(addnewsql, name);
     }
     public static void addnewinstruct(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
         System.out.printf("Preparing to add new instructor");
-
         JTextField instructorID = new JTextField(14);
         JTextField memberIDx = new JTextField(14);
         JPanel newinstructpanel = new JPanel();
         newinstructpanel.setLayout(new GridLayout(2, 1));
+        ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
 
         newinstructpanel.add(new JLabel("New instructorID"));
         newinstructpanel.add(instructorID);
         newinstructpanel.add(Box.createHorizontalStrut(8)); // a spacer
         newinstructpanel.add(new JLabel("memberID"));
         newinstructpanel.add(memberIDx);
-
-        ImageIcon bild1 = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
         int result = JOptionPane.showConfirmDialog(null, newinstructpanel, "New instructor", JOptionPane.OK_CANCEL_OPTION, 0, bild1);
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             mainmenu(memberID, tier, uname, fnamn, defaultGym);
         }
-
         String instructorIDs = instructorID.getText();
         String memberIDs = memberIDx.getText();
-
         String addnewinstructsql = "INSERT INTO instructor" + "(\"instructorID\", \"memberID\")" +
                 "VALUES ('" + instructorIDs + "','" + memberIDs + "');";
         System.out.printf(addnewinstructsql);
@@ -162,10 +150,8 @@ public class staffView {
             e.printStackTrace();
         }
     }
-
     public static void createclass(String memberID, int tier,String uname,String fnamn,String defaultGym) throws SQLException {
         System.out.println("system activated: superbiff 3000 starting...");
-
         String[] classchoices = { "spinning3000","yogaCalm", "coreExtreme","coreStatic","spinning2000","yogaPower","stepUp","stepQuick","boxingZ","challengeUltimate","stepInsane"};
         final JComboBox<String> className = new JComboBox<>(classchoices);
         String[] instructorchoices = { "John","Maja", "Daniel","Emil","Moa"};
@@ -204,7 +190,6 @@ public class staffView {
         if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             staffView.manageClasses(memberID, tier, uname, fnamn, defaultGym);
         }
-
         String instructor = String.valueOf(instructorname.getSelectedItem());
         System.out.println(instructor);
         String instructorIDs = null;
@@ -223,22 +208,21 @@ public class staffView {
         String newclasssql = "INSERT INTO class" +
                 "(\"classID\", \"className\", \"time\", \"date\", \"availableSlots\", \"InstructorID\", \"roomID\")" +
                 "VALUES ('" + classIDs + "','" + classNames + "', '" + times + "', '" + dates + "', '" + availableSlots + "', '" + instructorIDs + "', '" + roomIDs + "');";
-
         System.out.println(newclasssql);
-
         sql.createClass(newclasssql);
+        staffView.manageClasses(memberID, tier, uname, fnamn, defaultGym);
     }
-
     public static void manageClasses(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
-
         JFrame frame = new JFrame();
-        String[] options = new String[5];
-        options[1] = "Add new class";
-        options[0] = "Create new class";
+        String[] options = new String[7];
+        options[1] = "Create a class session";
+        options[3] = "Add new type of class";
         options[2] = "Remove class";
-        options[3] = "Edit class description";
-        options[4] = "Back";
-        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Class management menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
+        options[4] = "Edit class description";
+        options[0] = "View planned classes";
+        options[6] = "Back";
+        options [5] = "Change location";
+        int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Which operation would you like to perform?", "Class management menu, current gym: "+defaultGym, 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
 
         if (val == JOptionPane.CLOSED_OPTION) {
             mainmenu(memberID, tier, fnamn, uname, defaultGym);
@@ -247,27 +231,34 @@ public class staffView {
             case 1:
                 createclass(memberID, tier, uname, fnamn, defaultGym);
                 break;
-            case 0:
+            case 3:
                 addNewClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
             case 2:
                 removeClass(memberID, tier, fnamn, uname, defaultGym);
                 break;
-            case 3:
+            case 4:
                 editClassDescription(memberID, tier, fnamn, uname, defaultGym);
                 break;
-            case 4:
+            case 6:
                 mainmenu(memberID,tier,fnamn,uname,defaultGym);
+                break;
+            case 0 :
+                classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
+                break;
+            case 5 :
+                classbooking.changelocation(memberID, tier, fnamn, uname, defaultGym);
                 break;
         }
     }
-
     public static void addNewClass(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         JTextField name = new JTextField(14);
         JTextField type = new JTextField(14);
         JTextField description = new JTextField(14);
         JTextField length = new JTextField(14);
         JPanel newclassnamePanel = new JPanel();
+        ImageIcon bild = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
+
         newclassnamePanel.setLayout(new GridLayout(14, 1));
         newclassnamePanel.add(new JLabel("Class name"));
         newclassnamePanel.add(name);
@@ -281,12 +272,10 @@ public class staffView {
         newclassnamePanel.add(new JLabel("Class length"));
         newclassnamePanel.add(length);
         newclassnamePanel.add(Box.createHorizontalStrut(8));
-        ImageIcon bild = new ImageIcon(fitnessAB.class.getResource("images/login.png"));
+
         int result = JOptionPane.showConfirmDialog(null, newclassnamePanel, "Add new class", JOptionPane.OK_CANCEL_OPTION, 0, bild);
-        if (result == JOptionPane.CANCEL_OPTION) {
+        if (result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION) {
             staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
-        } else if (result == JOptionPane.CLOSED_OPTION) {
-            System.exit(22);
         }
         String newname = name.getText();
         String newtype = type.getText();
@@ -297,11 +286,10 @@ public class staffView {
         sql.addClass(addnewsql, newname);
         manageClasses(memberID, tier, fnamn, uname, defaultGym);
     }
-    
     public static void editClassDescription(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         String classname = showInputDialog("Enter the classname of the class you want to update:");
-
         conn = sql.dbconnection();
+
         String query = ("select description from classtype where className = '" + classname + "';");
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(query);
@@ -373,12 +361,26 @@ public class staffView {
         showMessageDialog(null,result,"Inventory",PLAIN_MESSAGE,null);
         staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
     }
-
     public static void removeClass(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
-
         String classID = showInputDialog(null,"Enter the classID of the class you want to remove", "Remove class", INFORMATION_MESSAGE);
+
+        try {
+            if (classID.isEmpty() ) {
+                showMessageDialog(null,"You have to enter a classID to remove!");
+                removeClass(memberID, tier, fnamn, uname, defaultGym);
+            }
+            else if (classID.length() < 14) {
+                showMessageDialog(null,"A classID consists of 14 digits.");
+                staffView.removeClass(memberID, tier, fnamn, uname, defaultGym);
+            }
+        }
+        catch (NullPointerException e) {
+            staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
+        }
+
         conn=sql.dbconnection();
         String removeClassQuery = "DELETE FROM class WHERE classID= '"+ classID +"';";
+
         try {
             sql.removeCLassSql(classID, removeClassQuery);
             conn.close();
@@ -386,6 +388,7 @@ public class staffView {
             e.printStackTrace();
         }
         conn.close();
+        staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
     }
     public static void updateTier (String memberID, int tier, String fnamn, String uname, String defaultGym ) throws SQLException {
         int newTierParsed = 0;
@@ -400,66 +403,6 @@ public class staffView {
             staffView.updateTier(memberID, tier, fnamn, uname, defaultGym);
         }
         sql.ChangeTier(username, newTierParsed);
-
         staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
     }
 }
-
-// Delete class som inte används
-
-/*
-    // Delete class: skriva in existerande classname
-    public static void deleteClass(String memberID, int tier, String fnamn, String uname, String defaultGym)throws SQLException{
-        JFrame frame = new JFrame();
-        frame.setAlwaysOnTop(true);
-
-        Object[] options = {"spinning3000", "yogaCalm", "coreExtreme"};
-
-        Object selectionObject = JOptionPane.showInputDialog(frame, "Choose", "Menu", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-        String selectedClassName = selectionObject.toString();
-        "delete from classtype where classname = " + selectedClassName + ";"""
-        classbooking.memberscreen(memberID, tier, uname, fnamn, defaultGym);
-    }
- */
-
-// Arraylist som inte används nedan
-
-        /* ArrayList<Classtype> classtypelist = new ArrayList<Classtype>();
-
-        try {
-            while (rs.next()) {
-                Classtype classtypes = new Classtype();
-                classtypes.setClassName(rs.getString("ClassName"));
-                classtypelist.add(classtypes);
-            }
-            showMessageDialog(null, (classtypelist.get(1).getClassName()) + "\n" + (classtypelist.get(2).getClassName()) + "\n" + (classtypelist.get(3).getClassName()) + "\n" + (classtypelist.get(4).getClassName()) + "\n" + (classtypelist.get(5).getClassName()));
-
-        } catch (SQLException e) {
-            showMessageDialog(null, "Fel!");
-            System.out.println(e);
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-            rs.close();
-            conn.close();
-        }
-    }
-
-    public static class Classtype {
-        private String classname;
-        private String description;
-
-        public String getClassName(){
-            return classname;
-        }
-        public void setClassName(String classname) {
-            this.classname = classname;
-        }
-        public String getDescription(){
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }*/

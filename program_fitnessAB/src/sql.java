@@ -1,7 +1,10 @@
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import static javax.swing.JOptionPane.*;
 import org.sqlite.SQLiteConfig;
-
 import javax.swing.*;
 
 public class sql {
@@ -18,12 +21,11 @@ public class sql {
             return conn;
         } catch (Exception e) {
             // Om den inte lyckas skapa en anslutning till databasen så bör vi få ett felmeddelande
-            System.out.println(e.toString());
+            e.printStackTrace();
             System.exit(0);
         }
         return conn;
     }
-
     public static String login(String uname) throws SQLException {
         conn = dbconnection();
         String error = "-";
@@ -36,6 +38,7 @@ public class sql {
             return user;
         } catch (SQLException e) {
             showMessageDialog(null, "Could not find that user, please try again or\nvisit one of our facilitites to register a new membership.\n \nKind Regards\nFitness AB");
+            e.printStackTrace();
         }
         finally {
         rs.close();
@@ -43,7 +46,6 @@ public class sql {
     }
         return error;
     }
-
     public static String GetPassword(String uname) throws SQLException {
         conn = dbconnection();
         String error = "-";
@@ -54,14 +56,14 @@ public class sql {
 
             return rs.getString("loginpw");
         } catch (SQLException e) {
-
+            showMessageDialog(null,"Error while logging in");
+            e.printStackTrace();
         } finally {
             rs.close();
             conn.close();
         }
         return error;
     }
-
     public static String getName(String username) throws SQLException {
         conn = dbconnection();
         String error = "";
@@ -70,18 +72,18 @@ public class sql {
             String sqlname = ("select fName, lName from member where email = '" + username + "';"); //-
             rs = conn.createStatement().executeQuery(sqlname);                           //- - Dessa tre rader tar fram namnet på den inloggade medlemmen
             return rs.getString("fName");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             showMessageDialog(null, "Could not load name of user");
-        } finally {
-
+            e.printStackTrace();
+        }
+        finally {
             assert rs != null;
             rs.close();
             conn.close();
-
         }
         return error;
     }
-
     public static int GetTier(String username) throws SQLException {
         conn = dbconnection();
         int error = 666;
@@ -93,8 +95,10 @@ public class sql {
             System.out.println("Tiertype = "+tierType);
             int tier = Integer.parseInt(tierType);
             return tier;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println("Could not load tier");
+            e.printStackTrace();
         }
         finally {
             rs1.close();
@@ -102,46 +106,23 @@ public class sql {
         }
         return error;
     }
-
     public static String getHomeGym(String memberID) throws SQLException {
         ResultSet rs2 = null;
         String error = "";
+        conn = dbconnection();
         try {
-            conn = dbconnection();
-
             String sqlGymNo = ("select location from gym join member on member.defaultGym = gym.gymID where member.memberID ='" + memberID + "';");     // -
             rs2 = conn.createStatement().executeQuery(sqlGymNo);                         // - Dessa tre rader läser in hemmagym
             return rs2.getString(1);
         } catch (SQLException e) {
             showMessageDialog(null, "Error getting location name");
+            e.printStackTrace();
         } finally {
             rs2.close();
             conn.close();
         }
         return error;
     }
-
-   /* public static int getHomeGymName(String gymNO) throws SQLException {
-        conn = dbconnection();
-        String error = "";
-        ResultSet rs1 = null;
-        try {
-            String sqlReadGymName = ("select location from gym join member on member.defaultGym = gym.gymID where member.memberID ='" + gymNO + "';");    // -
-            rs1 = conn.createStatement().executeQuery(sqlReadGymName);                         // -
-            String location = rs1.getString("location");
-            JOptionPane.showMessageDialog(null, location);// - Dessa fyra rader läser av ifall det är en anställd eller ej (läser in tiertype)
-            return location;
-        } catch (SQLException e) {
-            showMessageDialog(null, "Could not load location");
-        }
-        finally {
-            rs1.close();
-            conn.close();
-        }
-        return error;
-    } */
-
-
     public static String GetMemberID(String username) throws SQLException {
         ResultSet rs2 = null;
         String error = "-";
@@ -150,9 +131,12 @@ public class sql {
             String sqlReadMemberID = ("select memberID from member where email ='" + username + "';");     // -
             rs2 = conn.createStatement().executeQuery(sqlReadMemberID);                         // - Dessa tre rader läser in medlemsID
             return rs2.getString("memberID");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             showMessageDialog(null, "Error getting memberID");
-        } finally {
+            e.printStackTrace();
+        }
+        finally {
             rs2.close();
             conn.close();
         }
@@ -167,16 +151,17 @@ public class sql {
             String query = ("select date from payments where memberID ='" + memberID + "';");
             rs = conn.createStatement().executeQuery(query);
             return rs.getString("date");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println("Error getting date");
-            System.out.println(e);
-        } finally {
+            e.printStackTrace();
+        }
+        finally {
             rs.close();
             conn.close();
         }
         return error;
     }
-
     public static String GetPaymentAmount(String memberID) throws SQLException {
         ResultSet rs = null;
         String error = "-";
@@ -185,55 +170,17 @@ public class sql {
             String query = ("select amount from payments where memberID =" + memberID + ";");
             rs = conn.createStatement().executeQuery(query);
             return rs.getString("amount");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             showMessageDialog(null, "Could not find any transactions");
-            System.out.println(e);
-        } finally {
+            e.printStackTrace();
+        }
+        finally {
             rs.close();
             conn.close();
         }
         return error;
     }
-
-    // Alternativ lösning till payment history som inte fungerar
-    /* public static ResultSet GetPaymentHistory(String memberID) throws SQLException {
-        ResultSet rs = null;
-        try {
-            conn = dbconnection();
-            Statement statement = null;
-            statement = conn.createStatement();
-            String query = ("select date, amount from payments where memberID ='" + memberID + "';");
-            rs = statement.executeQuery(query);
-            return rs;
-        } catch (SQLException e) {
-            showMessageDialog(null, "Error getting payment history");
-            System.out.println(e);
-        } finally {
-            assert rs != null;
-            rs.close();
-            conn.close();
-        }
-        return rs;
-    } */
-
-    /* public static ResultSet GetClassName() throws SQLException {
-        ResultSet rs = null;
-        //String error = "-";
-        Statement stmt = conn.createStatement();
-        try {
-            String query = ("select classname from class;");
-            rs = stmt.executeQuery(query);
-            return rs;
-        } catch (SQLException e) {
-            showMessageDialog(null, "Error getting classname");
-            System.out.println(e);
-        } finally {
-            rs.close();
-            conn.close();
-        }
-        return rs;
-    } */
-
     public static void ChangePassword(String uname, String newPw) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
@@ -249,7 +196,8 @@ public class sql {
         rs.close();
         stmt.close();
         conn.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         fitnessAB.login();
@@ -325,11 +273,20 @@ public class sql {
     }
     public static ResultSet getBookedClasses (String memberID) throws SQLException {
         conn = dbconnection();
-        String bookedQuery = "select class.classID, class.className, class.date, class.time,  room.roomID from class natural join memberClass natural join room where memberClass.memberID = '" + memberID + "';";
+        java.util.Date realDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(realDate);
+        c.add(Calendar.DATE, 0);
+        realDate = c.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //Date in format of SQL database
+        String todayy = (sdf.format(realDate));
+
+        String bookedQuery = "select class.classID, class.className, class.date, class.time,  room.roomID from class natural join memberClass natural join room where memberClass.memberID = '" + memberID + "' AND class.date >= '"+todayy+"';";
         ResultSet rs = null;
         try {
             return conn.createStatement().executeQuery(bookedQuery);
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             showMessageDialog(null, "Error fetching classes");
             System.out.println(e.toString());
         }
@@ -346,13 +303,13 @@ public class sql {
             stmt.close();
             conn.close();
             JOptionPane.showMessageDialog(null, "Success! " + name + " is now a registered member");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong!");
         }
         System.out.println("new member done");
     }
-
     public static void addClass (String sqladd, String newname) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
@@ -365,13 +322,13 @@ public class sql {
             stmt.close();
             conn.close();
             JOptionPane.showMessageDialog(null, "Success! " + newname + " is now a new class");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(null, "Something went wrong!");
         }
         System.out.println("add new class done");
     }
-
     public static void createClass (String classsql) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
@@ -384,13 +341,13 @@ public class sql {
             stmt.close();
             conn.close();
             JOptionPane.showMessageDialog(null, "Success! Class added!");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Something went wrong, please try again!");
+            JOptionPane.showMessageDialog(null, "There is already a class booked for this room on this time and date!");
         }
         System.out.println("new class done");
     }
-
     public static void addnewinstruct(String addnewinstructsql, String memberIDs) throws SQLException {
         conn = dbconnection();
         Statement stmt = null;
@@ -402,8 +359,9 @@ public class sql {
             conn.commit();
             stmt.close();
             conn.close();
-            JOptionPane.showMessageDialog(null, "Success! " + memberIDs + " is now a registered instructor");
-        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Success! Member with member ID: " + memberIDs + ", is now a registered instructor");
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Something went wrong");
         }
@@ -420,7 +378,8 @@ public class sql {
             conn.commit();
             stmt.close();
             conn.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Something went wrong when trying to book a class\n logging you out...");
             e.printStackTrace();
             fitnessAB.login();
@@ -432,10 +391,8 @@ public class sql {
         ResultSet rs = null;
         try {
             rs = conn.createStatement().executeQuery(sqlconfirm);
-            conn.close();
             return rs;
         }
-
         catch (SQLException e) {
             showMessageDialog(null,"Error trying to show confirm window");
         }
@@ -457,24 +414,23 @@ public class sql {
         }
      return rs;
     }
-
     public static String sqlinstructorID(String instructorName) throws SQLException {
         ResultSet rs2 = null;
         String error = "-";
         try {
             conn = dbconnection();
-
             String sqlReadInstructorID = ("select instructorID from member natural join instructor where fName ='" + instructorName + "';");     // -
             rs2 = conn.createStatement().executeQuery(sqlReadInstructorID);                         // - Dessa tre rader läser in medlemsID
             return rs2.getString("instructorID");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             showMessageDialog(null, "Error getting InstructorID");
-        } finally {
+        }
+        finally {
             rs2.close();
             conn.close();
         }
         return error;
-
     }
     public static ResultSet getAccountInformation(String memberID) throws SQLException {
         conn = dbconnection();
@@ -511,7 +467,6 @@ public class sql {
         conn.close();
         return rs;
     }
-
     public static void cancelBooking(String query) throws SQLException {
         conn = dbconnection();
 
@@ -523,12 +478,12 @@ public class sql {
             stmt.close();
             conn.close();
             System.out.println("Removed reservation");
-        } catch (SQLException var3) {
+        }
+        catch (SQLException var3) {
             JOptionPane.showMessageDialog(null, "Couldn't remove reservation, please contact your gym");
             var3.printStackTrace();
             fitnessAB.login();
         }
-
     }
     public static ResultSet getInventory (String gym) throws SQLException {
         conn = dbconnection();
@@ -537,7 +492,8 @@ public class sql {
         try {
             rs = conn.createStatement().executeQuery(query);
             System.out.println("Loading inventory");
-        } catch (SQLException var3) {
+        }
+        catch (SQLException var3) {
             JOptionPane.showMessageDialog(null, "Could not load inventory for desired gym");
             var3.printStackTrace();
             fitnessAB.login();
@@ -558,7 +514,8 @@ public class sql {
             stmt.close();
             conn.close();
             JOptionPane.showMessageDialog(null, "Success! " + classID + " is now removed from classes");
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error removing class");
         }
@@ -576,7 +533,8 @@ public class sql {
             showMessageDialog(null,"Tier for user: "+uname+", is now updated to: "+newTier+" .");
             stmt.close();
             conn.close();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -592,8 +550,6 @@ public class sql {
         conn.close();
         return newMemberID;
     }
-
-
 }
 
 

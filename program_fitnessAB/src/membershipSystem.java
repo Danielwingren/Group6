@@ -1,18 +1,14 @@
 import javax.swing.*;
-import org.sqlite.SQLiteConfig;
-
 import java.awt.*;
 import java.sql.*;
-
 import static javax.swing.JOptionPane.*;
 
 public class membershipSystem {
     static Connection conn = null;
 
     public static void UpdateInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
-
-
         ImageIcon icon = new ImageIcon(fitnessAB.class.getResource("images/settings.png"));
+
         JFrame frame = new JFrame();
         String[] options = new String[6];
         options[0] = "Change password";
@@ -30,7 +26,7 @@ public class membershipSystem {
                 changePassword(memberID, tier, uname, fnamn, defaultGym);
                 break;
             case 1:
-                updatePaymentMethod(memberID);
+                updatePaymentMethod(memberID, tier, uname, fnamn, defaultGym);
                 break;
             case 2:
                 ViewContactInformation(memberID, tier, uname, fnamn, defaultGym);
@@ -43,10 +39,8 @@ public class membershipSystem {
             case 4:
                 paymentHistory(memberID, tier, fnamn, uname, defaultGym);
                 break;
-
         }
     }
-
     public static void changePassword(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
         String checkOld = sql.GetPassword(memberID);
         String newPw = null;
@@ -92,8 +86,7 @@ public class membershipSystem {
             UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
         }
     }
-
-    public static void updatePaymentMethod(String memberID) {
+    public static void updatePaymentMethod(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
 
         JPanel info = new JPanel();
         info.setLayout(new GridLayout(5, 1));
@@ -116,12 +109,9 @@ public class membershipSystem {
         info.add(new JLabel("Card Type: "));
         info.add(cardtypes);
         int val = JOptionPane.showOptionDialog(null, info, "Payment Method", YES_NO_OPTION, INFORMATION_MESSAGE, null, null, null);
-
-
+        membershipSystem.UpdateInformation(memberID, tier, uname, fnamn, defaultGym);
     }
-
     public static void ViewContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
-
         ResultSet rs3 = sql.getAccountInformation(memberID);
         System.out.println(rs3);
         int i = 1;
@@ -135,21 +125,14 @@ public class membershipSystem {
         showMessageDialog(null, "First name: " + fName+ "\nLast name: " + lName + "\nE-mail: " + email + "\nPhone number: " + phoneNr + "\nHome gym: " + location + "\nMember ID: " + memberIDx + "\nTier: " + tierName + "");
         membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
     }
-    //Not working yet!
     public static void UpdateContactInformation(String memberID, int tier, String uname, String fnamn, String defaultGym)throws SQLException {
-        // email, phone nr, home gym
-
         ResultSet rs = sql.getAccountInformation2(memberID);
         String email = rs.getString(1);
         String phoneNr = rs.getString(2);
         String defaultgym = rs.getString(3);
-
         String newemail = JOptionPane.showInputDialog(null, "E-mail: ", email);
-
         String newphonenr = JOptionPane.showInputDialog(null, "Phone number: ", phoneNr);
-
         String newhomegym = JOptionPane.showInputDialog(null, "Home gym: ", defaultgym);
-
         try {
             conn = sql.dbconnection();
             Statement stmt = conn.createStatement();
@@ -166,18 +149,7 @@ public class membershipSystem {
         conn.close();
         membershipSystem.UpdateInformation(memberID, tier, fnamn, uname, defaultGym);
     }
-
     public static void paymentHistory(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
-        // Alternativ lösning till payment history som inte fungerar
-      /*ResultSet rs = sql.GetPaymentHistory(memberID);
-        while(rs.next()) {
-            int date = rs.getInt("date");
-            int amount = rs.getInt("amount");
-
-            showMessageDialog(null, date + amount);
-        } */
-
-      // Fixa så det visar endast månad och år som i interface samt slå ihop amount per månad?
       String date = sql.GetPaymentDate(memberID);
       String amount = sql.GetPaymentAmount(memberID);
       showMessageDialog (null, "Payment History:\n" + "Date:" + "         " + "Amount:\n" + date + "           " + amount);

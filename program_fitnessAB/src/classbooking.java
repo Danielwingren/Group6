@@ -1,11 +1,6 @@
 import javax.swing.*;
-
-import org.sqlite.SQLiteConfig;
-import java.text.*;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.awt.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 
@@ -25,7 +20,6 @@ public class classbooking {
         options [5] = "Log out";
         options [4] = "Change location";
         int val = JOptionPane.showOptionDialog(frame.getContentPane(), "Welcome "+fnamn+". What operation would you like to perform?\nYour selected location is: " + defaultGym, "Main menu ", 0, JOptionPane.INFORMATION_MESSAGE, null, options, null);
-        // Sqlite query som hämtar membership-nivå och visar ängst upp instället för "member" ??
         if (val == JOptionPane.CLOSED_OPTION) {
             System.exit(11);
         }
@@ -48,21 +42,19 @@ public class classbooking {
                 classbooking.changelocation(memberID, tier, uname, fnamn, defaultGym);
         }
     }
-
-    private static void changelocation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
+    public static void changelocation(String memberID, int tier, String uname, String fnamn, String defaultGym) throws SQLException {
         JFrame frame = new JFrame();
         frame.setAlwaysOnTop(true);
-
         Object[] options = {"Hisingen", "Bergsjön", "Långedrag"};
 
         Object selectionObject = JOptionPane.showInputDialog(frame, "Choose", "Menu", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         String selectedGym = selectionObject.toString();
         defaultGym = selectedGym;
+        if (tier == 5) {
+            staffView.manageClasses(memberID, tier, uname, fnamn, defaultGym);
+        }
         classbooking.memberscreen(memberID, tier, uname, fnamn, defaultGym);
     }
-
-
-
     public static void seeClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         int todayx = 0;
         int yesterdayx = -1;
@@ -79,23 +71,31 @@ public class classbooking {
         if (choicex == 1) {
             JFrame frame = new JFrame();
             frame.setAlwaysOnTop(true);
-
             Object[] options = {"spinning","yoga","core","challenge","step","boxing"};
 
             Object selectionObject = JOptionPane.showInputDialog(frame, "Choose what type of class to show", "Filter on calsses", JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+            if (selectionObject == null) {
+                if (tier == 5) {
+                    staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
+                }
+            }
             type = selectionObject.toString();
             System.out.println("Vald type: " + type);
         }
         if (choicex == 2) {
+            if (tier == 5) {
+                staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
+            }
             classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
         }
         if (choicex == CLOSED_OPTION) {
+            if (tier == 5) {
+                staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
+            }
             classbooking.memberscreen(memberID, tier, fnamn, uname, defaultGym);
         }
-
         while (true) {
-            String todayy;
-            // Real date to present for buttons
+            String todayy;  // Fetch todays date in a representative way
             Date realDate = new Date();
             SimpleDateFormat srdf = new SimpleDateFormat(" E dd/MM/yyyy");
             Calendar cr = Calendar.getInstance();
@@ -118,8 +118,7 @@ public class classbooking {
             dt2 = c1.getTime();
             String tomorrow = (srdf.format(dt2));
 
-            //Date in format of SQL database
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd"); //Date in format of SQL database
             todayy = (sdf.format(realDate));
             String message = sql.ViewAllClasses(todayy, defaultGym, type);
             String result = sql.AvailableClasses(todayy, defaultGym, type);
@@ -142,18 +141,30 @@ public class classbooking {
                 tomorrowx = yesterdayx + 1;
             }
             else if (val ==CLOSED_OPTION ) {
+                if (tier == 5) {
+                    staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
+                }
                 classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
             }
             else if (val == 1) {
+                if (tier == 5) {
+                    staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
+                }
                 int choice = showConfirmDialog(null,"Do you wish to book an available class for this date?","Menu",YES_NO_OPTION,PLAIN_MESSAGE);
                 if (choice == YES_OPTION ) {
                     bookClass(memberID, result, tier, fnamn, uname, defaultGym);
                     break;
                 }
                 else {
+                    if (tier == 5) {
+                        staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
+                    }
                     classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
                 }
             }
+        }
+        if (tier == 5) {
+            staffView.manageClasses(memberID, tier, fnamn, uname, defaultGym);
         }
         classbooking.seeClasses(memberID, tier, fnamn, uname, defaultGym);
     }
@@ -182,7 +193,6 @@ public class classbooking {
         }
         classbooking.cancelBooking(memberID, tier, fnamn, uname, defaultGym, result);
     }
-
     public static void bookClass (String memberID, String result, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date date = new Date();
@@ -231,8 +241,6 @@ public class classbooking {
         }
     }
     public static void viewClassInformation(String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
-        //Choose classname, click button
-
         conn = sql.dbconnection();
         String query = "select distinct classname, description from classtype;";
         Statement stmt = conn.createStatement();
@@ -258,9 +266,6 @@ public class classbooking {
             conn.close();
             }
         memberscreen(memberID, tier,fnamn, uname, defaultGym);
-
-        //Information about classes, fetch description and name
-
     }
     public static boolean fullClass (String classID) throws SQLException {
 
