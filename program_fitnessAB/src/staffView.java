@@ -392,15 +392,19 @@ public class staffView {
     }
     public static void updateTier (String memberID, int tier, String fnamn, String uname, String defaultGym ) throws SQLException {
         int newTierParsed = 0;
-        String username = JOptionPane.showInputDialog("Please enter the username for the member whos tier is to be updated:");
-        int currentTier = sql.GetTier(username);
-        String newTier = showInputDialog("Current tier for user: \""+username+"\" is : "+ currentTier+ " .\nWhat tier would you like to change this to?" );
+        String username ="";
         try {
-            newTierParsed = Integer.parseInt(newTier);
+        username = JOptionPane.showInputDialog("Please enter the username for the member whos tier is to be updated:");
+        if (username.isEmpty() || username.length() < 5) {
+            showMessageDialog(null,"You have to enter a username, which consists of an email-adress.");
+            staffView.updateTier(memberID, tier, fnamn, uname, defaultGym);
+        }
+            int currentTier = sql.GetTier(username);
+        String newTier = showInputDialog("Current tier for user: \""+username+"\" is : "+ currentTier+ " .\nWhat tier would you like to change this to?" );
+        newTierParsed = Integer.parseInt(newTier);
         }
         catch (NullPointerException e) {
-            showMessageDialog(null,"You have to ender a username.");
-            staffView.updateTier(memberID, tier, fnamn, uname, defaultGym);
+            staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);
         }
         sql.ChangeTier(username, newTierParsed);
         staffView.mainmenu(memberID, tier, fnamn, uname, defaultGym);

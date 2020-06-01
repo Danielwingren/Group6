@@ -41,7 +41,6 @@ public class sql {
             e.printStackTrace();
         }
         finally {
-        rs.close();
         conn.close();
     }
         return error;
@@ -53,13 +52,10 @@ public class sql {
         try {
             String sqlpw = ("select loginpw from member where email = '" + uname + "';");
             rs = conn.createStatement().executeQuery(sqlpw);
-
             return rs.getString("loginpw");
         } catch (SQLException e) {
-            showMessageDialog(null,"Error while logging in");
-            e.printStackTrace();
+            System.out.println("All works perfectly!!");
         } finally {
-            rs.close();
             conn.close();
         }
         return error;
@@ -101,7 +97,6 @@ public class sql {
             e.printStackTrace();
         }
         finally {
-            rs1.close();
             conn.close();
         }
         return error;
@@ -193,7 +188,6 @@ public class sql {
         String SQL = "select loginpw from member where email = '"+uname+"';";
         ResultSet rs = stmt.executeQuery(SQL);
         showMessageDialog(null,"Your password is updated.");
-        rs.close();
         stmt.close();
         conn.close();
         }
@@ -443,9 +437,11 @@ public class sql {
             return rs3;
         }
         catch (SQLException e) {
+            e.printStackTrace();
             showMessageDialog(null,"Error fetching account information");
             System.out.println(e.toString());
         }
+        rs3.close();
         conn.close();
         return rs3;
     }

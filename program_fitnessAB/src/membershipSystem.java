@@ -135,10 +135,15 @@ public class membershipSystem {
         String newhomegym = JOptionPane.showInputDialog(null, "Home gym: ", defaultgym);
         try {
             conn = sql.dbconnection();
-            Statement stmt = conn.createStatement();
-            System.out.println(memberID);
             String updatesql = ("update member set email = '" + newemail + "', phoneNr = '" + newphonenr + "', defaultGym = '" + newhomegym + "' where memberID = '" + memberID + "';");
-            stmt.executeUpdate(updatesql);
+                conn.setAutoCommit(false);
+            Statement stmt = conn.createStatement();
+                String sql = (updatesql);
+                stmt.executeUpdate(sql);
+                conn.commit();
+                stmt.close();
+                conn.close();
+            System.out.println(memberID);
             showMessageDialog(null, "Your contact information has been updated");
         } catch (SQLException e){
             System.out.println(e);
