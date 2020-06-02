@@ -57,8 +57,8 @@ public class classbooking {
     }
     public static void seeClasses (String memberID, int tier, String fnamn, String uname, String defaultGym) throws SQLException {
         int todayx = 0;
-        int yesterdayx = -1;
-        int tomorrowx = +1;
+        int yesterdayx = (-1);
+        int tomorrowx =  1;
         String type = "%";
 
         JFrame framex = new JFrame();
@@ -133,12 +133,12 @@ public class classbooking {
             if (val == 0) {
                 todayx = todayx - 1;
                 yesterdayx = yesterdayx - 1;
-                tomorrowx = yesterdayx - 1;
+                tomorrowx = tomorrowx - 1;
             }
             else if (val == 2) {
                 todayx = todayx + 1;
                 yesterdayx = yesterdayx + 1;
-                tomorrowx = yesterdayx + 1;
+                tomorrowx = tomorrowx + 1;
             }
             else if (val ==CLOSED_OPTION ) {
                 if (tier == 5) {

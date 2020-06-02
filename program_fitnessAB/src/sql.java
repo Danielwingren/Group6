@@ -238,7 +238,7 @@ public class sql {
         String message = "Class ID | Class name | \t Time |\t Date |\t Room Nr |\t Instructor |\n";
         Statement stmt = null;
         String query = "select class.classID, class.className, class.time, class.date, class.availableSlots, room.roomID, gym.location, member.fName, member.lName from class natural join instructor natural join room natural join gym NATURAL join classType "+
-                "join member on member.memberID=instructor.memberID where class.date = '"+today+"' AND classType.classType like '"+type+"' AND room.roomID in (select room.roomID from gym natural join room where gym.location='"+defaultGym+"')";
+                "join member on member.memberID=instructor.memberID where class.date = '"+today+"' AND classType.classType like '"+type+"' AND room.roomID in (select room.roomID from gym natural join room where gym.location='"+defaultGym+"') order by class.classID";
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
